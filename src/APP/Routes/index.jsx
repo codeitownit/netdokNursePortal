@@ -31,6 +31,7 @@ import Parent from "../Modules/Dashboard/Pages/Parent";
 import Discharge from "../Modules/Dashboard/Pages/Discharge";
 import ListDischarge from "../Modules/Dashboard/Pages/Discharge/List";
 import AddDischarge from "../Modules/Dashboard/Pages/Discharge/Add";
+
 import EditDischarge from "../Modules/Dashboard/Pages/Discharge/Edit";
 
 import Member from "../Modules/Dashboard/Pages/Member";
