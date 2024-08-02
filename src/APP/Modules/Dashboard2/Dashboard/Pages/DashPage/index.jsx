@@ -5,11 +5,16 @@ import { headers } from "./sections/style";
 import useaxios from "../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../../../../Components/Inputs/TextInput";
+import { TextArea } from "../../../../../Components/Inputs";
+import grayPanel from "../../../../../Components/Container/Container";
+import { outerDiv, divStyle } from "./sections/style";
 
 function DashPage2() {
   const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
-  const [patientName, setPatientName] = useState("");
+  const [bmi, setBmi] = useState("");
+  const [bp, setBp] = useState("");
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
@@ -47,20 +52,6 @@ function DashPage2() {
     fetchData();
   }, [pageNumber]);
 
-  useEffect(() => {
-    const newAddedPatients = new Map(addedPatients);
-    data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === "Jonathan Kilonzo") {
-        if (!newAddedPatients.has(snap.patient)) {
-          newAddedPatients.set(snap.patient, snap);
-        }
-      }
-    });
-    setAddedPatients(newAddedPatients);
-    setPatientName(localStorage.getItem("universalPatientName"))
-
-  }, [data]);
-
   const [t, setT] = useState("");
 
   async function toNext() {
@@ -84,64 +75,58 @@ function DashPage2() {
 
 
   return (
-    <div className="w-full h-full">
-      <div className="flex justify-between items-center">
-        <h1 className={headers}>Patient Details: {patientName}</h1>
-
-        <AddEdit
-          text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+    <div className={grayPanel()}>
+      <div className="">
+        <form className={outerDiv}>
+          {/* <div className=" flex flex-row justify-between items-center">
+            <h1 className={headers}>Add Nurse Report</h1>
+            <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
+          </div> */}
+          <div className={divStyle}>
+          <div className="p-6 bg-white rounded-md shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="cal-icon">
+      <TextInput
+        label="BMI"
+        directInput={true}
+        required={false}
+        setInput={bmi}
+        setStateInput={setBmi}
+      />
+    </div>
+        <TextInput
+          label="Blood Pressure"
+          directInput={true}
+          required={false}
+          stateInput={bp}
+          setStateInput={setBp}
         />
       </div>
-      <Table
-        mt={2}
-        loading={false}
-        showPagination={true}
-        hasNextPage={hasNextPage}
-        showSearch={true}
-        hasPrevPage={hasPrevPage}
-        page={pageNumber}
-        prevClick={toPrev}
-        nextClick={toNext}
-        search={t}
-        setSearch={setT}
-        showFilter={false}
-      >
-        <Thead>
-          <Tht txt="PATIENT ID" />
-          <Tht txt="PATIENT NAME" />
-          <Tht txt="ADMISSION UNIT" />
-          <Tht txt="ADMISSION ROOM" />
-          <Tht txt="CONDITION INFORMATION " />
-          <Tht txt="RESPONSIBLE SPECIALIST" />
-          <Tht txt="STATUS" />
-          <Tht txt="ACTIONS" />
-        </Thead>
-        <Tbody>
-          {Array.from(addedPatients.values())
-            .filter((item) => {
-              return t.toLowerCase() === ""
-                ? item
-                : item.name.toLowerCase().includes(t);
-            })
-            .map((doc, index) => {
-              console.log(doc);
-              return (
-                <Rows
-                  key={doc?.id || index}
-                  id={doc?.patient || ""}
-                  classLevel={doc?.patientName || ""}
-                  subject={doc?.admittingUnit || ""}
-                  room={doc?.room || ""}
-                  condition={doc?.condition || ""}
-                  specialist={doc?.doctorName || ""}
-                  status={doc?.admStatus || ""}
-                  fetchData={fetchData}
-                />
-              );
-            })}
-        </Tbody>
-      </Table>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="cal-icon">
+      <TextInput
+        label="BMI"
+        directInput={true}
+        required={false}
+        setInput={bmi}
+        setStateInput={setBmi}
+      />
+    </div>
+        <TextInput
+          label="Blood Pressure"
+          directInput={true}
+          required={false}
+          stateInput={bp}
+          setStateInput={setBp}
+        />
+      </div>
+
+      
+    </div>
+  
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
