@@ -51,7 +51,7 @@ function AllRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Dashboard />} />
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/viewPatient/:id" element={<Dashboard2 />}>
           <Route index element={<DashPage2 />} />
