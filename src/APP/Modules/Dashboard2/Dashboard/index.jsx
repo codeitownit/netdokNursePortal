@@ -10,12 +10,12 @@ import InnerSideBar from "../../../Components/SideBar2/InnerSideBar";
 function Dashboard2() {
   return (
     <div
-      className=" w-screen h-screen flex gap-x-2 overflow-hidden bg-no-repeat bg-cover bg-position-center "
+      className=" w-screen h-screen flex gap-x-2 overflow-hidden bg-no-repeat bg-cover bg-position-center bg-slate-50"
       style={{
-        backgroundImage: `url(${bgimage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        // backgroundImage: `url(${bgimage})`,
+        // backgroundSize: "cover",
+        // backgroundPosition: "center",
+        // backgroundRepeat: "no-repeat",
       }}
     >
       {/* <div className={`${open ? "w-72":"w-20"} h-screen relative`}> */}
