@@ -51,7 +51,7 @@ function AllRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Dashboard />} />
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/viewPatient/:id" element={<Dashboard2 />}>
           <Route index element={<DashPage2 />} />
@@ -71,7 +71,7 @@ function AllRoutes() {
             <Route path="edit/:id" element={<EditClass />} />
           </Route>
         </Route>
-        <Route path="/dashboard" element={<ProtectedRoute ><Dashboard /></ProtectedRoute>}>
+        <Route path="/dashboard" element={<Dashboard />}>
         {/* <ProtectedRoute path="/dashboard" element={<Dashboard/>} /> */}
           <Route index element={<DashPage />} />
           <Route path="transfer" element={<Transfer />}>
