@@ -71,7 +71,7 @@ function AllRoutes() {
             <Route path="edit/:id" element={<EditClass />} />
           </Route>
         </Route>
-        <Route path="dashboard" element={<Dashboard />}>
+        <Route path="/dashboard" element={<Dashboard />}>
         {/* <ProtectedRoute path="/dashboard" element={<Dashboard/>} /> */}
           <Route index element={<DashPage />} />
           <Route path="transfer" element={<Transfer />}>
