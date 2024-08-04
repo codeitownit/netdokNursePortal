@@ -51,42 +51,12 @@ function AllRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        {/* <Route path="/login" element={<Login />} /> */}
-        <Route path="/viewPatient/:id" element={<Dashboard2 />}>
-          <Route index element={<DashPage2 />} />
-          <Route path="labRequests" element={<Lab />}>
-            <Route index element={<LabList />} />
-          </Route>
-          <Route path="imaging" element={<ImagingReq />}>
-            <Route index element={<ImagingList />} />
-          </Route>
-          <Route path="contact" element={<ContactJournals />}>
-            <Route index element={<ContactList />} />
-          </Route>
-          <Route path="nurseReports" element={<NurseReports />}>
-            <Route index element={<ListNurseReports />} />
-            <Route path=":id" element={<ViewClass />} />
-            <Route path="add" element={<AddNurseReport />} />
-            <Route path="edit/:id" element={<EditClass />} />
-          </Route>
-        </Route>
-        <Route path="/dashboard" element={<Dashboard />}>
-        {/* <ProtectedRoute path="/dashboard" element={<Dashboard/>} /> */}
-          <Route index element={<DashPage />} />
-          <Route path="transfer" element={<Transfer />}>
-            <Route index element={<ListTransfer />} />
-          </Route>
-          <Route path="calendar" element={<CalendarContainer />}>
-            <Route index element={<CalendarList />} />
-          </Route>
-          <Route path="discharged" element={<Discharge />}>
-            <Route index element={<ListDischarge />} />
-            <Route path="add" element={<AddDischarge />} />
-            <Route path="edit/:id" element={<EditDischarge />} />
-          </Route>
+        <Route path="/" element={<Login />}>
+          <Route index element={<Login />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="contact" element={<CalendarList />} />
           <Route path="*" element={<NotFound />} />
-          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
