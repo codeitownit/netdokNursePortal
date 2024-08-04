@@ -175,6 +175,7 @@ import { toast } from "react-toastify";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("")
   
 
   const handleSubmit = async (e) => {
@@ -195,6 +196,7 @@ console.log(userCredential)
       });
     } catch (error) {
       console.log(error.message);
+      setError(error.message)
 
       toast.error(error.message, {
         position: "bottom-center",
@@ -214,6 +216,7 @@ console.log(userCredential)
         <h1 className="text-xl p-6 block text-center font-bold mt-12">
           LOG IN TO YOUR ACCOUNT
         </h1>
+        <p>{error}</p>
     <form onSubmit={handleSubmit}>
     <div className="flex flex-col justify-center text-sm text-gray-700 font-semibold">
             <label>Email address</label>
