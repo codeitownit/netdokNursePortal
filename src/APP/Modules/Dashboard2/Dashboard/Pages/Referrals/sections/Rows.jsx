@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Tr, Td, Tt } from "../../../../../../Components/Table";
 
+
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { BsPersonFillCheck } from "react-icons/bs";
@@ -11,8 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
 
-
-function Rows({ id = "", pname="", unit= "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", date="", clinician = "", address = "", clinic="", reason="", notes="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -47,38 +47,28 @@ function Rows({ id = "", pname="", unit= "", room = "", condition="", specialist
   return (
     <>
       <Tr>
-      <Td name="PATIENT ID">
-        <Tt txt={`#${id}`} />
+      <Td name="DATE">
+        <Tt txt={date} />
       </Td>
-      <Td name="PATIENT NAME">
-        <Tt txt={pname} />
+      <Td txt="NAME OF CLINICIAN">
+      <Tt txt={clinician} />
       </Td>
-      <Td name="ADMISSION UNIT">
-        <Tt txt={unit} />
+      <Td name="CLINIC">
+        <Tt txt={clinic} />
       </Td>
-      <Td name="ADMISSION ROOM">
-        <Tt txt={room} />
+      <Td name="ADDRESS">
+        <Tt txt={address} />
       </Td>
-      <Td name="CONDITION INFORMATION">
-        <Tt txt={condition} />
+      <Td name="REASONS FOR REFERRAL">
+        <Tt txt={reason} />
       </Td>
-      <Td name="RESPONSIBLE SPECIALIST">
-        <Tt txt={specialist} />
-      </Td>
-      <Td name="STATUS">
-        <Tt txt={status} />
+      <Td name="CLINICAL NOTES">
+        <Tt txt={notes} />
       </Td>
       <Td name="ACTIONS">
         <span className=" flex gap-x-2  items-center text-4xl">
           <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
             <MdDelete />
-          </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" 
-          onClick={()=>{
-            // navigate(`/viewPatient/${id}`)
-            
-            }}>
-            <FaEdit/>
           </span>
         </span>
       </Td>

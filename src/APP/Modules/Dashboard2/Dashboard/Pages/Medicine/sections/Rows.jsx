@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Tr, Td, Tt } from "../../../../../../Components/Table";
 
+
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { BsPersonFillCheck } from "react-icons/bs";
@@ -11,8 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
 
-
-function Rows({ id = "", pname="", unit= "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", name="", form = "", dose = "", quantity="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -47,40 +47,17 @@ function Rows({ id = "", pname="", unit= "", room = "", condition="", specialist
   return (
     <>
       <Tr>
-      <Td name="PATIENT ID">
-        <Tt txt={`#${id}`} />
+      <Td name="MEDICINE NAME">
+        <Tt txt={name} />
       </Td>
-      <Td name="PATIENT NAME">
-        <Tt txt={pname} />
+      <Td txt="FORMULATION">
+      <Tt txt={form} />
       </Td>
-      <Td name="ADMISSION UNIT">
-        <Tt txt={unit} />
+      <Td name="DOSE">
+        <Tt txt={dose} />
       </Td>
-      <Td name="ADMISSION ROOM">
-        <Tt txt={room} />
-      </Td>
-      <Td name="CONDITION INFORMATION">
-        <Tt txt={condition} />
-      </Td>
-      <Td name="RESPONSIBLE SPECIALIST">
-        <Tt txt={specialist} />
-      </Td>
-      <Td name="STATUS">
-        <Tt txt={status} />
-      </Td>
-      <Td name="ACTIONS">
-        <span className=" flex gap-x-2  items-center text-4xl">
-          <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
-            <MdDelete />
-          </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" 
-          onClick={()=>{
-            // navigate(`/viewPatient/${id}`)
-            
-            }}>
-            <FaEdit/>
-          </span>
-        </span>
+      <Td name="QUANTITY">
+        <Tt txt={quantity} />
       </Td>
     </Tr>
     <ConfirmationModal

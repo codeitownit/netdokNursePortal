@@ -9,11 +9,12 @@ function Consult({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const id = localStorage.getItem("universalPatientId")
 
   //console.log(location)
 
   useEffect(() => {
-    if (location?.pathname?.includes("/consultation")) {
+    if (location?.pathname?.includes("/referral")) {
       setActive(true);
       return;
     }
@@ -22,7 +23,7 @@ function Consult({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/viewPatient/:id/consultation")}
+      onClick={() => navigate(`/viewPatient/${id}/referral`)}
       active={active}
       Icon={<FaHandHoldingMedical />}
       txt="Consultation Referrals"

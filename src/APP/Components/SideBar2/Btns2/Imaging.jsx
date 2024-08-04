@@ -9,6 +9,7 @@ function Imaging({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const id = localStorage.getItem("universalPatientId")
 
   useEffect(() => {
     if (location?.pathname?.includes("/imaging")) {
@@ -20,7 +21,7 @@ function Imaging({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/viewPatient/:id/imaging")}
+      onClick={() => navigate(`/viewPatient/${id}/imaging`)}
       active={active}
       Icon={<RiScanLine />}
       txt="Imaging"

@@ -9,6 +9,8 @@ function LabRequests({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const id = localStorage.getItem("universalPatientId")
+
 
   ////console.log(location)
 
@@ -22,7 +24,7 @@ function LabRequests({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/viewPatient/:id/labRequests")}
+      onClick={() => navigate(`/viewPatient/${id}/labRequests`)}
       active={active}
       Icon={<FaPersonChalkboard />}
       txt="Lab Requests"

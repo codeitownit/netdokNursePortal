@@ -9,6 +9,8 @@ function Contact({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const id = localStorage.getItem("universalPatientId")
+
 
   useEffect(() => {
     if (location?.pathname?.includes("/contact")) {
@@ -20,7 +22,7 @@ function Contact({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/viewPatient/:id/contact")}
+      onClick={() => navigate(`/viewPatient/${id}/contact`)}
       active={active}
       Icon={<FaUsers />}
       txt="Contact"

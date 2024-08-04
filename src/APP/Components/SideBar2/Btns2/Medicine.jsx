@@ -9,6 +9,7 @@ function Medicine({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const id = localStorage.getItem("universalPatientId")
 
   //console.log(location)
 
@@ -22,7 +23,7 @@ function Medicine({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/viewPatient/:id/medicine")}
+      onClick={() => navigate(`/viewPatient/${id}/medicine`)}
       active={active}
       Icon={<GiMedicines />}
       txt="Medicine"

@@ -9,6 +9,8 @@ function NurseReports({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const id = localStorage.getItem("universalPatientId")
+
 
   useEffect(() => {
     if (location?.pathname?.includes("/nurseReports")) {
@@ -20,7 +22,7 @@ function NurseReports({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/viewPatient/:id/nurseReports")}
+      onClick={() => navigate(`/viewPatient/${id}/nurseReports`)}
       active={active}
       Icon={<FaBookMedical />}
       txt="Nurse Reports"

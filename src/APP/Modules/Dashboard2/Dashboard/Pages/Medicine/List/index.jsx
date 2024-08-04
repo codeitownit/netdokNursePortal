@@ -1,18 +1,12 @@
-import { Tbody, Thead, Table, Tht } from "../../../../../Components/Table";
-import Rows from "./sections/Rows";
-import AddEdit from "../../../../../Components/Buttons/Add-Edit";
-import { headers } from "./sections/style";
-import useaxios from "../../../../../Hooks/useAxios";
+import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
+import Rows from "../sections/Rows";
+import { headers } from "../sections/style";
+import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 
-function ListTransfer() {
-  
-  const navigate = useNavigate();
-
-
-  const [addedPatients, setAddedPatients] = useState(new Map());
+function ListMed() {
+ 
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -20,21 +14,25 @@ function ListTransfer() {
 
   const request = useaxios();
 
+
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
+    const pId = localStorage.getItem("patientId")
+
+
     try {
       const res = await request({
         method: "GET",
-        url: "patientJournal",
+        url: `prescriptions/prescriptionsWhere/userUid/${pId}`,
         body: {},
         params: queryParams,
-        auth: false,
+        auth: true,
       });
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.type);
+        console.log(res?.data);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -50,18 +48,6 @@ function ListTransfer() {
     fetchData();
   }, [pageNumber]);
 
-  useEffect(() => {
-    const newAddedPatients = new Map(addedPatients);
-    data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === "Jonathan Kilonzo") {
-        if (!newAddedPatients.has(snap.patient)) {
-          newAddedPatients.set(snap.patient, snap);
-        }
-      }
-    });
-    setAddedPatients(newAddedPatients);
-    console.log(addedPatients)
-  }, [data]);
 
   const [t, setT] = useState("");
 
@@ -87,13 +73,7 @@ function ListTransfer() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-      {/* <h1>Welcome, {user.email}</h1> */}
-      {/* <button onClick={handleLogout}>Logout</button> */}
-        <h1 className={headers}>Patients List</h1>
-        {/* <AddEdit
-          text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
-        /> */}
+        <h1 className={headers}>Current Prescription</h1>
       </div>
       <Table
         mt={2}
@@ -110,17 +90,13 @@ function ListTransfer() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="PATIENT ID" />
-          <Tht txt="PATIENT NAME" />
-          <Tht txt="ADMISSION UNIT" />
-          <Tht txt="ADMISSION ROOM" />
-          <Tht txt="CONDITION INFORMATION " />
-          <Tht txt="RESPONSIBLE SPECIALIST" />
-          <Tht txt="STATUS" />
-          <Tht txt="ACTIONS" />
+          <Tht txt="MEDICINE NAME" />
+          <Tht txt="FORMULATION" />
+          <Tht txt="DOSE" />
+          <Tht txt="QUANTITY " />
         </Thead>
         <Tbody>
-          {Array.from(addedPatients.values())
+          {data
             .filter((item) => {
               return t.toLowerCase() === ""
                 ? item
@@ -128,17 +104,14 @@ function ListTransfer() {
             })
             .map((doc, index) => {
               console.log(doc);
-              if(doc.admStatus==="transfer"){
+              if(!doc?.medStatus || doc?.medStatus === "current"){
               return (
                 <Rows
                   key={doc?.id || index}
-                  id={doc?.patient || ""}
-                  pname={doc?.patientName || ""}
-                  unit={doc?.admittingUnit || ""}
-                  room={doc?.room || ""}
-                  condition={doc?.condition || ""}
-                  specialist={doc?.doctorName || ""}
-                  status={doc?.admStatus || ""}
+                  name={doc?.medName || ""}
+                  form={doc?.medForm || ""}
+                  dose={doc?.medDose || ""}
+                  quantity={doc?.medQty || ""}
                   fetchData={fetchData}
                 />
               );}
@@ -149,4 +122,4 @@ function ListTransfer() {
   );
 }
 
-export default ListTransfer;
+export default ListMed;

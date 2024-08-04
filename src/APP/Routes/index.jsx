@@ -35,11 +35,19 @@ import CalendarList from "../Modules/Dashboard/Pages/CalendarTodo/ListCalendar";
 import NurseReports from "../Modules/Dashboard2/Dashboard/Pages/NurseReports";
 import ListNurseReports from "../Modules/Dashboard2/Dashboard/Pages/NurseReports/ListClass";
 import AddNurseReport from "../Modules/Dashboard2/Dashboard/Pages/NurseReports/AddClass";
+
+import Refer from "../Modules/Dashboard2/Dashboard/Pages/Referrals";
+import ListRefer from "../Modules/Dashboard2/Dashboard/Pages/Referrals/List";
+
+import Med from "../Modules/Dashboard2/Dashboard/Pages/Medicine";
+import ListMed from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List";
+
 import ProtectedRoute from "./PrivateRoute";
 
 function AllRoutes() {
   const [status, setStatus] = useState(false);
   const doctor = localStorage.getItem("primeDoctorUserId");
+  const id = localStorage.getItem("universalPatientId")
 
   useEffect(() => {
     if (doctor && doctor !== "") {
@@ -63,6 +71,12 @@ function AllRoutes() {
           </Route>
           <Route path="contact" element={<ContactJournals />}>
             <Route index element={<ContactList />} />
+          </Route>
+          <Route path="referral" element={<Refer />}>
+            <Route index element={<ListRefer />} />
+          </Route>
+          <Route path="medicine" element={<Med />}>
+            <Route index element={<ListMed />} />
           </Route>
           <Route path="nurseReports" element={<NurseReports />}>
             <Route index element={<ListNurseReports />} />
