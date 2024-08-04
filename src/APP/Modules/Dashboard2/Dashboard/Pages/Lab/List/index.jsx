@@ -71,10 +71,10 @@ function LabList() {
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
         <h1 className={headers}>Lab List</h1>
-        <AddEdit
+        {/* <AddEdit
           text="+ Add Class"
           onClick={() => navigate(`/dashboard/classes/add`)}
-        />
+        /> */}
       </div>
       <Table
         mt={2}

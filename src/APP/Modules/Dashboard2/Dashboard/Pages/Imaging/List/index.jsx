@@ -79,10 +79,10 @@ function ImagingList() {
       {/* <h1>Welcome, {user.email}</h1> */}
       {/* <button onClick={handleLogout}>Logout</button> */}
         <h1 className={headers}>Imaging Requests</h1>
-        <AddEdit
+        {/* <AddEdit
           text="+ Add Class"
           onClick={() => navigate(`/dashboard/classes/add`)}
-        />
+        /> */}
       </div>
       <Table
         mt={2}

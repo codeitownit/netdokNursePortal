@@ -9,7 +9,7 @@ import TextInput from "../../../../../Components/Inputs/TextInput";
 import { SelectInput, TextArea } from "../../../../../Components/Inputs";
 
 // eslint-disable-next-line react/prop-types
-function AddClass({ text = "Add Class" }) {
+function AddClass({ text = "" }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [streams, setStreams] = useState([]);
@@ -96,7 +96,7 @@ function AddClass({ text = "Add Class" }) {
       <div className="">
         <form className={outerDiv} type="submit" onSubmit={handleSubmit}>
           <div className=" flex flex-row justify-between items-center">
-            <h1 className={headers}>Add Class</h1>
+            {/* <h1 className={headers}>Add Class</h1> */}
             <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
           </div>
           <div className={divStyle}>
