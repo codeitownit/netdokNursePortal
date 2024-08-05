@@ -9,7 +9,6 @@ import TextInput from "../../../../../../Components/Inputs/TextInput";
 import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import TimePicker from "../../../../../../Components/Inputs/TimePicker";
 import { 
   hospitalId,
   doctorEmail, 
