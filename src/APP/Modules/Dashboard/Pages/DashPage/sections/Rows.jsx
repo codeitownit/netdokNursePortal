@@ -12,7 +12,7 @@ import useaxios from "../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../Components/Modals/ConfirmationModal";
 
 
-function Rows({ id = "", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", doc="", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -34,7 +34,7 @@ function Rows({ id = "", classLevel="", subject = "", room = "", condition="", s
 
       // Check if the response is not an error
       if (res !== "error") {
-        navigate(`/dashboard/classes`)
+        // navigate(`/dashboard/`)
         setShowDeleteModal(false);
         toast.success("Deleted successfully");
       }
@@ -75,8 +75,10 @@ function Rows({ id = "", classLevel="", subject = "", room = "", condition="", s
           </span> */}
           <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>{
             navigate(`/viewPatient/${id}`)
+            console.log("doc",doc)
             localStorage.setItem("universalPatientId", id)
             localStorage.setItem("universalPatientName", classLevel)
+            localStorage.setItem("universalPatientDocumentId", doc)
             }}>
             <FaEye/>
           </span>

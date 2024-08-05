@@ -169,33 +169,38 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../../../../../firebaseConfig";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // import SignInwithGoogle from "./signInWIthGoogle";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("")
-  
+  function redirectToDashboard() {
+    window.location.href = "/dashboard";
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      toast.success("User logged in Successfully");
       localStorage.setItem("primeDoctorUserId", userCredential.user.uid);
       localStorage.setItem("primeDoctorUserEmail", userCredential.user.email);
       localStorage.setItem("serId", userCredential.user.accessToken);
+      // if(!error){
+        // }
 console.log(userCredential)
 
 
       console.log("User logged in Successfully");
       console.log(auth)
-      window.location.href = "/dashboard";
-      toast.success("User logged in Successfully", {
-        position: "top-center",
-      });
+      setTimeout(redirectToDashboard, 3000);
+      // window.location.href = "/dashboard";
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
       setError(error.message)
 
       toast.error(error.message, {
@@ -216,7 +221,7 @@ console.log(userCredential)
         <h1 className="text-xl p-6 block text-center font-bold mt-12">
           LOG IN TO YOUR ACCOUNT
         </h1>
-        <p>{error}</p>
+        <ToastContainer />
     <form onSubmit={handleSubmit}>
     <div className="flex flex-col justify-center text-sm text-gray-700 font-semibold">
             <label>Email address</label>

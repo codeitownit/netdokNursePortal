@@ -6,7 +6,7 @@ import inputClass from "./input.style";
 import { transforms } from "./Utils/transform.js";
 import useValidation from "./useValidation";
 
-const TextInput = ({
+const TextInputReadonly = ({
   input = { textInput: "" },
   setInput = () => {},
   stateInput = "",
@@ -136,4 +136,4 @@ const TextInput = ({
   );
 };
 
-export default TextInput;
+export default TextInputReadonly;

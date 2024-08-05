@@ -168,7 +168,8 @@ function DashPage() {
               if(doc?.admStatus === "admitted" || doc?.admStatus === "observation"){
               return (
                 <Rows
-                  key={doc?.id || index}
+                  key={doc?.patient || index}
+                  doc={doc?.document || ""}
                   id={doc?.patient || ""}
                   classLevel={doc?.patientName || ""}
                   subject={doc?.admittingUnit || ""}
