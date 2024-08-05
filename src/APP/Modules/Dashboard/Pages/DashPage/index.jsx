@@ -30,6 +30,7 @@ function DashPage() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
+  const docName = localStorage.getItem("universalDoctorName")
 
   const fData = async () => {
     const docId = localStorage.getItem("primeDoctorUserId")
@@ -43,8 +44,9 @@ function DashPage() {
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.email);
+        console.log(res?.data);
         res?.data.map((snap)=>{
+          console.log(snap);
           localStorage.setItem("universalHospitalId", snap.hospitalId)
           localStorage.setItem("universalHospitalId", snap.hospitalId)
           localStorage.setItem("universalDoctorName", snap.FirstName + " " + snap.lastName)
@@ -84,16 +86,18 @@ function DashPage() {
       console.error("Error fetching data:", error);
     }
   };
+  useEffect(() => {
+    fData();
+  }, []);
 
   useEffect(() => {
     fetchData();
-    fData();
   }, [pageNumber]);
 
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === "Jonathan Kilonzo") {
+      if (snap.type === 'admission' && snap.createdByName === docName) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }
@@ -170,6 +174,7 @@ function DashPage() {
                 <Rows
                   key={doc?.patient || index}
                   doc={doc?.document || ""}
+                  date={doc?.admissionDate || ""}
                   id={doc?.patient || ""}
                   classLevel={doc?.patientName || ""}
                   subject={doc?.admittingUnit || ""}

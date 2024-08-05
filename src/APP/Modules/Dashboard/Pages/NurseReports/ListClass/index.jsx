@@ -14,6 +14,8 @@ function ListClass() {
 
   const navigate = useNavigate();
   const request = useaxios();
+  const docName = localStorage.getItem("universalDoctorName")
+
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
@@ -106,7 +108,7 @@ function ListClass() {
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              if(doc?.type === "admission" && doc?.createdByName==="Jonathan Kilonzo"){
+              if(doc?.type === "admission" && doc?.createdByName===docName){
               return <Rows
                 key={doc?.id || index}
                 id={doc?.patient || ""}

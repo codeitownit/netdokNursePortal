@@ -1,6 +1,3 @@
-import { Tbody, Thead, Table, Tht } from "../../../../../Components/Table";
-import Rows from "./sections/Rows";
-import AddEdit from "../../../../../Components/Buttons/Add-Edit";
 import { headers } from "./sections/style";
 import useaxios from "../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
@@ -10,23 +7,16 @@ import grayPanel from "../../../../../Components/Container/Container";
 import { outerDiv, divStyle } from "./sections/style";
 
 function DashPage2() {
-  const [data, setData] = useState([]);
   const [patientData, setPatientData] = useState([]);
-  const [bmi, setBmi] = useState("");
-  const [bp, setBp] = useState("");
-  const [pulse, setPulse] = useState("");
-  const [condition, setCondition] = useState("")
-  const [gender, setGender] = useState("")
-  const [age, setAge] = useState("")
-  const [weight, setWeight] = useState("")
-  const [allergies, setAllergies] = useState("")
-  const [admDate, setAdmDate] = useState("")
+  
   const patientName = localStorage.getItem("universalPatientName")
 
 
   const navigate = useNavigate();
   const request = useaxios();
   const documentId = localStorage.getItem('universalPatientDocumentId')
+  const admDate = localStorage.getItem("universalPatientAdmissionDate")
+
   const fetchData = async () => {
     
     try {
@@ -41,15 +31,7 @@ function DashPage2() {
       if (res !== "error") {
         console.log(res?.data);
         setPatientData(res?.data || []);
-        setBmi(patientData.userBMI)
-        setBp(patientData.userBp)
-        setPulse(patientData.pulseRate)
-        setCondition(patientData.condition)
-        setGender(patientData.userGender)
-        setAge(patientData.userAge)
-        setWeight(patientData.userWeight)
-        setAllergies("none")
-        setAdmDate("")
+        
 
         return true;
       }
@@ -79,16 +61,14 @@ function DashPage2() {
           label="Gender"
           directInput={true}
           required={false}
-          stateInput={gender}
-          setStateInput={setGender}
+          stateInput={patientData.userGender}
         />
     </div>
         <TextInputReadonly
           label="Age"
           directInput={true}
           required={false}
-          stateInput={age}
-          setStateInput={setAge}
+          stateInput={patientData.userAge}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -97,16 +77,14 @@ function DashPage2() {
           label="Weight"
           directInput={true}
           required={false}
-          stateInput={weight}
-          setStateInput={setWeight}
+          stateInput={patientData.userWeight}
         />
     </div>
     <TextInputReadonly
         label="Condition"
         directInput={true}
         required={false}
-        stateInput={condition}
-        setStateInput={setCondition}
+        stateInput={patientData.condition}
       />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -114,21 +92,16 @@ function DashPage2() {
         label="Allergies"
         directInput={true}
         required={false}
-        stateInput={allergies}
-        setStateInput={setAllergies}
+        stateInput={"none"}
       />
       <TextInputReadonly
         label="Date of Admission"
         directInput={true}
         required={false}
         stateInput={admDate}
-        setStateInput={setAdmDate}
       />
       </div>
-
-      
     </div>
-  
           </div>
         </form>
       </div>

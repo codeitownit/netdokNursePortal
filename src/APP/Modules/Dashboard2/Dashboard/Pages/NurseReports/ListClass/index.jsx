@@ -18,6 +18,7 @@ function ListNurseReports() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
+  const docName = localStorage.getItem("universalDoctorName")
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
@@ -115,7 +116,7 @@ function ListNurseReports() {
             })
             .map((doc, index) => {
               console.log(doc);
-              if (doc?.type === 'admissionReport' && doc?.createdByName === "Jonathan Kilonzo") {
+              if (doc?.type === 'admissionReport' && doc?.createdByName === docName) {
               return (
                 <Rows
                   key={doc?.id || index}

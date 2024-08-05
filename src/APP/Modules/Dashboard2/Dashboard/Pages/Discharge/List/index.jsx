@@ -12,6 +12,7 @@ function DashPage() {
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const docName = localStorage.getItem("universalDoctorName")
 
   const navigate = useNavigate();
   const request = useaxios();
@@ -49,7 +50,7 @@ function DashPage() {
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.admStatus === 'discharged' && snap.createdByName === "Jonathan Kilonzo") {
+      if (snap.type === 'admission' && snap.admStatus === 'discharged' && snap.createdByName === docName) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }

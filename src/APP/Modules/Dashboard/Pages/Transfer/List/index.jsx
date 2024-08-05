@@ -17,6 +17,7 @@ function ListTransfer() {
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const docName = localStorage.getItem("universalDoctorName")
 
   const request = useaxios();
 
@@ -53,7 +54,7 @@ function ListTransfer() {
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === "Jonathan Kilonzo") {
+      if (snap.type === 'admission' && snap.createdByName === docName) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }

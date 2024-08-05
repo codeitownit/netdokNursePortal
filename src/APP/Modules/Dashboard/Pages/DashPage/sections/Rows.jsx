@@ -12,7 +12,7 @@ import useaxios from "../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../Components/Modals/ConfirmationModal";
 
 
-function Rows({ id = "", doc="", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", doc="", date="", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -79,6 +79,8 @@ function Rows({ id = "", doc="", classLevel="", subject = "", room = "", conditi
             localStorage.setItem("universalPatientId", id)
             localStorage.setItem("universalPatientName", classLevel)
             localStorage.setItem("universalPatientDocumentId", doc)
+            localStorage.setItem("universalPatientAdmissionDate", date)
+
             }}>
             <FaEye/>
           </span>

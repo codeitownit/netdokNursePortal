@@ -13,6 +13,9 @@ function ListDischarge() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
+  const docName = localStorage.getItem("universalDoctorName")
+
+
   const navigate = useNavigate();
   const request = useaxios();
 
@@ -49,7 +52,7 @@ function ListDischarge() {
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === "Jonathan Kilonzo") {
+      if (snap.type === 'admission' && snap.createdByName === docName) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }
