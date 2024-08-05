@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Input from "./Input";
-import InputError from "./InputError";
-import InputLabel from "./InputLabel";
-import inputClass from "./input.style";
+import Input from "./Input.jsx";
+import InputError from "./InputError.jsx";
+import InputLabel from "./InputLabel.jsx";
+import inputClass from "./input.style.js";
 import { transforms } from "./Utils/transform.js";
-import useValidation from "./useValidation";
+import useValidation from "./useValidation.jsx";
 
 const TextInputReadonly = ({
   input = { textInput: "" },
