@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
 
-function Rows({ id = "", date="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -46,19 +46,16 @@ function Rows({ id = "", date="", subject = "", room = "", condition="", special
   return (
     <>
       <Tr>
-      {/* <Td name="PATIENT ID">
+      <Td name="PATIENT ID">
         <Tt txt={`#${id}`} />
-      </Td> */}
-      <Td name="DATE OF CONTACT">
-        <Tt txt={date} />
       </Td>
-      <Td name="TYPE OF SPECIALIST">
-        <Tt txt={specialist} />
+      <Td name="PATIENT NAME">
+        <Tt txt={classLevel} />
       </Td>
-      <Td name="CONDITION">
-        <Tt txt={condition} />
+      <Td name="ADMISSION UNIT">
+        <Tt txt={subject} />
       </Td>
-      {/* <Td name="ADMISSION ROOM">
+      <Td name="ADMISSION ROOM">
         <Tt txt={room} />
       </Td>
       <Td name="CONDITION INFORMATION">
@@ -69,8 +66,8 @@ function Rows({ id = "", date="", subject = "", room = "", condition="", special
       </Td>
       <Td name="STATUS">
         <Tt txt={status} />
-      </Td> */}
-      {/* <Td name="ACTIONS">
+      </Td>
+      <Td name="ACTIONS">
         <span className=" flex gap-x-2  items-center text-4xl">
           <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
             <MdDelete />
@@ -79,7 +76,7 @@ function Rows({ id = "", date="", subject = "", room = "", condition="", special
             <FaEdit/>
           </span>
         </span>
-      </Td> */}
+      </Td>
     </Tr>
     <ConfirmationModal
     text="ARE YOU SURE YOU WANT TO DELETE?" 

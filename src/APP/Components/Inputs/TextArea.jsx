@@ -1,15 +1,9 @@
-/* eslint-disable no-loss-of-precision */
-/* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useRef } from "react";
 import Input from "./Input";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-
 import inputClass from "./input.style";
-
 import { transforms } from "./Utils/transform.js";
-
 import useValidation from "./useValidation";
 
 const TextInput = ({
@@ -40,6 +34,8 @@ const TextInput = ({
   rows = 8,
 }) => {
   const [error, setError] = useState(false);
+  const [recognizing, setRecognizing] = useState(false);
+  const recognitionRef = useRef(null);
 
   const { validationError } = useValidation({
     input,
@@ -58,6 +54,25 @@ const TextInput = ({
     if (validate === 0) return;
     validateInput();
   }, [validate]);
+
+  useEffect(() => {
+    if (!("webkitSpeechRecognition" in window)) {
+      console.warn("Speech Recognition API not supported in this browser.");
+      return;
+    }
+
+    recognitionRef.current = new window.webkitSpeechRecognition();
+    recognitionRef.current.continuous = false;
+    recognitionRef.current.interimResults = false;
+
+    recognitionRef.current.onstart = () => setRecognizing(true);
+    recognitionRef.current.onend = () => setRecognizing(false);
+
+    recognitionRef.current.onresult = (event) => {
+      const speechResult = event.results[0][0].transcript;
+      handleChange(speechResult);
+    };
+  }, []);
 
   function validateInput() {
     if (required === false) return;
@@ -116,6 +131,14 @@ const TextInput = ({
     });
   }
 
+  function handleSpeechRecognition() {
+    if (recognizing) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+    }
+  }
+
   return (
     <Input mt={mt} mb={mb}>
       <InputLabel label={label} showLabel={showLabel} />
@@ -125,6 +148,7 @@ const TextInput = ({
         placeholder={placeholder}
         onChange={(e) => handleChange(e.target.value)}
         onBlur={handleBlur}
+        onDoubleClick={handleSpeechRecognition}
         disabled={disabled}
         rows={rows}
       />

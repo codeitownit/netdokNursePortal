@@ -1,41 +1,52 @@
-import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
+import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table"; 
 import Rows from "../sections/Rows";
+import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
-import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { useNavigate } from "react-router-dom";
 
-function ListMed(text="View Previous Prescriptions") {
- 
+function ListVitals() {
+  
+  const navigate = useNavigate();
+
+
+  const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
-  const navigate = useNavigate();
-  const pId = localStorage.getItem("patientId")
-
+  const docName = localStorage.getItem("universalDoctorName")
+  const pId = localStorage.getItem("universalPatientId")
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
-
-
     try {
       const res = await request({
         method: "GET",
-        url: `prescriptions/prescriptionsWhere/userUid/${pId}`,
+        url: `patientVitalChart/userinfo/${pId}`,
         body: {},
         params: queryParams,
-        auth: true,
+        auth: false,
+      });
+      const res2 = await request({
+        method: "GET",
+        url: "patientJournal",
+        body: {},
+        params: queryParams,
+        auth: false,
       });
 
       // Check if the response is not an error
-      if (res !== "error") {
-        console.log(res?.data);
-        setData(res?.data || []);
+      if (res !== "error" && res2 !== "error") {
+        const r1 = res?.data;
+        const r2 = res2?.data;
+        const result = r1.concat(r2)
+        console.log(result);
+        setData(result || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
         return true;
@@ -50,7 +61,7 @@ function ListMed(text="View Previous Prescriptions") {
     fetchData();
   }, [pageNumber]);
 
-
+  
   const [t, setT] = useState("");
 
   async function toNext() {
@@ -75,8 +86,10 @@ function ListMed(text="View Previous Prescriptions") {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Current Prescription</h1>
-        <AddEdit text={text} onClick={navigate(`/viewPatient/${pId}/medicine/previousPrescriptions`)}/>
+      {/* <h1>Welcome, {user.email}</h1> */}
+      {/* <button onClick={handleLogout}>Logout</button> */}
+        <h1 className={headers}>Vital Parameters</h1>
+        <p>View Patient Vitals</p>
       </div>
       <Table
         mt={2}
@@ -93,10 +106,16 @@ function ListMed(text="View Previous Prescriptions") {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="MEDICINE NAME" />
-          <Tht txt="FORMULATION" />
-          <Tht txt="DOSE" />
-          <Tht txt="QUANTITY " />
+          <Tht txt="DATE" />
+          <Tht txt="WEIGHT(kg)" />
+          <Tht txt="HEIGHT(cm)" />
+          <Tht txt="BLOOD PRESSURE(mm Hg)" />
+          <Tht txt="PULSE RATE(bpm)" />
+          <Tht txt="TEMPERATURE" />
+          <Tht txt="BLOOD SUGAR(mmol/L)" />
+          <Tht txt="BREATHING RATE(bpm)" />
+          <Tht txt="PULSE OXIMETER(%)" />
+          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
           {data
@@ -106,15 +125,20 @@ function ListMed(text="View Previous Prescriptions") {
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              console.log(doc);
-              if(!doc?.medStatus || doc?.medStatus === "current"){
-              return (
+              console.log(doc?.weight);
+              if((!doc?.type &&doc?.patient===pId) || (doc?.type === "nurseMidwives" &&doc?.patient===pId) || (doc?.type === "patient" &&doc?.patient===pId) || (doc?.type === "progress" &&doc?.patient===pId)){
+                return (
                 <Rows
                   key={doc?.id || index}
-                  name={doc?.medName || ""}
-                  form={doc?.medForm || ""}
-                  dose={doc?.medDose || ""}
-                  quantity={doc?.medQty || ""}
+                  date={doc?.date || ""}
+                  weight={doc.weight || ""}
+                  height={doc?.height || ""}
+                  bp={doc?.bloodPressure || ""}
+                  pr={doc?.pulseRate || ""}
+                  temp={doc?.temperature || ""}
+                  bs={doc?.bloodSugar || ""}
+                  br={doc?.breathingRate || ""}
+                  po={doc?.pulseOximeter || ""}
                   fetchData={fetchData}
                 />
               );}
@@ -125,4 +149,4 @@ function ListMed(text="View Previous Prescriptions") {
   );
 }
 
-export default ListMed;
+export default ListVitals;

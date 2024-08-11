@@ -11,10 +11,11 @@ import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
 
-
-function Rows({ id = "", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", date="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
+  const pId = localStorage.getItem("universalPatientId")
+
 
   const request  = useaxios();
 
@@ -47,33 +48,34 @@ function Rows({ id = "", classLevel="", subject = "", room = "", condition="", s
   return (
     <>
       <Tr>
-      <Td name="PATIENT ID">
+      {/* <Td name="PATIENT ID">
         <Tt txt={`#${id}`} />
+      </Td> */}
+      <Td name="DATE OF CONTACT">
+        <Tt txt={date} />
       </Td>
-      <Td name="PATIENT NAME">
-        <Tt txt={classLevel} />
-      </Td>
-      <Td name="ADMISSION UNIT">
-        <Tt txt={subject} />
-      </Td>
-      <Td name="ADMISSION ROOM">
-        <Tt txt={room} />
-      </Td>
-      <Td name="CONDITION INFORMATION">
-        <Tt txt={condition} />
-      </Td>
-      <Td name="RESPONSIBLE SPECIALIST">
+      <Td name="TYPE OF SPECIALIST">
         <Tt txt={specialist} />
       </Td>
-      <Td name="STATUS">
-        <Tt txt={status} />
+      <Td name="CONDITION">
+        <Tt txt={condition} />
       </Td>
       <Td name="ACTIONS">
         <span className=" flex gap-x-2  items-center text-4xl">
           <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
             <MdDelete />
           </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/dashboard/classes/edit/${id}`)}>
+          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>{
+            if(specialist === "admission"){
+              navigate(`/viewPatient/${pId}/progressJournals/admission/edit/${id}`)
+            } else if(specialist === "telephone"){
+              navigate(`/viewPatient/${pId}/progressJournals/telephone/edit/${id}`)
+            } else if(specialist === "progress"){
+              navigate(`/viewPatient/${pId}/progressJournals/progress/edit/${id}`)
+            } else if(specialist === "operation"){
+              navigate(`/viewPatient/${pId}/progressJournals/operation/edit/${id}`)
+            }
+            }}>
             <FaEdit/>
           </span>
         </span>

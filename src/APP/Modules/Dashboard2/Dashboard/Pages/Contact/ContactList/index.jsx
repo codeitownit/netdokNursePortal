@@ -76,13 +76,7 @@ function ContactList() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-      {/* <h1>Welcome, {user.email}</h1> */}
-      {/* <button onClick={handleLogout}>Logout</button> */}
-        <h1 className={headers}>Recent Contact Specialists</h1>
-        {/* <AddEdit
-          text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
-        /> */}
+        <h1 className={headers}>Previous and Recent Contacts</h1>
       </div>
       <Table
         mt={2}
@@ -101,10 +95,7 @@ function ContactList() {
         <Thead>
           <Tht txt="DATE ADDED" />
           <Tht txt="CLINICIAN ASSIGNED" />
-          {/* <Tht txt="EXAMINATIONS REQUESTED" />
-          <Tht txt="CONDITIONS" />
-          <Tht txt="STATUS " />
-          <Tht txt="PROVISIONAL DIAGNOSIS" /> */}
+          <Tht txt="CONDITION" />
         </Thead>
         <Tbody>
           {data
@@ -132,12 +123,10 @@ function ContactList() {
               return (
                 <Rows
                   key={doc?.id || index}
-                  // id={doc?.patient || ""}
+                  id={doc?.patient || ""}
                   date={doc?.date || ""}
                   specialist={ s || ""}
-                //   condition={doc?.condition || ""}
-                //   status={doc?.status || ""}
-                //   diagnosis={doc?.pDiagnosis || ""}
+                  condition={doc?.progressDiagnosis || ""}
                   fetchData={fetchData}
                 />
               );

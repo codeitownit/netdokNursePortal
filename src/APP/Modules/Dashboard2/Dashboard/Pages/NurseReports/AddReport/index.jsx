@@ -21,7 +21,7 @@ import {
 } from "../../../../../../Components/globals";
 
 // eslint-disable-next-line react/prop-types
-function AddDischarge({ text = "Add Nurse Report" }) {
+function AddNurseReport({ text = "Add Nurse Report" }) {
   const [admissionDate, setAdmissionDate] = useState('');
   const [time, setTime] = useState('');
   const [nutritionalState, setNutritionalState] = useState('');
@@ -168,7 +168,7 @@ function AddDischarge({ text = "Add Nurse Report" }) {
           directInput={true}
           required={false}
           stateInput={time}
-          setStateInput={setTime} 
+          setStateInput={setTime}
         />
       </div>
 
@@ -337,4 +337,4 @@ function AddDischarge({ text = "Add Nurse Report" }) {
   );
 }
 
-export default AddDischarge;
+export default AddNurseReport;

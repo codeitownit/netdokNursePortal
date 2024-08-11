@@ -218,14 +218,15 @@ console.log(userCredential)
         className="w-2/3 md:w-1/2 lg:w-1/3 h-3/4 p-6 shadow-lg bg-#0E2F59 bg-opacity-25 rounded-lg"
         // style={{ backdropFilter: "blur(8px)" }}
       >
+        <div><img src="" alt="" /></div>
         <h1 className="text-xl p-6 block text-center font-bold mt-12">
           LOG IN TO YOUR ACCOUNT
         </h1>
         <ToastContainer />
     <form onSubmit={handleSubmit}>
     <div className="flex flex-col justify-center text-sm text-gray-700 font-semibold">
-            <label>Email address</label>
-            <div className="flex justify-center mt-2 mx-2 w-full md:w-1/2 lg:w-2/3">
+            <div className="flex justify-center flex-col mt-10 mx-16 w-full md:w-1/2 lg:w-2/3">
+            <label className="mx-2 mb-3">Email address</label>
         <input
           type="email"
           className="form-control h-10 rounded-md border-solid border-t-2 border-b-2 border-s-2 p-3 mb-3 w-full"
@@ -235,8 +236,8 @@ console.log(userCredential)
         />
       </div>
 
-      <label>Password</label>
-      <div className="flex justify-center mt-2 mx-2 w-4 md:w-1/2 lg:w-2/3">
+      <div className="flex justify-center flex-col mt-2 mx-16 w-full md:w-1/2 lg:w-2/3">
+      <label className="mx-2 mb-3">Password</label>
         <input
           type="password"
           className="form-control h-10 rounded-md border-solid border-t-2 border-b-2 border-s-2 p-3 w-full"
@@ -246,9 +247,9 @@ console.log(userCredential)
         />
       </div>
 </div>
-      <div className="d-grid mt-7 flex justify-center font-semibold">
-        <button type="submit" className="btn btn-primary border-1 border-black bg-gray-200 text-black py-1 w-1/2 md:w-1/5 lg:w-1/5 rounded-full hover:bg-gray-500 font-bold flex items-center">
-          Submit
+      <div className="d-grid mt-8 flex justify-center font-semibold">
+        <button type="submit" className="btn btn-secondary border-1 border-black bg-green-500 text-white py-3 px-6 w-1/2 md:w-1/5 lg:w-1/5 rounded-md hover:bg-green-400 font-bold from-neutral-400 flex items-center">
+          Login
         </button>
       </div>
       

@@ -1,21 +1,24 @@
-import { Tbody, Thead, Table, Tht } from "./../../../../../Components/Table";
+import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
 import Rows from "./section/Rows";
-import AddEdit from "../../../../../Components/Buttons/Add-Edit";
+import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
-import useaxios from "../../../../../Hooks/useAxios";
+import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ListClass() {
+function ListNurseReports() {
+  
+  const navigate = useNavigate();
+
+
+  const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
-  const navigate = useNavigate();
   const request = useaxios();
   const docName = localStorage.getItem("universalDoctorName")
-
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
@@ -31,7 +34,7 @@ function ListClass() {
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.type)
+        console.log(res?.data.type);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -45,8 +48,9 @@ function ListClass() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [pageNumber]);
 
+  
   const [t, setT] = useState("");
 
   async function toNext() {
@@ -57,6 +61,7 @@ function ListClass() {
       setPage((c) => c + 1);
     }
   }
+
   async function toPrev() {
     if (pageNumber - 1 <= 0) return;
     let res = await fetchData({
@@ -66,22 +71,26 @@ function ListClass() {
       setPage((c) => c - 1);
     }
   }
+
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Class List</h1>
-        {/* <AddEdit
-          text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
-        /> */}
+      {/* <h1>Welcome, {user.email}</h1> */}
+      {/* <button onClick={handleLogout}>Logout</button> */}
+        <h1 className={headers}>Nurse Reports</h1>
+        <p>View Patient Nurse Reports</p>
+        <AddEdit
+          text="+ Add Nurse Report"
+          onClick={() => navigate(`/viewPatient/:id/nurseReports/add`)}
+        />
       </div>
       <Table
         mt={2}
         loading={false}
         showPagination={true}
-        hasNextPage={true}
+        hasNextPage={hasNextPage}
         showSearch={true}
-        hasPrevPage={true}
+        hasPrevPage={hasPrevPage}
         page={pageNumber}
         prevClick={toPrev}
         nextClick={toNext}
@@ -90,14 +99,12 @@ function ListClass() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="PATIENT ID" />
-          <Tht txt="PATIENT NAME" />
-          <Tht txt="ADMISSION UNIT" />
-          <Tht txt="ADMISSION ROOM" />
-          <Tht txt="CONDITION INFORMATION " />
+          <Tht txt="DATE" />
+          <Tht txt="WEIGHT" />
+          <Tht txt="HEIGHT" />
+          <Tht txt="CURRENT STATE" />
+          <Tht txt="NUTRITIONAL STATE" />
           <Tht txt="RESPONSIBLE SPECIALIST" />
-          <Tht txt="STATUS" />
-
           <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
@@ -108,23 +115,26 @@ function ListClass() {
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              if(doc?.type === "admission" && doc?.createdByName===docName){
-              return <Rows
-                key={doc?.id || index}
-                id={doc?.patient || ""}
-                classLevel={doc?.patientName || ""}
-                subject={doc?.admittingUnit || ""}
-                room={doc?.room || ""}
-                condition={doc?.condition || ""}
-                specialist={doc?.doctorName || ""}
-                status={doc?.admStatus || ""}
-                fetchData={fetchData}
-              />}
-})}
+              console.log(doc);
+              if (doc?.type === 'admissionReport' && doc?.createdByName === docName) {
+              return (
+                <Rows
+                  key={doc?.id || index}
+                  docId={doc?.documentId || ""}
+                  date={doc?.date || ""}
+                  weight={doc?.weight || ""}
+                  height={doc?.height || ""}
+                  condition={doc?.currentState || ""}
+                  status={doc?.nutritionalState || ""}
+                  specialist={doc?.doctorName || ""}
+                  fetchData={fetchData}
+                />
+              );}
+            })}
         </Tbody>
       </Table>
     </div>
   );
 }
 
-export default ListClass;
+export default ListNurseReports;

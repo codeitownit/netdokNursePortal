@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { useNavigate } from "react-router-dom";
 
-function ListMed(text="View Previous Prescriptions") {
+function PrevPrescriptions() {
  
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
@@ -14,7 +14,6 @@ function ListMed(text="View Previous Prescriptions") {
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
-  const navigate = useNavigate();
   const pId = localStorage.getItem("patientId")
 
 
@@ -75,8 +74,7 @@ function ListMed(text="View Previous Prescriptions") {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Current Prescription</h1>
-        <AddEdit text={text} onClick={navigate(`/viewPatient/${pId}/medicine/previousPrescriptions`)}/>
+        <h1 className={headers}>Previous Prescription</h1>
       </div>
       <Table
         mt={2}
@@ -125,4 +123,4 @@ function ListMed(text="View Previous Prescriptions") {
   );
 }
 
-export default ListMed;
+export default PrevPrescriptions;

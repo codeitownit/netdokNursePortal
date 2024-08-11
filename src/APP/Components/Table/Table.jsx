@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import SearchInput from "../../Modules/Dashboard/Pages/NurseReports/sections/input";
+import SearchInput from "../../Modules/Dashboard2/Dashboard/Pages/NurseReports/sections/input";
 import { ThreeDots } from "react-loader-spinner";
 
 import Pagination from "./Pagintation";

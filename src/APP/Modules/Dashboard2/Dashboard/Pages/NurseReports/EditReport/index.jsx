@@ -4,7 +4,7 @@ import grayPanel from "../../../../../../Components/Container/Container";
 import { headers, divStyle, outerDiv } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import TextInput from "../../../../../../Components/Inputs/TextInput";
 import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
 import DatePicker from 'react-datepicker';
@@ -16,18 +16,23 @@ import {
   pName, 
   patientId, 
   doctorName, 
-  doctorPhone 
+  doctorPhone,
+  getCurrentDate, 
+  formatTime
 } from "../../../../../../Components/globals";
 
 // eslint-disable-next-line react/prop-types
-function AddNurseReport({ text = "Add Nurse Report" }) {
-  const [admissionDate, setAdmissionDate] = useState('');
-  const [time, setTime] = useState('');
+function EditNurseReport({ text = "Edit Nurse Report" }) {
   const [nutritionalState, setNutritionalState] = useState('');
+  const [nutritionalStateComments, setNutritionalStateComments] = useState('');
   const [crp, setCrp] = useState('');
+  const [crpComments, setCrpComments] = useState('');
   const [fluid, setFluid] = useState('');
+  const [fluidComments, setFluidComments] = useState('');
   const [pGlucose, setPGlucose] = useState('');
+  const [pGlucoseComments, setPGlucoseComments] = useState('');
   const [oxygen, setOxygen] = useState('');
+  const [oxygenComments, setOxygenComments] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [temp, setTemp] = useState('');
@@ -42,8 +47,12 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
   const [drainage, setDrainage] = useState('');
   const [stoma, setStoma] = useState('');
   const [currentState, setCurrentState] = useState('');
+  const [currentStateComments, setCurrentStateComments] = useState('');
   const [feaces, setFeaces] = useState('');
+  const [feacesComments, setFeacesComments] = useState('');
   const [diet, setDiet] = useState('');
+  const [dietComments, setDietComments] = useState('');
+
 
   // const handleDateChange = (event) => {
   //   setAdmissionDate(event.target.value);
@@ -51,36 +60,64 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
 
   const navigate = useNavigate();
   const request = useaxios();
+  const {id} = useParams()
+  
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await request({
+          method: "GET",
+          url: `patientJournal/${id}`,
+          auth: true,
+        });
 
-  // useEffect(() => {
-  //   async function fetchMember() {
-  //     try {
-  //       const res = await request({
-  //         method: "GET",
-  //         url: "member",
+        // Check if the response is not an error
+        if (res !== "error") {
+          setNutritionalState(res?.data.nutritionalState)
+          setNutritionalStateComments(res?.data.nutritionalStateComments)
+          setCrp(res?.data.crp)
+          setCrpComments(res?.data.crpComments)
+          setFluid(res?.data.fluid)
+          setFluidComments(res?.data.fluidComments)
+          setPGlucose(res?.data.pglucose)
+          setPGlucoseComments(res?.data.pglucoseComments)
+          setOxygen(res?.data.oxygen)
+          setOxygenComments(res?.data.oxygenComments)
+          setWeight(res?.data.weight)
+          setHeight(res?.data.height)
+          setTemp(res?.data.temperature)
+          setPulse(res?.data.pulseRate)
+          setBp(res?.data.bloodPressure)
+          setPulseOximeter(res?.data.pulseOximeter)
+          setBloodSugar(res?.data.bloodSugar)
+          setDrinks(res?.data.drinks)
+          setUrine(res?.data.urine)
+          setIv(res?.data.iv)
+          setVomiting(res?.data.vomiting)
+          setDrainage(res?.data.drainage)
+          setStoma(res?.data.stoma)
+          setCurrentState(res?.data.currentState)
+          setCurrentStateComments(res?.data.currentStateComments)
+          setFeaces(res?.data.feaces)
+          setFeacesComments(res?.data.feacesComments)
+          setDiet(res?.data.diet)
+          setDietComments(res?.data.dietComments)
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
 
-  //         auth: false,
-  //       });
-
-  //       // Check if the response is not an error
-  //       if (res !== "error") {
-  //         setMembers(res.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   }
-
-  //   fetchMember();
-  // }, []);
+    fetchData();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = {
-      date: admissionDate,
-      time: time.toLowerCase(),
+      date: getCurrentDate(),
+      time: formatTime(new Date()),
       // document: documentId,
       weight: weight,
       height: height,
@@ -90,13 +127,21 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
       pulseOximeter: pulseOximeter,
       bloodSugar: bloodSugar,
       nutritionalState: nutritionalState,
+      nutritionalStateComments: nutritionalStateComments,
       fluid: fluid,
+      fluidComments: fluidComments,
       crp: crp,
+      crpComments: crpComments,
       pglucose: pGlucose,
+      pglucoseComments: pGlucoseComments,
       oxygen: oxygen,
+      oxygenComments: oxygenComments,
       currentState: currentState,
+      currentStateComments: currentStateComments,
       feaces: feaces,
+      feacesComments: feacesComments,
       diet: diet,
+      dietComments: dietComments,
       drinks: drinks,
       urine: urine,
       iv: iv,
@@ -138,7 +183,7 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
 
     if (res !== "error") {
       console.log(formData)
-      // navigate(`/viewPatient/:id/nurseReports`);
+      navigate(`/viewPatient/${patientId}/nurseReports`);
       return;
     }
   }
@@ -147,40 +192,12 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
       <div className="">
         <form className={outerDiv} type="submit" onSubmit={handleSubmit}>
           <div className=" flex flex-row justify-between items-center">
-            <h1 className={headers}>Add Nurse Report</h1>
+            <h1 className={headers}>Edit Nurse Report</h1>
             <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
           </div>
           <div className={divStyle}>
           <div className="p-6 bg-white rounded-md shadow-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="cal-icon">
-      {/* <DatePicker
-      type="date"
-        selected={admissionDate}
-        onChange={(date) => setAdmissionDate(date)}
-        className="form-control"
-        required
-      /> */}
-      <TextInput
-        type="date"
-        label="Date"
-        directInput={true}
-        required={false}
-        setInput={admissionDate}
-        setStateInput={setAdmissionDate}
-      />
-    </div>
-        <TextInput
-        type="time"
-        timeFormat="LT"
-          label="Time"
-          directInput={true}
-          required={false}
-          stateInput={time}
-          setStateInput={setTime}
-        />
-      </div>
-
       <TextArea
         label="Nutritional State"
         directInput={true}
@@ -189,12 +206,30 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         setStateInput={setNutritionalState}
       />
       <TextArea
+        label="Nutritional State Comments"
+        directInput={true}
+        required={false}
+        stateInput={nutritionalStateComments}
+        setStateInput={setNutritionalStateComments}
+      />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <TextArea
         label="CRP Rapid Test"
         directInput={true}
         required={false}
         stateInput={crp}
         setStateInput={setCrp}
       />
+      <TextArea
+        label="CRP Rapid Test Comments"
+        directInput={true}
+        required={false}
+        stateInput={crpComments}
+        setStateInput={setCrpComments}
+      />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <TextInput
         label="Urinalysis Bedside Test"
         directInput={true}
@@ -202,6 +237,15 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={fluid}
         setStateInput={setFluid}
       />
+      <TextArea
+        label="Urinalysis Bedside Test Comments"
+        directInput={true}
+        required={false}
+        stateInput={fluidComments}
+        setStateInput={setFluidComments}
+      />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <TextInput
         label="p-glucose"
         directInput={true}
@@ -209,6 +253,15 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={pGlucose}
         setStateInput={setPGlucose}
       />
+      <TextArea
+        label="p-glucose comments"
+        directInput={true}
+        required={false}
+        stateInput={pGlucoseComments}
+        setStateInput={setPGlucoseComments}
+      />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <TextInput
         label="Oxygen Saturation"
         directInput={true}
@@ -216,7 +269,14 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={oxygen}
         setStateInput={setOxygen}
       />
-
+      <TextArea
+        label="Oxygen Saturation Comments"
+        directInput={true}
+        required={false}
+        stateInput={oxygenComments}
+        setStateInput={setOxygenComments}
+      />
+</div>
       <h3 className="text-xl font-bold mt-6 mb-4">Vital Parameters</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <TextInput
@@ -314,7 +374,7 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
           setStateInput={setStoma}
         />
       </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
       <TextArea
         label="Current State"
         directInput={true}
@@ -322,6 +382,15 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={currentState}
         setStateInput={setCurrentState}
       />
+      <TextArea
+        label="Current State Comments"
+        directInput={true}
+        required={false}
+        stateInput={currentStateComments}
+        setStateInput={setCurrentStateComments}
+      />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
       <TextArea
       className="w-10"
         label="Feaces/Bowel Opening"
@@ -331,12 +400,30 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         setStateInput={setFeaces}
       />
       <TextArea
+      className="w-10"
+        label="Feaces/Bowel Opening Comments"
+        directInput={true}
+        required={false}
+        stateInput={feacesComments}
+        setStateInput={setFeacesComments}
+      />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+      <TextArea
         label="Diet"
         directInput={true}
         required={false}
         stateInput={diet}
         setStateInput={setDiet}
       />
+      <TextArea
+        label="Diet Comments"
+        directInput={true}
+        required={false}
+        stateInput={dietComments}
+        setStateInput={setDietComments}
+      />
+      </div>
     </div>
   
           </div>
@@ -346,4 +433,4 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
   );
 }
 
-export default AddNurseReport;
+export default EditNurseReport;

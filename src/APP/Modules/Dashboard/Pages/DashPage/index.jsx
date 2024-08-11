@@ -30,7 +30,7 @@ function DashPage() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
-  const docName = localStorage.getItem("universalDoctorName")
+  const docName = localStorage.getItem("primeDoctorUserId")
 
   const fData = async () => {
     const docId = localStorage.getItem("primeDoctorUserId")
@@ -97,7 +97,7 @@ function DashPage() {
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === docName) {
+      if (snap.type === 'admission' && snap.docId === docName) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }

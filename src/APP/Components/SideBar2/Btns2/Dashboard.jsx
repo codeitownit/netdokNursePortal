@@ -23,7 +23,7 @@ function Dashboard({open=false}){
 
 
 
-     return <BtnTemplate active={active} onClick={()=>navigate("/dashboard")} Icon={<TiHome/>}  txt="Dashboard" open={open}/>
+     return <BtnTemplate active={active} onClick={()=>navigate("/dashboard")} Icon={<TiHome/>}  txt="Home" open={open}/>
 }
 
 export default Dashboard

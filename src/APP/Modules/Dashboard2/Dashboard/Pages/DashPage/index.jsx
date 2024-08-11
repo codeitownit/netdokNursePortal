@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import TextInputReadonly from "../../../../../Components/Inputs/InputReadonly";
 import grayPanel from "../../../../../Components/Container/Container";
 import { outerDiv, divStyle } from "./sections/style";
+import AddEdit from "../../../../../Components/Buttons/Add-Edit";
 
 function DashPage2() {
   const [patientData, setPatientData] = useState([]);
   
   const patientName = localStorage.getItem("universalPatientName")
+  const pId = localStorage.getItem("universalPatientId")
 
 
   const navigate = useNavigate();
@@ -26,13 +28,29 @@ function DashPage2() {
         body: {},
         auth: false,
       });
+      const res2 = await request({
+        method: "GET",
+        url: `userProfile/orderBy/uid/${pId}`,
+        body: {},
+        auth: true,
+      });
 
       // Check if the response is not an error
-      if (res !== "error") {
+      if (res !== "error" ) {
         console.log(res?.data);
-        setPatientData(res?.data || []);
-        
+        setPatientData(res?.data || []);  
 
+      }
+      if (res2 !== "error") {
+        console.log(res2?.data);
+        res2?.data.map((snap)=>{
+          console.log(snap);
+          localStorage.setItem("universalPatientWeight", snap?.Weight)
+          localStorage.setItem("universalPatientDOB", snap?.DOB)
+          localStorage.setItem("universalPatientGender", snap?.gender)
+
+        })
+        
         return true;
       }
       return false;
@@ -102,6 +120,21 @@ function DashPage2() {
       />
       </div>
     </div>
+          </div>
+          <div className="flex flex-row justify-center">
+          <AddEdit text="Fluid Chart" 
+          onClick={() =>navigate(`/viewPatient/${pId}/fluidChart`)}
+          />
+          <AddEdit text="Vital Parameters" 
+          onClick={() =>navigate(`/viewPatient/${pId}/vitals`)}
+          />
+          <AddEdit text="Discharge Journal"
+          onClick={() =>navigate(`/viewPatient/${pId}/discharge`)}
+          />
+          <AddEdit text="Admission Treatment Module"/>
+          <AddEdit text="Correspondence" 
+          onClick={() =>navigate(`/viewPatient/${pId}/correspondence`)}
+          />
           </div>
         </form>
       </div>

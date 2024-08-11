@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Tr, Td, Tt } from "../../../../../../Components/Table";
 
+
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { BsPersonFillCheck } from "react-icons/bs";
@@ -11,7 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
 
-function Rows({ id = "", date="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", date="", weight = "", height = "", bp="", pr="", temp="", bs="", br="", po="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -46,40 +47,40 @@ function Rows({ id = "", date="", subject = "", room = "", condition="", special
   return (
     <>
       <Tr>
-      {/* <Td name="PATIENT ID">
-        <Tt txt={`#${id}`} />
-      </Td> */}
-      <Td name="DATE OF CONTACT">
+      <Td name="DATE">
         <Tt txt={date} />
       </Td>
-      <Td name="TYPE OF SPECIALIST">
-        <Tt txt={specialist} />
+      <Td txt="WEIGHT">
+      <Tt txt={weight} />
       </Td>
-      <Td name="CONDITION">
-        <Tt txt={condition} />
+      <Td name="HEIGHT">
+        <Tt txt={height} />
       </Td>
-      {/* <Td name="ADMISSION ROOM">
-        <Tt txt={room} />
+      <Td name="BLOOD PRESSURE">
+        <Tt txt={bp} />
       </Td>
-      <Td name="CONDITION INFORMATION">
-        <Tt txt={condition} />
+      <Td name="PULSE RATE">
+        <Tt txt={pr} />
       </Td>
-      <Td name="RESPONSIBLE SPECIALIST">
-        <Tt txt={specialist} />
+      <Td name="TEMPERATURE">
+        <Tt txt={temp} />
       </Td>
-      <Td name="STATUS">
-        <Tt txt={status} />
-      </Td> */}
-      {/* <Td name="ACTIONS">
+      <Td name="BLOOD SUGAR">
+        <Tt txt={bs} />
+      </Td>
+      <Td name="BREATHING RATE">
+        <Tt txt={br} />
+      </Td>
+      <Td name="PULSE OXIMETER">
+        <Tt txt={po} />
+      </Td>
+      <Td name="ACTIONS">
         <span className=" flex gap-x-2  items-center text-4xl">
           <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
             <MdDelete />
           </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/dashboard/classes/edit/${id}`)}>
-            <FaEdit/>
-          </span>
         </span>
-      </Td> */}
+      </Td>
     </Tr>
     <ConfirmationModal
     text="ARE YOU SURE YOU WANT TO DELETE?" 

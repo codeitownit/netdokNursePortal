@@ -5,17 +5,15 @@ import { FaBell } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 
 function GlobalTopBar() {
-  // const [searchInput, setSearchInput] = useState('')
+  const username = localStorage.getItem("universalDoctorName")
   return (
     <div
       className=" w-full h-15 mb-8 text-2xl shadow-lg bg-primary bg-opacity-90 flex items-center rounded-full mx-auto"
       style={{ backdropFilter: "blur(8px)" }}
     >
-      <input
-        type="text"
-        className="w-2/12 h-10 mr-2 pl-5 m-5 rounded-full"
-        placeholder="Search"
-      />
+      <h1 className="mx-6 text-white font-bold">Hello, 
+        {/* {username} */}
+        </h1>
       {/* <TextInput
                 className="h-10 rounded-full p-3 mb-3 w-full"
                 placeholder="Search"

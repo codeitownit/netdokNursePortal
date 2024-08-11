@@ -7,6 +7,8 @@ import LabRequests from "./Btns2/LabRequests";
 import Medicine from "./Btns2/Medicine";
 import Consult from "./Btns2/Const";
 import NurseReports from "./Btns2/NurseReports";
+import JournalsBtn from "./Btns2/NurseJournals";
+import PatientDetails from "./Btns2/PatientDetails";
 
 function MobBar2() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,8 +30,10 @@ function MenuBtns() {
     return (
         <div className=" flex w-full flex-col gap-y-2 p-2">
             <Dashboard open={true}/>
+            <PatientDetails open={true}/>
             <Imaging open={true}/>
             <LabRequests open={true} />
+            <JournalsBtn open={true} />
             <Medicine open={true} />
             <Consult open={true} />
             <NurseReports open={true} />

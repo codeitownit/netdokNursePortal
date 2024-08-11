@@ -10,9 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../../Components/Modals/ConfirmationModal";
+import { patientId } from "../../../../../../../Components/globals";
 
 
-function Rows({ id = "", date="", weight = "", height = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", docId="", date="", weight = "", height = "", condition="", specialist="", status="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -74,7 +75,7 @@ function Rows({ id = "", date="", weight = "", height = "", condition="", specia
           <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
             <MdDelete />
           </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/dashboard/classes/edit/${id}`)}>
+          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/viewPatient/${patientId}/nurseReports/edit/${docId}`)}>
             <FaEdit/>
           </span>
         </span>

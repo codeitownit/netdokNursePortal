@@ -1,32 +1,33 @@
+
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
-import Rows from "./section/Rows";
+import Rows from "../sections/Rows";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ListNurseReports() {
-  
+
+function ProgressList() {
   const navigate = useNavigate();
 
 
-  const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
-  const docName = localStorage.getItem("universalDoctorName")
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
+    const queryString = localStorage.getItem("universalPatientId")
+    const doctorId = localStorage.getItem("primeDoctorUserId")
     try {
       const res = await request({
         method: "GET",
-        url: "patientJournal",
+        url: 'patientJournal',
         body: {},
         params: queryParams,
         auth: false,
@@ -50,7 +51,7 @@ function ListNurseReports() {
     fetchData();
   }, [pageNumber]);
 
-  
+
   const [t, setT] = useState("");
 
   async function toNext() {
@@ -75,14 +76,7 @@ function ListNurseReports() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-      {/* <h1>Welcome, {user.email}</h1> */}
-      {/* <button onClick={handleLogout}>Logout</button> */}
-        <h1 className={headers}>Nurse Reports</h1>
-        <p>View Patient Nurse Reports</p>
-        <AddEdit
-          text="+ Add Nurse Report"
-          onClick={() => navigate(`/viewPatient/:id/nurseReports/add`)}
-        />
+        <h1 className={headers}>Previous Progress Journals</h1>
       </div>
       <Table
         mt={2}
@@ -99,13 +93,9 @@ function ListNurseReports() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="DATE" />
-          <Tht txt="WEIGHT" />
-          <Tht txt="HEIGHT" />
-          <Tht txt="CURRENT STATE" />
-          <Tht txt="NUTRITIONAL STATE" />
-          <Tht txt="RESPONSIBLE SPECIALIST" />
-          <Tht txt="ACTIONS" />
+          <Tht txt="DATE ADDED" />
+          <Tht txt="JOURNAL TYPE" />
+          <Tht txt="DIAGNOSIS" />
         </Thead>
         <Tbody>
           {data
@@ -115,17 +105,26 @@ function ListNurseReports() {
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              console.log(doc);
-              if (doc?.type === 'admissionReport' && doc?.createdByName === docName) {
+              let s;
+              if (doc.type.includes("nurseMidwives") && doc.createdByName === "Jonathan Kilonzo"){
+                console.log(doc);
+
+                if(doc.type.includes("Operation")){
+                    s = "operation"
+                } else if(doc.type.includes("Telephone")){
+                    s = "telephone"
+                } else if(doc.type.includes("Progress")) {
+                    s = "progress"
+                }  else {
+                    s = "admission"
+                } 
               return (
                 <Rows
                   key={doc?.id || index}
+                  id={doc?.documentId || ""}
                   date={doc?.date || ""}
-                  weight={doc?.weight || ""}
-                  height={doc?.height || ""}
-                  condition={doc?.currentState || ""}
-                  status={doc?.nutritionalState || ""}
-                  specialist={doc?.doctorName || ""}
+                  specialist={ s || ""}
+                  condition={doc?.progressDiagnosis || ""}
                   fetchData={fetchData}
                 />
               );}
@@ -136,4 +135,4 @@ function ListNurseReports() {
   );
 }
 
-export default ListNurseReports;
+export default ProgressList;

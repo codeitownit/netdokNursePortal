@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker"; // Import react-datepicker
 import "react-datepicker/dist/react-datepicker.css"; // Import styles
 import Input from "./Input";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import inputClass from "./input.style";
-import { transforms } from "./Utils/transform.js";
 import useValidation from "./useValidation";
 
-const DateInput = ({
-  input = { dateInput: "" },
+const TimeInput = ({
+  input = { timeInput: "" },
   setInput = () => {},
   stateInput = "",
   setStateInput = () => {},
-  field = "dateInput",
-  placeholder = "dd/mm/yyyy",
-  label = "Date Input",
+  field = "timeInput",
+  placeholder = "hh:mm AM/PM",
+  label = "Time Input",
   showLabel = true,
   validate = 0,
   setValidation = () => {},
   disabled = false,
   required = true,
-  pattern = /^\d{2}\/\d{2}\/\d{4}$/, // Date pattern (dd/mm/yyyy)
-  errorMessage = "Invalid date format",
+  pattern = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]\s?(AM|PM)$/, // Time pattern (hh:mm AM/PM)
+  errorMessage = "Invalid time format",
   directInput = false,
   blurValidation = true,
   initialValidation = true,
@@ -33,7 +31,7 @@ const DateInput = ({
   type = "text",
 }) => {
   const [error, setError] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null); // State for the selected date
+  const [selectedTime, setSelectedTime] = useState(""); // State for the selected time
 
   const { validationError } = useValidation({
     input,
@@ -78,42 +76,43 @@ const DateInput = ({
     }
   }
 
-  function handleChange(date) {
-    setSelectedDate(date); // Update selected date
-    const formattedDate = date ? formatDate(date) : ""; // Format date as needed
+  function handleClick() {
+    const currentTime = formatCurrentTime(); // Get the current time formatted
+    setSelectedTime(currentTime); // Update selected time
     if (directInput) {
-      setStateInput(formattedDate);
+      setStateInput(currentTime);
     } else {
       setInput((prevState) => ({
         ...prevState,
-        [field]: formattedDate,
+        [field]: currentTime,
       }));
     }
-    validateInput(formattedDate);
+    validateInput(currentTime);
   }
 
-  // Function to format date as "dd/mm/yyyy"
-  function formatDate(date) {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+  // Function to format current time as "hh:mm AM/PM"
+  function formatCurrentTime() {
+    const date = new Date();
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // The hour '0' should be '12'
+    return `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
   }
 
   return (
     <Input mt={mt} mb={mb}>
       <InputLabel label={label} showLabel={showLabel} />
-      <DatePicker
-        selected={selectedDate} // Set the selected date
-        onChange={handleChange} // Handle date change
+      <input
+        type="text"
+        value={selectedTime} // Set the selected time
+        onClick={handleClick} // Handle click event to auto-fill current time
         onBlur={handleBlur} // Handle blur event
-        dateFormat="dd/MM/yyyy" // Specify the date format
-        placeholderText={placeholder} // Set the placeholder text
+        placeholder={placeholder} // Set the placeholder text
         className={`w-full ${error ? inputClass.error : inputClass.base} ${ex}`}
         disabled={disabled}
-        showMonthDropdown // Show month dropdown
-        showYearDropdown // Show year dropdown
-        dropdownMode="select" // Dropdown mode
+        readOnly // Make input read-only to prevent manual editing
         autoComplete="off" // Disable autocomplete
       />
       <InputError
@@ -125,4 +124,4 @@ const DateInput = ({
   );
 };
 
-export default DateInput;
+export default TimeInput;
