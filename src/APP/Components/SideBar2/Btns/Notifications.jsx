@@ -11,7 +11,7 @@ function Notifications({ open = false }) {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (location?.pathname?.includes("/classes")) {
+    if (location?.pathname?.includes("/notifications")) {
       setActive(true);
       return;
     }
@@ -20,7 +20,7 @@ function Notifications({ open = false }) {
 
   return (
     <BtnTemplate
-      onClick={() => navigate("/dashboard/classes")}
+      onClick={() => navigate("/dashboard/notifications")}
       active={active}
       Icon={<IoIosNotifications />}
       txt="Notifications"
