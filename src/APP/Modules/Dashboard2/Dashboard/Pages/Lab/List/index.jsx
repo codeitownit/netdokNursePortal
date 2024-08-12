@@ -5,6 +5,7 @@ import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { patientId } from "../../../../../../Components/globals";
 
 function LabList() {
   const [data, setData] = useState([]);
@@ -14,14 +15,14 @@ function LabList() {
 
   const navigate = useNavigate();
   const request = useaxios();
-  const pId = localStorage.getItem("patientId")
+  // const pId = localStorage.getItem("universalPatientId")
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
     try {
       const res = await request({
         method: "GET",
-        url: `lab/labsWhere/${pId}`,
+        url: `lab/labsWhere/${patientId}`,
         body: {},
         params: queryParams,
         auth: false,

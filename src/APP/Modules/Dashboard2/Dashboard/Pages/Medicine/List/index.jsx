@@ -5,6 +5,7 @@ import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { useNavigate } from "react-router-dom";
+import { patientId } from "../../../../../../Components/globals";
 
 function ListMed(text="View Previous Prescriptions") {
  
@@ -15,7 +16,7 @@ function ListMed(text="View Previous Prescriptions") {
 
   const request = useaxios();
   const navigate = useNavigate();
-  const pId = localStorage.getItem("patientId")
+  // const pId = localStorage.getItem("universalPatientId")
 
   // function handlePrevPres(){
   //   navigate(`/viewPatient/${pId}/medicine/previousPrescriptions`)
@@ -28,7 +29,7 @@ function ListMed(text="View Previous Prescriptions") {
     try {
       const res = await request({
         method: "GET",
-        url: `prescriptions/prescriptionsWhere/userUid/${pId}`,
+        url: `prescriptions/prescriptionsWhere/userUid/${patientId}`,
         body: {},
         params: queryParams,
         auth: true,
