@@ -5,7 +5,7 @@ import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { useNavigate } from "react-router-dom";
-
+import { patientId } from "../../../../../../Components/globals";
 function PrevPrescriptions() {
  
   const [data, setData] = useState([]);
@@ -14,8 +14,6 @@ function PrevPrescriptions() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
-  const pId = localStorage.getItem("patientId")
-
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
@@ -25,7 +23,7 @@ function PrevPrescriptions() {
     try {
       const res = await request({
         method: "GET",
-        url: `prescriptions/prescriptionsWhere/userUid/${pId}`,
+        url: `prescriptions/prescriptionsWhere/userUid/${patientId}`,
         body: {},
         params: queryParams,
         auth: true,

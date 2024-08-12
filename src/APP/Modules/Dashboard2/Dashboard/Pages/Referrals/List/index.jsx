@@ -3,6 +3,7 @@ import Rows from "../sections/Rows";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
+import { patientId } from "../../../../../../Components/globals";
 
 
 function ListRefer() {
@@ -18,13 +19,12 @@ function ListRefer() {
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
-    const pId = localStorage.getItem("patientId")
 
 
     try {
       const res = await request({
         method: "GET",
-        url: `referrals/referralsWhere/${pId}`,
+        url: `referrals/referralsWhere/${patientId}`,
         body: {},
         params: queryParams,
         auth: true,
