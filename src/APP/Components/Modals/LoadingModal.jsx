@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import Modal from "./BasicModal";
-import logo from '../../Assets/BgimageLanding/exhibit-logo-landing.png';
+import logo from '../../Assets/BgimageLanding/exhibit-logo-landing.jpeg';
 
 const LoadingModal = ({ showModal, loadingText = "... Loading" }) => {
   return (
