@@ -134,7 +134,7 @@ function AddFluid() {
             <div className="personal-data p-2 rounded d-flex flex-col flex-grow-1">
             <TextInput
         label="Surname"
-        directInput={false}
+        directInput={true}
         required={false}
         stateInput={pName}
         setStateInput={setSurname}

@@ -17,11 +17,13 @@ function ListMed(text="View Previous Prescriptions") {
   const navigate = useNavigate();
   const pId = localStorage.getItem("patientId")
 
-
+  // function handlePrevPres(){
+  //   navigate(`/viewPatient/${pId}/medicine/previousPrescriptions`)
+  // }
+  
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
-
 
     try {
       const res = await request({
@@ -76,7 +78,7 @@ function ListMed(text="View Previous Prescriptions") {
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
         <h1 className={headers}>Current Prescription</h1>
-        <AddEdit text={text} onClick={navigate(`/viewPatient/${pId}/medicine/previousPrescriptions`)}/>
+        {/* <AddEdit text={text} onClick={handlePrevPres}/> */}
       </div>
       <Table
         mt={2}

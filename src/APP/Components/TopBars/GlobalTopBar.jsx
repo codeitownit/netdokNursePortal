@@ -12,7 +12,7 @@ function GlobalTopBar() {
       style={{ backdropFilter: "blur(8px)" }}
     >
       <h1 className="mx-6 text-white font-bold">Hello, 
-        {/* {username} */}
+        {username}
         </h1>
       {/* <TextInput
                 className="h-10 rounded-full p-3 mb-3 w-full"
