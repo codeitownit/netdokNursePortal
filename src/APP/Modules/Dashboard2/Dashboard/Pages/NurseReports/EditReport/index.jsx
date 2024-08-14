@@ -173,7 +173,7 @@ function EditNurseReport({ text = "Edit Nurse Report" }) {
     console.log(formData);
 
     const res = await request({
-      method: "POST",
+      method: "PUT",
       url: "patientJournal",
       data: formData,
       auth: true,

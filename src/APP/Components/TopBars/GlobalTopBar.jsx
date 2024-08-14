@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { IoMdSettings } from "react-icons/io";
 import { FaBell } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function GlobalTopBar() {
   const username = localStorage.getItem("universalDoctorName")
+  const navigate = useNavigate()
   return (
     <div
       className=" w-full h-15 mb-8 text-2xl shadow-lg bg-primary bg-opacity-90 flex items-center rounded-full mx-auto"
@@ -24,7 +26,7 @@ function GlobalTopBar() {
       <div className="flex ml-auto items-center">
         <FaBell className="text-2xl text-slate-100 mb-2 mr-5" />
         <IoMdSettings className="text-2xl text-slate-100 mb-2 mr-5" />
-        <FaUserCircle className="text-5xl text-slate-100 mb-2 mr-2" />
+        <FaUserCircle className="text-5xl text-slate-100 mb-2 mr-2 hover:cursor-pointer" onClick={()=>navigate("/dashboard/profile")}/>
       </div>
     </div>
   );

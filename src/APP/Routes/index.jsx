@@ -56,6 +56,9 @@ import ListVitals from "../Modules/Dashboard2/Dashboard/Pages/Vitals/ListVitals"
 import AddCorrespondence from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/Add";
 import Correspondence from "../Modules/Dashboard2/Dashboard/Pages/Correspondence";
 
+import Profile from "../Modules/Dashboard/Pages/UserProfile";
+import ViewProfile from "../Modules/Dashboard/Pages/UserProfile/View";
+
 import ProtectedRoute from "./PrivateRoute";
 
 function AllRoutes() {
@@ -125,6 +128,9 @@ function AllRoutes() {
           <Route index element={<DashPage />} />
           <Route path="transfer" element={<Transfer />}>
             <Route index element={<ListTransfer />} />
+          </Route>
+          <Route path="profile" element={<Profile />}>
+            <Route index element={<ViewProfile />} />
           </Route>
           <Route path="calendar" element={<CalendarContainer />}>
             <Route index element={<CalendarList />} />

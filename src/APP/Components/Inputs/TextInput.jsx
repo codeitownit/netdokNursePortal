@@ -18,6 +18,7 @@ const TextInput = ({
   validate = 0,
   setValidation = () => {},
   disabled = false,
+  readOnly = false,
   required = true,
   pattern = null,
   errorMessage = "Min no of characters",
@@ -124,7 +125,7 @@ const TextInput = ({
         onChange={(e) => handleChange(e.target.value)}
         onBlur={handleBlur}
         disabled={disabled}
-        readOnly={true}
+        readOnly={readOnly}
         type={type}
       />
       <InputError

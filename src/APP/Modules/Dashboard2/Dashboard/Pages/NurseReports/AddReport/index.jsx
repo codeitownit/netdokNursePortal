@@ -53,29 +53,6 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
   const navigate = useNavigate();
   const request = useaxios();
 
-
-  // useEffect(() => {
-  //   async function fetchMember() {
-  //     try {
-  //       const res = await request({
-  //         method: "GET",
-  //         url: "member",
-
-  //         auth: false,
-  //       });
-
-  //       // Check if the response is not an error
-  //       if (res !== "error") {
-  //         setMembers(res.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   }
-
-  //   fetchMember();
-  // }, []);
-
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -171,14 +148,8 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
           setStateInput={setTime}
         />
       </div>
-
-      <TextArea
-        label="Nutritional State"
-        directInput={true}
-        required={false}
-        stateInput={nutritionalState}
-        setStateInput={setNutritionalState}
-      />
+      <h3 className="text-xl font-bold mt-6 mb-4">Bedside Test</h3>
+      <div className="">
       <TextArea
         label="CRP Rapid Test"
         directInput={true}
@@ -186,13 +157,15 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={crp}
         setStateInput={setCrp}
       />
-      <TextInput
-        label="Urinalysis Bedside Test"
+      <TextArea
+        label="Urinalysis Test"
         directInput={true}
         required={false}
         stateInput={fluid}
         setStateInput={setFluid}
       />
+</div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <TextInput
         label="p-glucose"
         directInput={true}
@@ -207,7 +180,7 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={oxygen}
         setStateInput={setOxygen}
       />
-
+      </div>
       <h3 className="text-xl font-bold mt-6 mb-4">Vital Parameters</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <TextInput
@@ -260,7 +233,7 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
           setStateInput={setBloodSugar}
         />
       </div>
-
+      <h3 className="text-xl font-bold mt-6 mb-4">Fluids And Losses</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
         <TextInput
           label="Drinks (ml)"
@@ -305,9 +278,17 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
           setStateInput={setStoma}
         />
       </div>
-
+      <h3 className="text-xl font-bold mt-6 mb-4">Status</h3>
+      <div className="">
       <TextArea
-        label="Current State"
+        label="Nutritional State"
+        directInput={true}
+        required={false}
+        stateInput={nutritionalState}
+        setStateInput={setNutritionalState}
+      />
+      <TextArea
+        label="Current Clinical State"
         directInput={true}
         required={false}
         stateInput={currentState}
@@ -328,6 +309,7 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
         stateInput={diet}
         setStateInput={setDiet}
       />
+      </div>
     </div>
   
           </div>
