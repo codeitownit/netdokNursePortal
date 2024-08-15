@@ -7,7 +7,6 @@ import Dashboard from "../Modules/Dashboard";
 import Discharge from "../Modules/Dashboard/Pages/Discharge";
 import ListDischarge from "../Modules/Dashboard/Pages/Discharge/List";
 import AddDischarge from "../Modules/Dashboard/Pages/Discharge/Add";
-import EditDischarge from "../Modules/Dashboard/Pages/Discharge/Edit";
 
 import DashPage from "../Modules/Dashboard/Pages/DashPage";
 import Dashboard2 from "../Modules/Dashboard2/Dashboard";
@@ -138,7 +137,7 @@ function AllRoutes() {
           <Route path="discharged" element={<Discharge />}>
             <Route index element={<ListDischarge />} />
             {/* <Route path="add" element={<AddDischarge />} /> */}
-            <Route path="edit/:id" element={<EditDischarge />} />
+            {/* <Route path="edit/:id" element={<EditDischarge />} /> */}
           </Route>
           <Route path="*" element={<NotFound />} />
           </Route>

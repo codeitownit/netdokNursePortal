@@ -6,88 +6,131 @@ import useaxios from "../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../../../../Components/Inputs/TextInput";
-import { SelectInput, TextArea } from "../../../../../Components/Inputs";
+import { TextArea } from "../../../../../Components/Inputs";
+import DateInput from "../../../../../Components/Inputs/DateInput";
+import TimeInput from "../../../../../Components/Inputs/TimeInput";
+import 'react-datepicker/dist/react-datepicker.css';
+import {  hospitalId,
+  doctorEmail, 
+  doctorId, 
+  pName, 
+  patientId, 
+  doctorName, 
+  doctorPhone } from "../../../../../Components/globals";
 
 // eslint-disable-next-line react/prop-types
-function AddDischarge({ text = "" }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [streams, setStreams] = useState([]);
-  const [members, setMembers] = useState([]);
-  const [streamId, setStreamId] = useState(1);
-  const [memberId, setMemberId] = useState(1);
-  const [createdId, setCreatedId] = useState(1);
+function AddDischarge({ text = "Discharge Patient" }) {
+  const [admissionDate, setAdmissionDate] = useState('');
+  const [time, setTime] = useState('');
+  const [nutritionalState, setNutritionalState] = useState('');
+  const [crp, setCrp] = useState('');
+  const [fluid, setFluid] = useState('');
+  const [pGlucose, setPGlucose] = useState('');
+  const [oxygen, setOxygen] = useState('');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [temp, setTemp] = useState('');
+  const [pulse, setPulse] = useState('');
+  const [bp, setBp] = useState('');
+  const [pulseOximeter, setPulseOximeter] = useState('');
+  const [bloodSugar, setBloodSugar] = useState('');
+  const [drinks, setDrinks] = useState('');
+  const [urine, setUrine] = useState('');
+  const [iv, setIv] = useState('');
+  const [vomiting, setVomiting] = useState('');
+  const [drainage, setDrainage] = useState('');
+  const [stoma, setStoma] = useState('');
+  const [currentState, setCurrentState] = useState('');
+  const [feaces, setFeaces] = useState('');
+  const [diet, setDiet] = useState('');
+
+  // const handleDateChange = (event) => {
+  //   setAdmissionDate(event.target.value);
+  // };
 
   const navigate = useNavigate();
   const request = useaxios();
 
-  useEffect(() => {
-    async function fetchStream() {
-      try {
-        const res = await request({
-          method: "GET",
-          url: "streams",
 
-          auth: false,
-        });
+  // useEffect(() => {
+  //   async function fetchMember() {
+  //     try {
+  //       const res = await request({
+  //         method: "GET",
+  //         url: "member",
 
-        // Check if the response is not an error
-        if (res !== "error") {
-          setStreams(res.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
+  //         auth: false,
+  //       });
 
-    fetchStream();
-  }, []);
+  //       // Check if the response is not an error
+  //       if (res !== "error") {
+  //         setMembers(res.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   }
 
-  useEffect(() => {
-    async function fetchMember() {
-      try {
-        const res = await request({
-          method: "GET",
-          url: "member",
-
-          auth: false,
-        });
-
-        // Check if the response is not an error
-        if (res !== "error") {
-          setMembers(res.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchMember();
-  }, []);
+  //   fetchMember();
+  // }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     const formData = {
-      name: name.textInput.toLowerCase(),
-      description: description.toLowerCase(),
-      stream_id: parseInt(streamId),
-      member_id: parseInt(memberId),
-      created_by_member: 3,
+      date: admissionDate,
+      time: time.toLowerCase(),
+      // document: documentId,
+      condiiton: nutritionalState,
+      fluid: fluid,
+      history: crp,
+      pglucose: pGlucose,
+      oxygen: oxygen,
+      currentState: currentState,
+      feaces: feaces,
+      diet: diet,
+      drinks: drinks,
+      urine: urine,
+      iv: iv,
+      stoma: stoma,
+      vomiting: vomiting,
+      drainage: drainage,
+      type: "admissionReport",
+      doctorEmail: doctorEmail,
+      doctorName: doctorName,
+      doctorPhone: doctorPhone,
+      docId: doctorId,
+      fromVideoCall: false,
+      patient: patientId,
+      patientName: pName,
+      // userGender: userGender.toLowerCase(),
+      // userWeight: userWeight,
+      createdByName: doctorName,
+      createdBy: doctorId,
+      createdByEmail: doctorEmail,
+      train: false,
+      predictive: false,
+      status: "active",
+      statusCode: 0,
+      hospitalId: hospitalId,
+      // timestamp: firebase.firestore.FieldValue.serverTimestamp()
+
     };
 
     console.log(formData);
 
     const res = await request({
       method: "POST",
-      url: "classes",
+      url: "patientJournal",
       data: formData,
-      auth: false,
+      auth: true,
     });
 
     console.log(res);
 
     if (res !== "error") {
-      navigate(`/dashboard/classes`);
+      console.log(formData)
+      // navigate(`/viewPatient/:id/nurseReports`);
       return;
     }
   }
@@ -96,111 +139,89 @@ function AddDischarge({ text = "" }) {
       <div className="">
         <form className={outerDiv} type="submit" onSubmit={handleSubmit}>
           <div className=" flex flex-row justify-between items-center">
-            {/* <h1 className={headers}>Add Class</h1> */}
-            {/* <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" /> */}
+            <h1 className={headers}>Add Nurse Report</h1>
+            <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
           </div>
           <div className={divStyle}>
-            <TextInput
-              label="Class Name"
-              value={name.textInput}
-              setInput={setName}
-              directInput={false}
-              input={name}
-            />
+          <div className="p-6 bg-white rounded-md shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="cal-icon">
+      <DateInput
+        label="Discharge Date"
+        directInput={true}
+        required={false}
+        stateInput={admissionDate}
+        setStateInput={setAdmissionDate}
+      />
+    </div>
+        <TimeInput
+          label="Discharge Time"
+          directInput={true}
+          required={false}
+          stateInput={time}
+          setStateInput={setTime} 
+        />
+      </div>
 
-            <TextInput
-              label="Description"
-              directInput={true}
-              required={false}
-              stateInput={description}
-              setStateInput={setDescription}
-            />
-
-            {/* <input
-              className=""
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-            /> */}
-            {/* <label htmlFor="stream_id">Streams:</label> */}
-            {/* <select
-              id="stream_id"
-              name="stream_id"
-              value={streamId}
-              onChange={(e) => setStreamId(parseInt(e.target.value))}
-            >
-              <option value="" className={headers}>
-                Select a stream
-              </option>
-              {streams.map((stream) => (
-                <option key={stream.id} value={stream.id}>
-                  {stream.name}
-                </option>
-              ))}
-            </select> */}
-            <SelectInput
-              directInput={true}
-              required={false}
-              stateInput={streamId}
-              setStateInput={setStreamId}
-              label="Streams"
-            >
-              <option disabled={true} value={""}>
-                Select Strean
-              </option>
-              {streams.map((stream) => (
-                <option key={stream.id} value={stream.id}>
-                  {stream.name}
-                </option>
-              ))}
-            </SelectInput>
-            {/* <label htmlFor="member_id">Members:</label>
-            <select
-              id="member_id"
-              name="member_id"
-              value={memberId}
-              onChange={(e) => setMemberId(parseInt(e.target.value))}
-            >
-              <option value="" className={headers}>
-                Select a member
-              </option>
-              {members.map((member) => (
-                <option key={member.id} value={member.id}>
-                  {member.name}
-                </option>
-              ))}
-            </select> */}
-            <SelectInput
-              directInput={true}
-              stateInput={memberId}
-              setStateInput={setMemberId}
-              label="Class Teacher"
-            >
-              {/* <option>Select Class Teacher</option> */}
-              {members.map((member) => (
-                <option key={member.id} value={member.id}>
-                  {member.name}
-                </option>
-              ))}
-            </SelectInput>
-            {/* <label htmlFor="member_id" className=" mt-2">
-              Created by:
-            </label>
-            <select
-              id="created_id"
-              name="created_id"
-              value={createdId}
-              onChange={(e) => {
-                setCreatedId(parseInt(e.target.value));
-              }}
-            >
-              {members.map((member) => (
-                <option key={member.id} value={member.id}>
-                  {member.name}
-                </option>
-              ))}
-            </select> */}
+      <TextArea
+        label="Condition At Admission"
+        directInput={true}
+        required={false}
+        stateInput={nutritionalState}
+        setStateInput={setNutritionalState}
+      />
+      <TextArea
+        label="History of Prevailing Condition"
+        directInput={true}
+        required={false}
+        stateInput={crp}
+        setStateInput={setCrp}
+      />
+      <TextArea
+        label="Progress"
+        directInput={true}
+        required={false}
+        stateInput={fluid}
+        setStateInput={setFluid}
+      />
+      <TextArea
+        label="Report of Management"
+        directInput={true}
+        required={false}
+        stateInput={pGlucose}
+        setStateInput={setPGlucose}
+      />
+      <TextArea
+        label="Discharge Plan"
+        directInput={true}
+        required={false}
+        stateInput={oxygen}
+        setStateInput={setOxygen}
+      />
+      <TextArea
+        label="Prescription on Discharge"
+        directInput={true}
+        required={false}
+        stateInput={currentState}
+        setStateInput={setCurrentState}
+      />
+      <TextArea
+      className="w-10"
+        label="Follow up plan"
+        directInput={true}
+        required={false}
+        stateInput={feaces}
+        setStateInput={setFeaces}
+      />
+      <TextArea
+        label="Final Diagnosis"
+        directInput={true}
+        required={false}
+        stateInput={diet}
+        setStateInput={setDiet}
+      />
+    </div>
+  
           </div>
         </form>
       </div>

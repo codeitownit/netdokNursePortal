@@ -83,16 +83,9 @@ function AddDischarge({ text = "Add Nurse Report" }) {
       date: admissionDate,
       time: time.toLowerCase(),
       // document: documentId,
-      weight: weight,
-      height: height,
-      temperature: temp,
-      pulseRate: pulse,
-      bloodPressure: bp,
-      pulseOximeter: pulseOximeter,
-      bloodSugar: bloodSugar,
-      nutritionalState: nutritionalState,
+      condiiton: nutritionalState,
       fluid: fluid,
-      crp: crp,
+      history: crp,
       pglucose: pGlucose,
       oxygen: oxygen,
       currentState: currentState,
@@ -156,7 +149,7 @@ function AddDischarge({ text = "Add Nurse Report" }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="cal-icon">
       <DateInput
-        label="Date"
+        label="Discharge Date"
         directInput={true}
         required={false}
         stateInput={admissionDate}
@@ -164,7 +157,7 @@ function AddDischarge({ text = "Add Nurse Report" }) {
       />
     </div>
         <TimeInput
-          label="Time"
+          label="Discharge Time"
           directInput={true}
           required={false}
           stateInput={time}
@@ -173,141 +166,42 @@ function AddDischarge({ text = "Add Nurse Report" }) {
       </div>
 
       <TextArea
-        label="Nutritional State"
+        label="Condition At Admission"
         directInput={true}
         required={false}
         stateInput={nutritionalState}
         setStateInput={setNutritionalState}
       />
       <TextArea
-        label="CRP Rapid Test"
+        label="History of Prevailing Condition"
         directInput={true}
         required={false}
         stateInput={crp}
         setStateInput={setCrp}
       />
-      <TextInput
-        label="Urinalysis Bedside Test"
+      <TextArea
+        label="Progress"
         directInput={true}
         required={false}
         stateInput={fluid}
         setStateInput={setFluid}
       />
-      <TextInput
-        label="p-glucose"
+      <TextArea
+        label="Report of Management"
         directInput={true}
         required={false}
         stateInput={pGlucose}
         setStateInput={setPGlucose}
       />
-      <TextInput
-        label="Oxygen Saturation"
+      <TextArea
+        label="Discharge Plan"
         directInput={true}
         required={false}
         stateInput={oxygen}
         setStateInput={setOxygen}
       />
-
-      <h3 className="text-xl font-bold mt-6 mb-4">Vital Parameters</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <TextInput
-          label="Weight (Kg)"
-          directInput={true}
-          required={true}
-          stateInput={weight}
-          setStateInput={setWeight}
-        />
-        <TextInput
-          label="Height (cm)"
-          directInput={true}
-          required={true}
-          stateInput={height}
-          setStateInput={setHeight}
-        />
-        <TextInput
-          label="Temp (°C)"
-          directInput={true}
-          required={false}
-          stateInput={temp}
-          setStateInput={setTemp}
-        />
-        <TextInput
-          label="Pulse Rate (bpm)"
-          directInput={true}
-          required={false}
-          stateInput={pulse}
-          setStateInput={setPulse}
-        />
-        <TextInput
-          label="Blood Pressure (mm Hg)"
-          directInput={true}
-          required={false}
-          stateInput={bp}
-          setStateInput={setBp}
-        />
-        <TextInput
-          label="Pulse Oximeter (%)"
-          directInput={true}
-          required={false}
-          stateInput={pulseOximeter}
-          setStateInput={setPulseOximeter}
-        />
-        <TextInput
-          label="Blood Sugar (mmol/L)"
-          directInput={true}
-          required={false}
-          stateInput={bloodSugar}
-          setStateInput={setBloodSugar}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        <TextInput
-          label="Drinks (ml)"
-          directInput={true}
-          required={false}
-          stateInput={drinks}
-          setStateInput={setDrinks}
-        />
-        <TextInput
-          label="Urine (ml)"
-          directInput={true}
-          required={false}
-          stateInput={urine}
-          setStateInput={setUrine}
-        />
-        <TextInput
-          label="IV fluids/infusion (ml)"
-          directInput={true}
-          required={false}
-          stateInput={iv}
-          setStateInput={setIv}
-        />
-        <TextInput
-          label="Vomiting (ml)"
-          directInput={true}
-          required={false}
-          stateInput={vomiting}
-          setStateInput={setVomiting}
-        />
-        <TextInput
-          label="Drainage (ml)"
-          directInput={true}
-          required={false}
-          stateInput={drainage}
-          setStateInput={setDrainage}
-        />
-        <TextInput
-          label="Stoma (ml)"
-          directInput={true}
-          required={false}
-          stateInput={stoma}
-          setStateInput={setStoma}
-        />
-      </div>
-
       <TextArea
-        label="Current State"
+        label="Prescription on Discharge"
         directInput={true}
         required={false}
         stateInput={currentState}
@@ -315,14 +209,14 @@ function AddDischarge({ text = "Add Nurse Report" }) {
       />
       <TextArea
       className="w-10"
-        label="Feaces/Bowel Opening"
+        label="Follow up plan"
         directInput={true}
         required={false}
         stateInput={feaces}
         setStateInput={setFeaces}
       />
       <TextArea
-        label="Diet"
+        label="Final Diagnosis"
         directInput={true}
         required={false}
         stateInput={diet}

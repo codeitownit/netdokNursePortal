@@ -18,9 +18,19 @@ function AppProvider({ children }) {
   const [errorMessage, setErrorMessage] = useState("...Error");
   const [showErrorTimeout, setShowErrorTimeout] = useState(3000);
 
+  const login = (userData) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+  }
+
   return (
     <AppContext.Provider
       value={{
+        login,
+        logout,
         user,
         setUser,
         userPermission,

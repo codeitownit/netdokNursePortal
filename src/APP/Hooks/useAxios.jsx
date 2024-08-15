@@ -21,8 +21,6 @@ function useaxios() {
   } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const jwt = localStorage.getItem("serId")
-
 
   const request = async ({
     method = "GET",
@@ -36,7 +34,6 @@ function useaxios() {
   }) => {
     try {
       if (showLoader) {
-        setToken(jwt)
         setLoadingTxt(" ...Loading");
         setIsLoading(true);
       }

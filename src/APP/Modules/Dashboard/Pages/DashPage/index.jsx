@@ -3,25 +3,18 @@ import Rows from "./sections/Rows";
 import AddEdit from "../../../../Components/Buttons/Add-Edit";
 import { headers } from "./sections/style";
 import useaxios from "../../../../Hooks/useAxios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../../../../Provider/Context";
 
-// import { useSelector, useDispatch } from 'react-redux';
-// import { clearUser } from "../../../../Redux/Actions/AuthSlice";
-// import Cookies from 'js-cookie';
 
 function DashPage() {
-  // const user = useSelector((state) => state.auth.user);
-  // console.log(user)
-  // const dispatch = useDispatch();
+  const {user} = useContext(AppContext)
   const navigate = useNavigate();
-
-  // const handleLogout = () => {
-  //   Cookies.remove('token');
-  //   dispatch(clearUser());
-  //   navigate('/login');
-  // };
-
+// console.log(user)
+  // if (!user) {
+  //   navigate("/")
+  // }
 
   const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
@@ -76,6 +69,7 @@ function DashPage() {
       // Check if the response is not an error
       if (res !== "error") {
         console.log(res?.data.type);
+        // console.log(user.lastName)
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
