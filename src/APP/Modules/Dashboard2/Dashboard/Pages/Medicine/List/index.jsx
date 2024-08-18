@@ -32,12 +32,12 @@ function ListMed(text="View Previous Prescriptions") {
         url: `prescriptions/prescriptionsWhere/userUid/${patientId}`,
         body: {},
         params: queryParams,
-        auth: true,
+        auth: false,
       });
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data);
+        console.log(res);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);

@@ -116,7 +116,7 @@ function ListNurseReports() {
             })
             .map((doc, index) => {
               console.log(doc);
-              if (doc?.type === 'admissionReport' && doc?.createdByName === docName) {
+              if (doc?.type === 'admissionReport') {
               return (
                 <Rows
                   key={doc?.id || index}

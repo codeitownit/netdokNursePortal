@@ -8,7 +8,7 @@ import { useNavigate} from "react-router-dom";
 import TextInput from "../../../../../Components/Inputs/TextInput";
 import { TextArea } from "../../../../../Components/Inputs";
 import 'react-datepicker/dist/react-datepicker.css';
-import { doctorId } from "../../../../../Components/globals"; 
+import { doctorId } from "../../../../../Components/globals";
 
 // eslint-disable-next-line react/prop-types
 function ViewProfile({ text = "Edit Profile" }) {
@@ -35,11 +35,13 @@ function ViewProfile({ text = "Edit Profile" }) {
         const res = await request({
           method: "GET",
           url: `primeDoctor/userinfo/${doctorId}`,
-          auth: true,
+          auth: false,
         });
 
         // Check if the response is not an error
         if (res !== "error") {
+          console.log(res)
+
             res?.data.forEach((item)=>{
           setFirstName(item?.FirstName)
           setLastName(item?.lastName)
@@ -76,7 +78,7 @@ function ViewProfile({ text = "Edit Profile" }) {
       method: "PUT",
       url: `primeDoctor/${docDocumentId}`,
       data: formData,
-      auth: true,
+      auth: false,
     });
 
     console.log(res);

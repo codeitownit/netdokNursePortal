@@ -27,19 +27,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
   const [fluid, setFluid] = useState('');
   const [pGlucose, setPGlucose] = useState('');
   const [oxygen, setOxygen] = useState('');
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
-  const [temp, setTemp] = useState('');
-  const [pulse, setPulse] = useState('');
-  const [bp, setBp] = useState('');
-  const [pulseOximeter, setPulseOximeter] = useState('');
-  const [bloodSugar, setBloodSugar] = useState('');
-  const [drinks, setDrinks] = useState('');
-  const [urine, setUrine] = useState('');
-  const [iv, setIv] = useState('');
-  const [vomiting, setVomiting] = useState('');
-  const [drainage, setDrainage] = useState('');
-  const [stoma, setStoma] = useState('');
   const [currentState, setCurrentState] = useState('');
   const [feaces, setFeaces] = useState('');
   const [diet, setDiet] = useState('');
@@ -50,29 +37,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
 
   const navigate = useNavigate();
   const request = useaxios();
-
-
-  // useEffect(() => {
-  //   async function fetchMember() {
-  //     try {
-  //       const res = await request({
-  //         method: "GET",
-  //         url: "member",
-
-  //         auth: false,
-  //       });
-
-  //       // Check if the response is not an error
-  //       if (res !== "error") {
-  //         setMembers(res.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   }
-
-  //   fetchMember();
-  // }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -89,12 +53,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
       currentState: currentState,
       feaces: feaces,
       diet: diet,
-      drinks: drinks,
-      urine: urine,
-      iv: iv,
-      stoma: stoma,
-      vomiting: vomiting,
-      drainage: drainage,
       type: "admissionReport",
       doctorEmail: doctorEmail,
       doctorName: doctorName,

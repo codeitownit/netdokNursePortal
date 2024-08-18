@@ -6,6 +6,7 @@ import useaxios from "../../../../Hooks/useAxios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../../../../Provider/Context";
+import { doctorId } from "../../../../Components/globals";
 
 
 function DashPage() {
@@ -19,60 +20,63 @@ function DashPage() {
   const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
+  const [currentPageData, setCurrentPageData] = useState([]);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
+  const recordsPerPage = 10;
   const docName = localStorage.getItem("primeDoctorUserId")
 
-  const fData = async () => {
-    const docId = localStorage.getItem("primeDoctorUserId")
-    try {
-      const res = await request({
-        method: "GET",
-        url: `primeDoctor/userinfo/${docId}`,
-        body: {},
-        auth: true,
-      });
+  // const fData = async () => {
+  //   const docId = localStorage.getItem("primeDoctorUserId")
+  //   try {
+  //     const res = await request({
+  //       method: "GET",
+  //       url: `primeDoctor/userinfo/${docId}`,
+  //       body: {},
+  //       auth: true,
+  //     });
 
-      // Check if the response is not an error
-      if (res !== "error") {
-        console.log(res?.data);
-        res?.data.map((snap)=>{
-          console.log(snap);
-          localStorage.setItem("universalHospitalId", snap.hospitalId)
-          localStorage.setItem("universalHospitalId", snap.hospitalId)
-          localStorage.setItem("universalDoctorName", snap.FirstName + " " + snap.lastName)
-          localStorage.setItem("universalDoctorPhone", snap.phone)
+  //     // Check if the response is not an error
+  //     if (res !== "error") {
+  //       console.log(res?.data);
+  //       res?.data.map((snap)=>{
+  //         console.log(snap);
+  //         localStorage.setItem("universalHospitalId", snap.hospitalId)
+  //         localStorage.setItem("universalHospitalId", snap.hospitalId)
+  //         localStorage.setItem("universalDoctorName", snap.FirstName + " " + snap.lastName)
+  //         localStorage.setItem("universalDoctorPhone", snap.phone)
 
-        })
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  //       })
+  //       return true;
+  //     }
+  //     return false;
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
-  const fetchData = async (params = {}) => {
-    const { pageNumber = 1 } = params;
-    const queryParams = { pageNumber, limitNumber: 10 };
+  const fetchData = async () => {
     try {
       const res = await request({
         method: "GET",
         url: "patientJournal",
         body: {},
-        params: queryParams,
         auth: false,
       });
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.type);
+        console.log(res?.data);
         // console.log(user.lastName)
         setData(res?.data || []);
-        setHasNextPage(res?.pagination?.hasNextPage || false);
-        setHasPrevPage(res?.pagination?.hasPrevPage || false);
+         // Initialize pagination
+         const totalRecords = res?.data.length || 0;
+         setPage(1); // Reset to first page
+         setHasNextPage(totalRecords > recordsPerPage);
+         setHasPrevPage(false);
+         setCurrentPageData(res?.data.slice(0, recordsPerPage));
         return true;
       }
       return false;
@@ -80,18 +84,28 @@ function DashPage() {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
-    fData();
-  }, []);
+  // useEffect(() => {
+  //   fData();
+  // }, []);
 
   useEffect(() => {
     fetchData();
-  }, [pageNumber]);
+  }, []);
+
+  useEffect(() => {
+    const startIdx = (pageNumber - 1) * recordsPerPage;
+    const endIdx = startIdx + recordsPerPage;
+    const pageData = data.slice(startIdx, endIdx);
+
+    setCurrentPageData(pageData);
+    setHasNextPage(endIdx < data.length);
+    setHasPrevPage(startIdx > 0);
+  }, [pageNumber, data]);
 
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.docId === docName) {
+      if (snap.type === 'admission' && snap.nurse === doctorId) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }
@@ -102,24 +116,18 @@ function DashPage() {
 
   const [t, setT] = useState("");
 
-  async function toNext() {
-    let res = await fetchData({
-      pageNumber: pageNumber + 1,
-    });
-    if (res) {
-      setPage((c) => c + 1);
+  const toNext = () => {
+    if (hasNextPage) {
+      setPage((prev) => prev + 1);
     }
-  }
+  };
 
-  async function toPrev() {
-    if (pageNumber - 1 <= 0) return;
-    let res = await fetchData({
-      pageNumber: pageNumber - 1,
-    });
-    if (res) {
-      setPage((c) => c - 1);
+  const toPrev = () => {
+    if (hasPrevPage) {
+      setPage((prev) => Math.max(prev - 1, 1));
     }
-  }
+  };
+
 
   return (
     <div className="w-full h-full">

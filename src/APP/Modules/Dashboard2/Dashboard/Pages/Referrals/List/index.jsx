@@ -27,7 +27,7 @@ function ListRefer() {
         url: `referrals/referralsWhere/${patientId}`,
         body: {},
         params: queryParams,
-        auth: true,
+        auth: false,
       });
 
       // Check if the response is not an error

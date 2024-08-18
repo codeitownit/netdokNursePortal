@@ -5,6 +5,7 @@ import { headers } from "../sections/style";
 import useaxios from "../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { doctorId } from "../../../../../Components/globals";
 
 function ListDischarge() {
   const [addedPatients, setAddedPatients] = useState(new Map());
@@ -13,7 +14,6 @@ function ListDischarge() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
-  const docName = localStorage.getItem("universalDoctorName")
 
 
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ function ListDischarge() {
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.createdByName === docName) {
+      if (snap.type === 'admission' && snap.nurse === doctorId) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }

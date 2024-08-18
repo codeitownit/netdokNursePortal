@@ -59,6 +59,7 @@ import Profile from "../Modules/Dashboard/Pages/UserProfile";
 import ViewProfile from "../Modules/Dashboard/Pages/UserProfile/View";
 
 import ProtectedRoute from "./PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 
 function AllRoutes() {
   const [status, setStatus] = useState(false);
@@ -77,6 +78,7 @@ function AllRoutes() {
       <Routes>
         <Route path="/" element={<Login />} />
         {/* <Route path="/login" element={<Login />} /> */}
+        {/* <Route element={<PrivateRoute />}> */}
         <Route path="/viewPatient/:id" element={<Dashboard2 />}>
           <Route index element={<DashPage2 />} />
           <Route path="labRequests" element={<Lab />}>
@@ -141,6 +143,7 @@ function AllRoutes() {
           </Route>
           <Route path="*" element={<NotFound />} />
           </Route>
+          {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );
