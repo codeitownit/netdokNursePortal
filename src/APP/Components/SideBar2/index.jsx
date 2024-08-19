@@ -6,6 +6,7 @@ import Discharged from "./Btns/Discharged";
 import Transferred from "./Btns/Transferred";
 import Notifications from "./Btns/Notifications";
 import Calendar from "./Btns/Calendar";
+import Wards from "./Btns/Wards";
 import Logout from "./Btns/Logout";
 
 function SideBar() {
@@ -20,6 +21,7 @@ function SideBar() {
        <div className=" flex-1 flex flex-col gap-y-4 mt-4">
          <Dashboard open={open}/>
          <Chat open={open}/>
+         <Wards open={open} />
          <Discharged open={open}/>
          <Transferred open={open}/>
          <Calendar open={open}/> 
