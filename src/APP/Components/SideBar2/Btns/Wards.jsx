@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DropdownTemplate from "./DropdownTemplate";
-import { IoChatbubblesOutline } from "react-icons/io5";
+import { FaBed } from "react-icons/fa";
 import useaxios from "../../../Hooks/useAxios";
 import { hospitalId } from "../../globals";
 
@@ -58,7 +58,7 @@ window.onload= function () {
   return (
     <DropdownTemplate
       active={active}
-      Icon={<IoChatbubblesOutline />}
+      Icon={<FaBed />}
       txt="Wards"
       open={open}
       dropdownItems={data}
