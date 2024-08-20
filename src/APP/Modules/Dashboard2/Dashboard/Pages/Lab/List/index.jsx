@@ -74,7 +74,7 @@ function LabList() {
         <h1 className={headers}>Lab List</h1>
         {/* <AddEdit
           text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+          onClick={() => navigate(`/dashboard/c/add`)}
         /> */}
       </div>
       <Table

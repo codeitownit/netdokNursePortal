@@ -102,7 +102,7 @@ function EditDischarge({ text = "Edit Class" }) {
       try {
         const res = await request({
           method: "PUT",
-          url: "classes",
+          url: "c",
           params: {
             id,
           },
@@ -111,7 +111,7 @@ function EditDischarge({ text = "Edit Class" }) {
         });
         // Check if the response is not an error
         if (res !== "error") {
-          navigate(`/dashboard/classes`);
+          navigate(`/dashboard/c`);
         }
         //console.log("success");
       } catch (error) {

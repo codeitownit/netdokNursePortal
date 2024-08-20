@@ -23,7 +23,7 @@ function Rows({ id = "", classLevel="", subject = "", room = "", condition="", s
     try {
       const res = await request({
         method: "DELETE",
-        url: "classes",
+        url: "",
         data: {},
         params:{
           id: id
@@ -34,7 +34,7 @@ function Rows({ id = "", classLevel="", subject = "", room = "", condition="", s
 
       // Check if the response is not an error
       if (res !== "error") {
-        navigate(`/dashboard/classes`)
+        navigate(`/dashboard`)
         setShowDeleteModal(false);
         toast.success("Deleted successfully");
       }
@@ -73,7 +73,7 @@ function Rows({ id = "", classLevel="", subject = "", room = "", condition="", s
           <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
             <MdDelete />
           </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/dashboard/classes/edit/${id}`)}>
+          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/dashboard/edit/${id}`)}>
             <FaEdit/>
           </span>
         </span>

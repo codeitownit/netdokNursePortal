@@ -88,7 +88,7 @@ function ListDischarge() {
         <h1 className={headers}>Discharged List</h1>
         {/* <AddEdit
           text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+          onClick={() => navigate(`/dashboard/add`)}
         /> */}
       </div>
       <Table

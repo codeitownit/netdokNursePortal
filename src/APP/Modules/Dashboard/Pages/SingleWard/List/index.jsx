@@ -89,7 +89,7 @@ function ListSingleWard() {
         <h1 className={headers}>Ward List</h1>
         {/* <AddEdit
           text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+          onClick={() => navigate(`/dashboard/add`)}
         /> */}
       </div>
       <Table

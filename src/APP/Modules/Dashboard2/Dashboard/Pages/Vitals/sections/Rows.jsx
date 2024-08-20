@@ -23,7 +23,7 @@ function Rows({ id = "", date="", weight = "", height = "", bp="", pr="", temp="
     try {
       const res = await request({
         method: "DELETE",
-        url: "classes",
+        url: "c",
         data: {},
         params:{
           id: id
@@ -34,7 +34,7 @@ function Rows({ id = "", date="", weight = "", height = "", bp="", pr="", temp="
 
       // Check if the response is not an error
       if (res !== "error") {
-        navigate(`/dashboard/classes`)
+        navigate(`/dashboard/c`)
         setShowDeleteModal(false);
         toast.success("Deleted successfully");
       }

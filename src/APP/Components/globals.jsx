@@ -7,6 +7,7 @@ const doctorName = localStorage.getItem("universalDoctorName");
 const doctorPhone = localStorage.getItem("universalDoctorPhone");
 const pWeight = localStorage.getItem("universalPatientWeight");
 const pDOB = localStorage.getItem("universalPatientDOB");
+const admDocId = localStorage.getItem("selectedPatientAdmDocId");
 
 const getCurrentDate = () => {
     const today = new Date();
@@ -29,4 +30,4 @@ const getCurrentDate = () => {
     return `${hours}:${minutesStr} ${ampm}`;
   }
 
-export {hospitalId, doctorEmail, doctorId, pName, patientId, doctorName, doctorPhone, pWeight, pDOB, getCurrentDate, formatTime}
+export {hospitalId, doctorEmail, doctorId, pName, patientId, doctorName, doctorPhone, pWeight, pDOB, admDocId, getCurrentDate, formatTime}

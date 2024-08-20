@@ -16,7 +16,8 @@ import {  hospitalId,
   doctorId, 
   pName, 
   patientId, 
-  doctorName, 
+  doctorName,
+  admDocId, 
   doctorPhone } from "../../../../../Components/globals";
 
 function AddDischarge({ text = "Discharge Patient" }) {
@@ -58,7 +59,7 @@ function AddDischarge({ text = "Discharge Patient" }) {
   };
 
   const handleICD10Defined = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === ' ') {
       setProgressDiagnosis((prev) => `${prev}${e.target.value}\n`);
       setIcd10Code('');
     }
@@ -114,11 +115,26 @@ function AddDischarge({ text = "Discharge Patient" }) {
 
     if (res !== "error") {
       console.log(formData);
-      // navigate(`/viewPatient/:id/nurseReports`);
+      updateAdmDoc();
       return;
     }
   }
 
+  async function updateAdmDoc(){
+    const admData = {
+      admStatus: "discharged"
+    }
+    const res = await request({
+      method: "PUT",
+      url: `patientJournal/${admDocId}`,
+      data: admData,
+      auth: false,
+    });
+    if (res !== "error") {
+      navigate(`/dashboard`);
+      return;
+    }
+  }
   return (
     <div className={grayPanel()}>
       <div className="">

@@ -11,7 +11,7 @@ function FilterItems({
   setSelectedClass = () => {},
 }) {
   const request = useaxios();
-  const [classes, setClasses] = useState([]);
+  const [c, setClasses] = useState([]);
   useEffect(() => {
     getClasses();
   }, []);
@@ -19,7 +19,7 @@ function FilterItems({
   const getClasses = async () => {
     const res = await request({
       method: "GET",
-      url: "classes",
+      url: "c",
       params: {
         limit: 100000,
       },
@@ -42,7 +42,7 @@ function FilterItems({
         <option disabled value={""}>
           Select Class
         </option>
-        {classes.map((c, index) => {
+        {c.map((c, index) => {
           return (
             <option key={c?.id || index} value={c?.id?.toString()}>
               {c?.name || ""}

@@ -135,7 +135,7 @@ function DashPage() {
         <h1 className={headers}>Patients List</h1>
         {/* <AddEdit
           text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+          onClick={() => navigate(`/dashboard/add`)}
         /> */}
       </div>
       <Table
@@ -176,6 +176,7 @@ function DashPage() {
                 <Rows
                   key={doc?.patient || index}
                   doc={doc?.document || ""}
+                  document={doc?.documentId || ""}
                   date={doc?.admissionDate || ""}
                   id={doc?.patient || ""}
                   classLevel={doc?.patientName || ""}

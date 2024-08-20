@@ -79,7 +79,7 @@ function AddDischarge({ text = "" }) {
 
     const res = await request({
       method: "POST",
-      url: "classes",
+      url: "c",
       data: formData,
       auth: false,
     });
@@ -87,7 +87,7 @@ function AddDischarge({ text = "" }) {
     console.log(res);
 
     if (res !== "error") {
-      navigate(`/dashboard/classes`);
+      navigate(`/dashboard/c`);
       return;
     }
   }

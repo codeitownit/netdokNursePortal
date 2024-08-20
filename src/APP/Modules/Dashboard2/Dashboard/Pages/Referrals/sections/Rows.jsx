@@ -23,7 +23,7 @@ function Rows({ id = "", date="", clinician = "", address = "", clinic="", reaso
     try {
       const res = await request({
         method: "DELETE",
-        url: "classes",
+        url: "",
         data: {},
         params:{
           id: id
@@ -34,7 +34,7 @@ function Rows({ id = "", date="", clinician = "", address = "", clinic="", reaso
 
       // Check if the response is not an error
       if (res !== "error") {
-        navigate(`/dashboard/classes`)
+        navigate(`/dashboard/c`)
         setShowDeleteModal(false);
         toast.success("Deleted successfully");
       }

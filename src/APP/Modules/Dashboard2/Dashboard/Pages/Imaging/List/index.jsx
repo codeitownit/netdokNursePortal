@@ -81,7 +81,7 @@ function ImagingList() {
         <h1 className={headers}>Imaging Requests</h1>
         {/* <AddEdit
           text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+          onClick={() => navigate(`/dashboard/c/add`)}
         /> */}
       </div>
       <Table

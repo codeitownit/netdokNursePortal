@@ -92,7 +92,7 @@ function ListTransfer() {
         <h1 className={headers}>Patients List</h1>
         {/* <AddEdit
           text="+ Add Class"
-          onClick={() => navigate(`/dashboard/classes/add`)}
+          onClick={() => navigate(`/dashboard/add`)}
         /> */}
       </div>
       <Table
