@@ -107,7 +107,7 @@ function AddDischarge({ text = "Discharge Patient" }) {
       method: "POST",
       url: "patientJournal",
       data: formData,
-      auth: true,
+      auth: false,
     });
 
     console.log(res);
@@ -124,7 +124,7 @@ function AddDischarge({ text = "Discharge Patient" }) {
       <div className="">
         <form className={outerDiv} type="submit" onSubmit={handleSubmit}>
           <div className=" flex flex-row justify-between items-center">
-            <h1 className={headers}>Add Nurse Report</h1>
+            <h1 className={headers}>Discharge Report</h1>
             <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
           </div>
           <div className={divStyle}>
