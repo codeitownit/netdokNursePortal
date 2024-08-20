@@ -3,12 +3,13 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import grayPanel from "../../../../../Components/Container/Container";
 import { headers, divStyle, outerDiv } from "../sections/style";
 import useaxios from "../../../../../Hooks/useAxios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../../../../Components/Inputs/TextInput";
 import { TextArea } from "../../../../../Components/Inputs";
 import DateInput from "../../../../../Components/Inputs/DateInput";
 import TimeInput from "../../../../../Components/Inputs/TimeInput";
+import AppContext from "../../../../../Provider/Context";
 import 'react-datepicker/dist/react-datepicker.css';
 import {  hospitalId,
   doctorEmail, 
@@ -18,22 +19,51 @@ import {  hospitalId,
   doctorName, 
   doctorPhone } from "../../../../../Components/globals";
 
-// eslint-disable-next-line react/prop-types
 function AddDischarge({ text = "Discharge Patient" }) {
-  const [admissionDate, setAdmissionDate] = useState('');
+  const [dischargeDate, setDischargeDate] = useState('');
   const [time, setTime] = useState('');
-  const [nutritionalState, setNutritionalState] = useState('');
-  const [crp, setCrp] = useState('');
-  const [fluid, setFluid] = useState('');
-  const [pGlucose, setPGlucose] = useState('');
-  const [oxygen, setOxygen] = useState('');
-  const [currentState, setCurrentState] = useState('');
-  const [feaces, setFeaces] = useState('');
+  const [progressHistory, setProgressHistory] = useState('');
+  const [progress, setProgress] = useState('');
+  const [condition, setCondition] = useState('');
+  const [managementReport, setManagementReport] = useState('');
+  const [dischargePlan, setDischargePlan] = useState('');
+  const [dischargePrescription, setDischargePrescription] = useState('');
+  const [followUpPlan, setFollowUpPlan] = useState('');
   const [diet, setDiet] = useState('');
+  const [icd10Code, setIcd10Code] = useState('');
+  const [progressDiagnosis, setProgressDiagnosis] = useState('');
+  const icd10InputRef = useRef(null);
 
-  // const handleDateChange = (event) => {
-  //   setAdmissionDate(event.target.value);
-  // };
+  useEffect(() => {
+    const autocompleter = new window.Def.Autocompleter.Search(
+        'icd10', 
+        'https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name', 
+        {
+            tableFormat: false,
+            valueCols: [1],
+            colHeaders: ['Name'],
+            divTag: 'div',
+            divClass: 'autocomplete-suggestions',
+            zIndex: 9999,
+            position: 'absolute'
+        }
+    );
+
+    return () => {
+        autocompleter.destroy();
+    };
+  }, []);
+
+  const handleICD10Change = (e) => {
+    setIcd10Code(e.target.value);
+  };
+
+  const handleICD10Defined = (e) => {
+    if (e.key === 'Enter') {
+      setProgressDiagnosis((prev) => `${prev}${e.target.value}\n`);
+      setIcd10Code('');
+    }
+  };
 
   const navigate = useNavigate();
   const request = useaxios();
@@ -42,18 +72,19 @@ function AddDischarge({ text = "Discharge Patient" }) {
     e.preventDefault();
 
     const formData = {
-      date: admissionDate,
-      time: time.toLowerCase(),
-      // document: documentId,
-      condiiton: nutritionalState,
-      fluid: fluid,
-      history: crp,
-      pglucose: pGlucose,
-      oxygen: oxygen,
-      currentState: currentState,
-      feaces: feaces,
-      diet: diet,
-      type: "admissionReport",
+      // admissionDate: admissionDate.value,
+      dischargeDate: dischargeDate,
+      time:time,
+      // contact: contact.value,
+      progressHistory: progressHistory,
+      progress: progress,
+      condition: condition,
+      managementReport: managementReport,
+      dischargePlan: dischargePlan,
+      dischargePrescription: dischargePrescription,
+      followUpPlan: followUpPlan,
+      progressDiagnosis: progressDiagnosis,
+      type: "discharge",
       doctorEmail: doctorEmail,
       doctorName: doctorName,
       doctorPhone: doctorPhone,
@@ -61,8 +92,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
       fromVideoCall: false,
       patient: patientId,
       patientName: pName,
-      // userGender: userGender.toLowerCase(),
-      // userWeight: userWeight,
       createdByName: doctorName,
       createdBy: doctorId,
       createdByEmail: doctorEmail,
@@ -71,8 +100,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
       status: "active",
       statusCode: 0,
       hospitalId: hospitalId,
-      // timestamp: firebase.firestore.FieldValue.serverTimestamp()
-
     };
 
     console.log(formData);
@@ -87,11 +114,12 @@ function AddDischarge({ text = "Discharge Patient" }) {
     console.log(res);
 
     if (res !== "error") {
-      console.log(formData)
+      console.log(formData);
       // navigate(`/viewPatient/:id/nurseReports`);
       return;
     }
   }
+
   return (
     <div className={grayPanel()}>
       <div className="">
@@ -101,85 +129,101 @@ function AddDischarge({ text = "Discharge Patient" }) {
             <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
           </div>
           <div className={divStyle}>
-          <div className="p-6 bg-white rounded-md shadow-md">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="cal-icon">
-      <DateInput
-        label="Discharge Date"
-        directInput={true}
-        required={false}
-        stateInput={admissionDate}
-        setStateInput={setAdmissionDate}
-      />
-    </div>
-        <TimeInput
-          label="Discharge Time"
-          directInput={true}
-          required={false}
-          stateInput={time}
-          setStateInput={setTime} 
-        />
-      </div>
+            <div className="p-6 bg-white rounded-md shadow-md">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="cal-icon">
+                  <DateInput
+                    label="Discharge Date"
+                    directInput={true}
+                    required={false}
+                    stateInput={dischargeDate}
+                    setStateInput={setDischargeDate}
+                  />
+                </div>
+                <TimeInput
+                  label="Discharge Time"
+                  directInput={true}
+                  required={false}
+                  stateInput={time}
+                  setStateInput={setTime} 
+                />
+              </div>
 
-      <TextArea
-        label="Condition At Admission"
-        directInput={true}
-        required={false}
-        stateInput={nutritionalState}
-        setStateInput={setNutritionalState}
-      />
-      <TextArea
-        label="History of Prevailing Condition"
-        directInput={true}
-        required={false}
-        stateInput={crp}
-        setStateInput={setCrp}
-      />
-      <TextArea
-        label="Progress"
-        directInput={true}
-        required={false}
-        stateInput={fluid}
-        setStateInput={setFluid}
-      />
-      <TextArea
-        label="Report of Management"
-        directInput={true}
-        required={false}
-        stateInput={pGlucose}
-        setStateInput={setPGlucose}
-      />
-      <TextArea
-        label="Discharge Plan"
-        directInput={true}
-        required={false}
-        stateInput={oxygen}
-        setStateInput={setOxygen}
-      />
-      <TextArea
-        label="Prescription on Discharge"
-        directInput={true}
-        required={false}
-        stateInput={currentState}
-        setStateInput={setCurrentState}
-      />
-      <TextArea
-      className="w-10"
-        label="Follow up plan"
-        directInput={true}
-        required={false}
-        stateInput={feaces}
-        setStateInput={setFeaces}
-      />
-      <TextArea
-        label="Final Diagnosis"
-        directInput={true}
-        required={false}
-        stateInput={diet}
-        setStateInput={setDiet}
-      />
-    </div>
-  
+              <TextArea
+                label="Condition At Admission"
+                directInput={true}
+                required={false}
+                stateInput={condition}
+                setStateInput={setCondition}
+              />
+              <TextArea
+                label="History of Prevailing Condition"
+                directInput={true}
+                required={false}
+                stateInput={progressHistory}
+                setStateInput={setProgressHistory}
+              />
+              <TextArea
+                label="Progress"
+                directInput={true}
+                required={false}
+                stateInput={progress}
+                setStateInput={setProgress}
+              />
+              <TextArea
+                label="Report of Management"
+                directInput={true}
+                required={false}
+                stateInput={managementReport}
+                setStateInput={setManagementReport}
+              />
+              <TextArea
+                label="Discharge Plan"
+                directInput={true}
+                required={false}
+                stateInput={dischargePlan}
+                setStateInput={setDischargePlan}
+              />
+              <TextArea
+                label="Prescription on Discharge"
+                directInput={true}
+                required={false}
+                stateInput={dischargePrescription}
+                setStateInput={setDischargePrescription}
+              />
+              <TextArea
+                className="w-10"
+                label="Follow up plan"
+                directInput={true}
+                required={false}
+                stateInput={followUpPlan}
+                setStateInput={setFollowUpPlan}
+              />
+              <div className="col-sm-12">
+                <div className="form-group">
+                  <label>Working Diagnosis</label>
+                  <input
+                    type="text"
+                    id="icd10"
+                    ref={icd10InputRef}
+                    value={icd10Code}
+                    onChange={handleICD10Change}
+                    onKeyDown={handleICD10Defined} // Trigger on Enter key press
+                    placeholder="ICD10 Code"
+                    className="border-2 rounded-lg py-2 px-4 mb-8 w-full"
+                  />
+                  <textarea
+                    className="border-2 rounded-lg py-2 px-4 mb-8 w-full"
+                    id="progressDiagnosis"
+                    name="Text1"
+                    cols="20"
+                    rows="6"
+                    value={progressDiagnosis} // Reflect the updated progress diagnosis
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>

@@ -28,7 +28,7 @@ function useaxios() {
     headers = {},
     data = {},
     params = {},
-    auth = true, //remember to set it to true post development
+    auth = false, //remember to set it to true post development
     showLoader = true,
     showError = true,
   }) => {
