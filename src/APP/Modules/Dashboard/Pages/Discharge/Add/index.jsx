@@ -29,7 +29,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
   const [dischargePlan, setDischargePlan] = useState('');
   const [dischargePrescription, setDischargePrescription] = useState('');
   const [followUpPlan, setFollowUpPlan] = useState('');
-  const [diet, setDiet] = useState('');
   const [icd10Code, setIcd10Code] = useState('');
   const [progressDiagnosis, setProgressDiagnosis] = useState('');
   const icd10InputRef = useRef(null);
