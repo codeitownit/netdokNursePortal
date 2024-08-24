@@ -26,7 +26,7 @@ let dropdownItems = [];
         console.log(res?.data.type);
         res?.data.map((item)=>{
             item.wards.map((ward)=>{
-              if(ward.department === nurseDepartment){
+              if(ward.department === "Oncology"){
                 console.log(ward.wardName)
                 const id = ward.wardName
                 const q = {label:ward.wardName, onClick: () => navigate(`/dashboard/wards/view/${id}`)}
