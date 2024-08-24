@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import DropdownTemplate from "./DropdownTemplate";
 import { FaBed } from "react-icons/fa";
 import useaxios from "../../../Hooks/useAxios";
-import { hospitalId } from "../../globals";
 
 function Wards({ open = false }) {
   const location = useLocation();
@@ -11,6 +10,7 @@ function Wards({ open = false }) {
   const [active, setActive] = useState(false);
   const [data, setData] = useState(null);
   const request = useaxios()
+  const nurseDepartment = localStorage.getItem("nurseDepartment")
 let dropdownItems = [];
   const fetchData = async () => {
     try {
@@ -26,13 +26,14 @@ let dropdownItems = [];
         console.log(res?.data.type);
         res?.data.map((item)=>{
             item.wards.map((ward)=>{
+              if(ward.department === nurseDepartment){
                 console.log(ward.wardName)
                 const id = ward.wardName
                 const q = {label:ward.wardName, onClick: () => navigate(`/dashboard/wards/view/${id}`)}
                 dropdownItems.push(q)
                 setData(dropdownItems)
                 console.log(data)
-                
+              }
             })
         })
         return true;

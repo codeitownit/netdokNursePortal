@@ -3,9 +3,7 @@ import Rows from "../sections/Rows";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
-
-
-function ListRefer() {
+function PrevPrescriptions() {
  
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
@@ -15,18 +13,12 @@ function ListRefer() {
 
   const request = useaxios();
 
-
-  const fetchData = async (params = {}) => {
-    const { pageNumber = 1 } = params;
-    const queryParams = { pageNumber, limitNumber: 10 };
-
-
+  const fetchData = async () => {
     try {
       const res = await request({
         method: "GET",
-        url: `referrals/referralsWhere/${patientId}`,
+        url: `prescriptions/previousPrescriptionsWhere/userUid/${patientId}`,
         body: {},
-        params: queryParams,
         auth: false,
       });
 
@@ -34,8 +26,6 @@ function ListRefer() {
       if (res !== "error") {
         console.log(res?.data);
         setData(res?.data || []);
-        setHasNextPage(res?.pagination?.hasNextPage || false);
-        setHasPrevPage(res?.pagination?.hasPrevPage || false);
         return true;
       }
       return false;
@@ -51,29 +41,11 @@ function ListRefer() {
 
   const [t, setT] = useState("");
 
-  async function toNext() {
-    let res = await fetchData({
-      pageNumber: pageNumber + 1,
-    });
-    if (res) {
-      setPage((c) => c + 1);
-    }
-  }
-
-  async function toPrev() {
-    if (pageNumber - 1 <= 0) return;
-    let res = await fetchData({
-      pageNumber: pageNumber - 1,
-    });
-    if (res) {
-      setPage((c) => c - 1);
-    }
-  }
 
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Refferals List</h1>
+        <h1 className={headers}>Previous Prescription</h1>
       </div>
       <Table
         mt={2}
@@ -83,20 +55,15 @@ function ListRefer() {
         showSearch={true}
         hasPrevPage={hasPrevPage}
         page={pageNumber}
-        prevClick={toPrev}
-        nextClick={toNext}
         search={t}
         setSearch={setT}
         showFilter={false}
       >
         <Thead>
           <Tht txt="DATE" />
-          <Tht txt="NAME OF CLINICIAN" />
-          <Tht txt="CLINIC" />
-          <Tht txt="ADDRESS" />
-          <Tht txt="REASONS FOR REFERRAL " />
-          <Tht txt="CLINICAL NOTES" />
-          <Tht txt="ACTIONS" />
+          <Tht txt="MEDICINE" />
+          <Tht txt="DOSE" />
+          <Tht txt="INDICATION" />
         </Thead>
         <Tbody>
           {data
@@ -107,18 +74,18 @@ function ListRefer() {
             })
             .map((doc, index) => {
               console.log(doc);
+              // if(!doc?.medStatus || doc?.medStatus === "current"){
               return (
                 <Rows
                   key={doc?.id || index}
-                  date={doc?.createdDate || ""}
-                  clinician={doc?.clinician_name || ""}
-                  clinic={doc?.Clinic || ""}
-                  address={doc?.Address || ""}
-                  reason={doc?.reasonsForRefferal || ""}
-                  notes={doc?.Clinicalnotes || ""}
+                  date={doc?.date || ""}
+                  name={doc?.medName || ""}
+                  dose={doc?.medDose || ""}
+                  condition={doc?.condition || ""}
                   fetchData={fetchData}
                 />
               );
+            // }
             })}
         </Tbody>
       </Table>
@@ -126,4 +93,4 @@ function ListRefer() {
   );
 }
 
-export default ListRefer;
+export default PrevPrescriptions;

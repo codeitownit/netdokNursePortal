@@ -6,7 +6,7 @@ import useaxios from "../../../../Hooks/useAxios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../../../../Provider/Context";
-import { doctorId } from "../../../../Components/globals";
+import { getCurrentDate } from "../../../../Components/globals";
 
 
 function DashPage() {
@@ -27,6 +27,7 @@ function DashPage() {
   const request = useaxios();
   const recordsPerPage = 10;
   const docName = localStorage.getItem("primeDoctorUserId")
+  const doctorId = localStorage.getItem("primeDoctorUserId");
 
   // const fData = async () => {
   //   const docId = localStorage.getItem("primeDoctorUserId")
@@ -92,6 +93,7 @@ function DashPage() {
     fetchData();
   }, []);
 
+  
   useEffect(() => {
     const startIdx = (pageNumber - 1) * recordsPerPage;
     const endIdx = startIdx + recordsPerPage;
@@ -194,5 +196,4 @@ function DashPage() {
     </div>
   );
 }
-
 export default DashPage;

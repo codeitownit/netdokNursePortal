@@ -8,7 +8,6 @@ import { useNavigate} from "react-router-dom";
 import TextInput from "../../../../../Components/Inputs/TextInput";
 import { TextArea } from "../../../../../Components/Inputs";
 import 'react-datepicker/dist/react-datepicker.css';
-import { doctorId } from "../../../../../Components/globals";
 
 // eslint-disable-next-line react/prop-types
 function ViewProfile({ text = "Edit Profile" }) {
@@ -20,6 +19,7 @@ function ViewProfile({ text = "Edit Profile" }) {
   const [bio, setBio] = useState('');
   const [docDocumentId, setDocDocumentId] = useState('')
  
+  const doctorId = localStorage.getItem("primeDoctorUserId");
 
   // const handleDateChange = (event) => {
   //   setAdmissionDate(event.target.value);

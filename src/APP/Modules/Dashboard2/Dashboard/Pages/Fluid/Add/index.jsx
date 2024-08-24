@@ -9,15 +9,7 @@ import TextInput from "../../../../../../Components/Inputs/TextInput";
 import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { 
-  hospitalId,
-  doctorEmail, 
-  doctorId, 
-  pName, 
-  pWeight,
-  pDOB,
-  patientId
-} from "../../../../../../Components/globals";
+
 
 // eslint-disable-next-line react/prop-types
 function AddFluid() {
@@ -30,7 +22,10 @@ function AddFluid() {
   const[instructions, setInstructions] = useState("")
   const request = useaxios()
   const navigate = useNavigate()
-
+  const hospitalId = localStorage.getItem("universalHospitalId")
+  const pName = localStorage.getItem("universalPatientName");
+  const pWeight = localStorage.getItem("universalPatientWeight");
+  const pDOB = localStorage.getItem("universalPatientDOB");
 
   const columns = ['Oral', 'Enternal', 'IV', 'Other', 'Total in'];
   const columnsOut = ['Oral', 'Enternal', 'IV', 'Other', 'Total Out', 'Fluid Balance'];

@@ -131,7 +131,9 @@ function DashPage2() {
           <AddEdit text="Discharge Journal"
           onClick={() =>navigate(`/viewPatient/${pId}/discharge`)}
           />
-          <AddEdit text="Admission Treatment Module"/>
+          <AddEdit text="Admission Treatment Module"
+          onClick={() =>navigate(`/viewPatient/${pId}/admissionTreatment`)}
+            />
           <AddEdit text="Correspondence" 
           onClick={() =>navigate(`/viewPatient/${pId}/correspondence`)}
           />

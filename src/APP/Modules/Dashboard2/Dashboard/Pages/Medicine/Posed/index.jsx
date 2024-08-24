@@ -4,8 +4,7 @@ import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 
-
-function ListRefer() {
+function PosedPrescriptions() {
  
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
@@ -15,16 +14,14 @@ function ListRefer() {
 
   const request = useaxios();
 
-
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
 
-
     try {
       const res = await request({
         method: "GET",
-        url: `referrals/referralsWhere/${patientId}`,
+        url: `prescriptions/prescriptionsWhere/userUid/${patientId}`,
         body: {},
         params: queryParams,
         auth: false,
@@ -32,7 +29,7 @@ function ListRefer() {
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data);
+        console.log(res.data);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -73,7 +70,7 @@ function ListRefer() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Refferals List</h1>
+        <h1 className={headers}>Posed Prescription</h1>
       </div>
       <Table
         mt={2}
@@ -90,13 +87,10 @@ function ListRefer() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="DATE" />
-          <Tht txt="NAME OF CLINICIAN" />
-          <Tht txt="CLINIC" />
-          <Tht txt="ADDRESS" />
-          <Tht txt="REASONS FOR REFERRAL " />
-          <Tht txt="CLINICAL NOTES" />
-          <Tht txt="ACTIONS" />
+          <Tht txt="MEDICINE NAME" />
+          <Tht txt="FORMULATION" />
+          <Tht txt="DOSE" />
+          <Tht txt="QUANTITY " />
         </Thead>
         <Tbody>
           {data
@@ -106,19 +100,18 @@ function ListRefer() {
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              console.log(doc);
+              console.log(doc.medStatus);
+              if(doc?.medStatus && doc?.medStatus === "posed"){
               return (
                 <Rows
                   key={doc?.id || index}
-                  date={doc?.createdDate || ""}
-                  clinician={doc?.clinician_name || ""}
-                  clinic={doc?.Clinic || ""}
-                  address={doc?.Address || ""}
-                  reason={doc?.reasonsForRefferal || ""}
-                  notes={doc?.Clinicalnotes || ""}
+                  name={doc?.medName || ""}
+                  form={doc?.medForm || ""}
+                  dose={doc?.medDose || ""}
+                  quantity={doc?.medQty || ""}
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>
@@ -126,4 +119,4 @@ function ListRefer() {
   );
 }
 
-export default ListRefer;
+export default PosedPrescriptions;

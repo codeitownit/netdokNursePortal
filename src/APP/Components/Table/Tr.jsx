@@ -40,7 +40,9 @@ const Tr = ({ children }) => {
     );
   }
 
-  return <tr className=" odd:bg-table-odd even:bg-table-even">{children}</tr>;
+  return <tr 
+  // className=" odd:bg-table-odd even:bg-table-even"
+  >{children}</tr>;
 };
 
 export default Tr;

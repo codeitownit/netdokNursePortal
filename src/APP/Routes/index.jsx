@@ -44,7 +44,8 @@ import ListRefer from "../Modules/Dashboard2/Dashboard/Pages/Referrals/List";
 
 import Med from "../Modules/Dashboard2/Dashboard/Pages/Medicine";
 import ListMed from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List";
-import PrevPrescriptions from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List/previousPrescriptions";
+import PosedPrescriptions from "../Modules/Dashboard2/Dashboard/Pages/Medicine/Posed";
+import PrevPrescriptions from "../Modules/Dashboard2/Dashboard/Pages/Medicine/PreviousList";
 
 import Fluid from "../Modules/Dashboard2/Dashboard/Pages/Fluid";
 import AddFluid from "../Modules/Dashboard2/Dashboard/Pages/Fluid/Add";
@@ -60,6 +61,15 @@ import ViewProfile from "../Modules/Dashboard/Pages/UserProfile/View";
 
 import SingleWard from "../Modules/Dashboard/Pages/SingleWard";
 import ListSingleWard from "../Modules/Dashboard/Pages/SingleWard/List";
+
+import AdmissionTreatment from "../Modules/Dashboard2/Dashboard/Pages/ATM";
+import ATMList from "../Modules/Dashboard2/Dashboard/Pages/ATM/List";
+
+import Notification from "../Modules/Dashboard/Pages/Notifications";
+import ListNotifications from "../Modules/Dashboard/Pages/Notifications/List";
+
+// import ChatBox from "../Modules/Dashboard/Pages/Chat";
+// import ChatCard from "../Modules/Dashboard/Pages/Chat/View";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -85,6 +95,9 @@ function AllRoutes() {
           <Route index element={<DashPage2 />} />
           <Route path="labRequests" element={<Lab />}>
             <Route index element={<LabList />} />
+          </Route>
+          <Route path="admissionTreatment" element={<AdmissionTreatment />}>
+            <Route index element={<ATMList />} />
           </Route>
           <Route path="imaging" element={<ImagingReq />}>
             <Route index element={<ImagingList />} />
@@ -116,8 +129,9 @@ function AllRoutes() {
             <Route index element={<ListRefer />} />
           </Route>
           <Route path="medicine" element={<Med />}>
-            <Route index element={<ListMed />} />
-            <Route path="previousPrescriptions" element={<PrevPrescriptions />}/>
+            <Route path="current" index element={<ListMed />} />
+            <Route path="posed" element={<PosedPrescriptions />}/>
+            <Route path="previous" element={<PrevPrescriptions />}/>
           </Route>
           <Route path="nurseReports" element={<NurseReports />}>
             <Route index element={<ListNurseReports />} />
@@ -140,6 +154,12 @@ function AllRoutes() {
           </Route>
           <Route path="calendar" element={<CalendarContainer />}>
             <Route index element={<CalendarList />} />
+          </Route>
+          {/* <Route path="chat" element={<ChatBox />}>
+            <Route index element={<ChatCard />} />
+          </Route> */}
+          <Route path="notifications" element={<Notification />}>
+            <Route index element={<ListNotifications />} />
           </Route>
           <Route path="discharged" element={<Discharge />}>
             <Route index element={<ListDischarge />} />

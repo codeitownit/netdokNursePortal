@@ -5,7 +5,6 @@ import { headers } from "../sections/style";
 import useaxios from "../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { doctorId } from "../../../../../Components/globals";
 
 function ListDischarge() {
   const [addedPatients, setAddedPatients] = useState(new Map());
@@ -13,6 +12,7 @@ function ListDischarge() {
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const doctorId = localStorage.getItem("primeDoctorUserId");
 
 
 

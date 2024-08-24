@@ -12,9 +12,9 @@ import Logout from "./Btns/Logout";
 function SideBar() {
  
 
-    const [open,setOpen]=useState(false)
+    const [open,setOpen]=useState(true)
 
-    return (<div className=" hidden h-full md:flex flex-col gap-x-4 px-2 bg-white shadow-lg bg-#0E2F59">
+    return (<div className=" hidden h-full md:flex flex-col gap-x-4 px-2 bg-white shadow-lg bg-#0E2F59 overflow-scroll">
        <div>
        <Logo open={open} setOpen={setOpen}/>
        </div>
@@ -27,7 +27,7 @@ function SideBar() {
          <Calendar open={open}/> 
          <Notifications open={open}/> 
         </div>
-       <span style={{width:"100%",height:"0.1em", backgroundColor:"rgba(255,255,255,0.4)" }}/>
+       <span style={{width:"100%",height:"0.1em" }}/>
        <div className=" py-4 flex flex-col gap-y-2">
        <Logout open={open}/>
        </div>

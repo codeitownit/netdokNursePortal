@@ -9,6 +9,7 @@ const pWeight = localStorage.getItem("universalPatientWeight");
 const pDOB = localStorage.getItem("universalPatientDOB");
 const admDocId = localStorage.getItem("selectedPatientAdmDocId");
 
+
 const getCurrentDate = () => {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');

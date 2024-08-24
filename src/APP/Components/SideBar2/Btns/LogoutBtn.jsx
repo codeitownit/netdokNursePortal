@@ -7,7 +7,7 @@ function LogoutBtnTemplate({Icon=<></>,txt="",active=true,open=false,onClick=()=
     w-full flex items-center gap-x-2  cursor-pointer active:opacity-50 ${open ? ' rounded-2xl px-1 py-1':''}
     `}
      style={{
-    backgroundColor:open?'#D9D9D9':'transparent',
+    backgroundColor:'transparent',
      }}
      onClick={onClick}
     >

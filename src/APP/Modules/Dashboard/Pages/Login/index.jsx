@@ -46,6 +46,8 @@ function Login() {
           localStorage.setItem("universalHospitalId", item?.hospitalId)
           localStorage.setItem("universalDoctorName", item?.FirstName + " " + item?.lastName)
           localStorage.setItem("universalDoctorPhone", item?.phone)
+          localStorage.setItem("nurseDepartment", item?.department)
+          localStorage.setItem("hospitalID", item?.hospitalID)
           authItem.login(item);
           authItem.setToken(userCredentials.access);
           // if (item?.docType && item?.docType === "nurse") {

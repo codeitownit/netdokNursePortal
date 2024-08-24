@@ -11,14 +11,7 @@ import DateInput from "../../../../../Components/Inputs/DateInput";
 import TimeInput from "../../../../../Components/Inputs/TimeInput";
 import AppContext from "../../../../../Provider/Context";
 import 'react-datepicker/dist/react-datepicker.css';
-import {  hospitalId,
-  doctorEmail, 
-  doctorId, 
-  pName, 
-  patientId, 
-  doctorName,
-  admDocId, 
-  doctorPhone } from "../../../../../Components/globals";
+
 
 function AddDischarge({ text = "Discharge Patient" }) {
   const [dischargeDate, setDischargeDate] = useState('');
@@ -33,6 +26,14 @@ function AddDischarge({ text = "Discharge Patient" }) {
   const [icd10Code, setIcd10Code] = useState('');
   const [progressDiagnosis, setProgressDiagnosis] = useState('');
   const icd10InputRef = useRef(null);
+  const hospitalId = localStorage.getItem("universalHospitalId")
+  const doctorEmail = localStorage.getItem("primeDoctorUserEmail")
+  const doctorId = localStorage.getItem("primeDoctorUserId");
+  const pName = localStorage.getItem("universalPatientName");
+  const patientId = localStorage.getItem("universalPatientId");
+  const doctorName = localStorage.getItem("universalDoctorName");
+  const doctorPhone = localStorage.getItem("universalDoctorPhone");
+  const admDocId = localStorage.getItem("selectedPatientAdmDocId");
 
   useEffect(() => {
     const autocompleter = new window.Def.Autocompleter.Search(

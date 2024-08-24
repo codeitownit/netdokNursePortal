@@ -4,8 +4,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
-        'quicksand': ['"Quicksand"', 'sans-serif'],
+        satoshi: ['Satoshi', 'sans-serif'],
+        // 'poppins': ['Poppins', 'sans-serif'],
+        // 'quicksand': ['"Quicksand"', 'sans-serif'],
       },
       
       backgroundColor: {

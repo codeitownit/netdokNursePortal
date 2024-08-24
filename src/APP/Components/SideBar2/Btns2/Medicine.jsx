@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import BtnTemplate from "./BtnTemplate";
+import DropdownTemplate from "../Btns/DropdownTemplate";
 
 import { GiMedicines } from "react-icons/gi";
 
@@ -9,9 +10,7 @@ function Medicine({ open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
-  const id = localStorage.getItem("universalPatientId")
-
-  //console.log(location)
+  const patientId = localStorage.getItem("universalPatientId")
 
   useEffect(() => {
     if (location?.pathname?.includes("/medicine")) {
@@ -21,13 +20,19 @@ function Medicine({ open = false }) {
     setActive(false);
   }, [location]);
 
+  const dropdownItems = [
+    { label: "Current Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/current`)},
+    { label: "Posed Medicine", onClick: () => navigate(`/viewPatient/${patientId}/medicine/posed`) },
+    { label: "Settings", onClick: () => navigate(`/viewPatient/${patientId}/medicine/previous`) }
+  ];
+
   return (
-    <BtnTemplate
-      onClick={() => navigate(`/viewPatient/${id}/medicine`)}
+    <DropdownTemplate
       active={active}
       Icon={<GiMedicines />}
       txt="Medicine"
       open={open}
+      dropdownItems={dropdownItems}
     />
   );
 }

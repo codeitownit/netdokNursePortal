@@ -1,13 +1,17 @@
+
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
 import Rows from "../sections/Rows";
-import { headers } from "../sections/style";
-import useaxios from "../../../../../../Hooks/useAxios";
-import { useEffect, useState } from "react";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
+import { headers } from "../sections/style";
+import useaxios from "../../../../../../Hooks/axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { patientId } from "../../../../../../Components/globals";
-function PrevPrescriptions() {
- 
+
+
+function ATMList() {
+  const navigate = useNavigate();
+
+
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -15,26 +19,21 @@ function PrevPrescriptions() {
 
   const request = useaxios();
 
-  const fetchData = async (params = {}) => {
-    const { pageNumber = 1 } = params;
-    const queryParams = { pageNumber, limitNumber: 10 };
-
-
+  const fetchData = async () => {
+    const queryString = localStorage.getItem("universalPatientId")
+    const doctorId = localStorage.getItem("primeDoctorUserId")
     try {
       const res = await request({
         method: "GET",
-        url: `prescriptions/prescriptionsWhere/userUid/${patientId}`,
+        url: `drugSchedule/${queryString}`,
         body: {},
-        params: queryParams,
-        auth: true,
+        auth: false,
       });
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data);
+        console.log(res?.data.type);
         setData(res?.data || []);
-        setHasNextPage(res?.pagination?.hasNextPage || false);
-        setHasPrevPage(res?.pagination?.hasPrevPage || false);
         return true;
       }
       return false;
@@ -45,34 +44,21 @@ function PrevPrescriptions() {
 
   useEffect(() => {
     fetchData();
-  }, [pageNumber]);
+  }, []);
 
 
   const [t, setT] = useState("");
 
-  async function toNext() {
-    let res = await fetchData({
-      pageNumber: pageNumber + 1,
-    });
-    if (res) {
-      setPage((c) => c + 1);
-    }
-  }
-
-  async function toPrev() {
-    if (pageNumber - 1 <= 0) return;
-    let res = await fetchData({
-      pageNumber: pageNumber - 1,
-    });
-    if (res) {
-      setPage((c) => c - 1);
-    }
-  }
-
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Previous Prescription</h1>
+      {/* <h1>Welcome, {user.email}</h1> */}
+      {/* <button onClick={handleLogout}>Logout</button> */}
+        <h1 className={headers}>Imaging Requests</h1>
+        {/* <AddEdit
+          text="+ Add Class"
+          onClick={() => navigate(`/dashboard/c/add`)}
+        /> */}
       </div>
       <Table
         mt={2}
@@ -82,17 +68,17 @@ function PrevPrescriptions() {
         showSearch={true}
         hasPrevPage={hasPrevPage}
         page={pageNumber}
-        prevClick={toPrev}
-        nextClick={toNext}
         search={t}
         setSearch={setT}
         showFilter={false}
       >
         <Thead>
           <Tht txt="MEDICINE NAME" />
-          <Tht txt="FORMULATION" />
+          <Tht txt="ADMINISTRATION" />
+          <Tht txt="INDICATION" />
           <Tht txt="DOSE" />
-          <Tht txt="QUANTITY " />
+          <Tht txt="DATE CREATED" />
+          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
           {data
@@ -103,17 +89,19 @@ function PrevPrescriptions() {
             })
             .map((doc, index) => {
               console.log(doc);
-              if(!doc?.medStatus || doc?.medStatus === "current"){
+              
               return (
                 <Rows
                   key={doc?.id || index}
-                  name={doc?.medName || ""}
-                  form={doc?.medForm || ""}
-                  dose={doc?.medDose || ""}
-                  quantity={doc?.medQty || ""}
+                  docId={doc?.documentId || ""}
+                  medname={doc?.medicineName || ""}
+                  type={doc?.admnistrationType || ""}
+                  indication={doc?.indication || ""}
+                  dose={doc?.dose || ""}
+                  date={doc?.createdDate || ""}
                   fetchData={fetchData}
                 />
-              );}
+              );
             })}
         </Tbody>
       </Table>
@@ -121,4 +109,4 @@ function PrevPrescriptions() {
   );
 }
 
-export default PrevPrescriptions;
+export default ATMList;

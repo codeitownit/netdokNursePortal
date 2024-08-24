@@ -14,7 +14,7 @@ import Logout from "./Btns/Logout";
 function InnerSideBar() {
  
 
-    const [open,setOpen]=useState(false)
+    const [open,setOpen]=useState(true)
 
     return (<div className=" hidden h-full md:flex flex-col gap-x-4 px-2 bg-white overflow-y-auto mb-20">
        <div>
@@ -31,7 +31,7 @@ function InnerSideBar() {
          <Contact open={open}/> 
          <Consult open={open}/>
         </div>
-       <span style={{width:"100%",height:"0.1em", backgroundColor:"#DFD3C3" }}/>
+       <span style={{width:"100%",height:"0.1em" }}/>
        <div className=" py-4 flex flex-col gap-y-2">
        <Logout open={open}/>
        </div>

@@ -10,13 +10,6 @@ import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { 
-  hospitalId,
-  doctorEmail, 
-  doctorId, 
-  pName, 
-  patientId, 
-  doctorName, 
-  doctorPhone,
   getCurrentDate, 
   formatTime
 } from "../../../../../../Components/globals";
@@ -57,7 +50,13 @@ function EditNurseReport({ text = "Edit Nurse Report" }) {
   // const handleDateChange = (event) => {
   //   setAdmissionDate(event.target.value);
   // };
-
+  const hospitalId = localStorage.getItem("universalHospitalId")
+  const doctorEmail = localStorage.getItem("primeDoctorUserEmail")
+  const doctorId = localStorage.getItem("primeDoctorUserId");
+  const pName = localStorage.getItem("universalPatientName");
+  const patientId = localStorage.getItem("universalPatientId");
+  const doctorName = localStorage.getItem("universalDoctorName");
+  const doctorPhone = localStorage.getItem("universalDoctorPhone");
   const navigate = useNavigate();
   const request = useaxios();
   const {id} = useParams()

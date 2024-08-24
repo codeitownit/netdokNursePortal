@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { Tr, Td, Tt } from "../../../../../../../Components/Table";
+import { Tr, Td, Tt } from "../../../../../../Components/Table";
+
 
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -8,14 +9,12 @@ import { BsPersonFillCheck } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import useaxios from "../../../../../../../Hooks/useAxios";
-import ConfirmationModal from "../../../../../../../Components/Modals/ConfirmationModal";
+import useaxios from "../../../../../../Hooks/useAxios";
+import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
 
-
-function Rows({ id = "", docId="", date="", weight = "", height = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", name="", date= "", dose = "", condition="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
-  const patientId = localStorage.getItem("universalPatientId");
 
   const request  = useaxios();
 
@@ -48,37 +47,17 @@ function Rows({ id = "", docId="", date="", weight = "", height = "", condition=
   return (
     <>
       <Tr>
-      {/* <Td name="PATIENT ID">
-        <Tt txt={`#${id}`} />
-      </Td> */}
       <Td name="DATE">
         <Tt txt={date} />
       </Td>
-      <Td name="WEIGHT">
-        <Tt txt={weight} />
+      <Td name="MEDICINE">
+        <Tt txt={name} />
       </Td>
-      <Td name="HEIGHT">
-        <Tt txt={height} />
+      <Td name="DOSE">
+        <Tt txt={dose} />
       </Td>
-      <Td name="CURRENT STATE">
+      <Td name="INDICATION">
         <Tt txt={condition} />
-      </Td>
-      <Td name="NUTRITIONAL STATE">
-        <Tt txt={status} />
-      </Td>
-      <Td name="RESPONSIBLE SPECIALIST">
-        <Tt txt={specialist} />
-      </Td>
-      
-      <Td name="ACTIONS">
-        <span className=" flex gap-x-2  items-center text-4xl">
-          <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
-            <MdDelete />
-          </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/viewPatient/${patientId}/nurseReports/edit/${docId}`)}>
-            <FaEdit/>
-          </span>
-        </span>
       </Td>
     </Tr>
     <ConfirmationModal

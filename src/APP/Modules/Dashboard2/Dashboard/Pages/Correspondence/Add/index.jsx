@@ -10,15 +10,6 @@ import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
 import DateInput from "../../../../../../Components/Inputs/DateInput";
 import TimeInput from "../../../../../../Components/Inputs/TimeInput";
 import 'react-datepicker/dist/react-datepicker.css';
-import { 
-  hospitalId,
-  doctorEmail, 
-  doctorId, 
-  pName, 
-  patientId, 
-  doctorName, 
-  doctorPhone 
-} from "../../../../../../Components/globals";
 
 // eslint-disable-next-line react/prop-types
 function AddCorrespondence({ text = "Add Correspondence" }) {
@@ -26,7 +17,13 @@ function AddCorrespondence({ text = "Add Correspondence" }) {
   const [time, setTime] = useState('');
   const [correspondence, setCorrespondence] = useState('');
   
-
+  const hospitalId = localStorage.getItem("universalHospitalId")
+  const doctorEmail = localStorage.getItem("primeDoctorUserEmail")
+  const doctorId = localStorage.getItem("primeDoctorUserId");
+  const pName = localStorage.getItem("universalPatientName");
+  const patientId = localStorage.getItem("universalPatientId");
+  const doctorName = localStorage.getItem("universalDoctorName");
+  const doctorPhone = localStorage.getItem("universalDoctorPhone");
   const navigate = useNavigate();
   const request = useaxios();
 

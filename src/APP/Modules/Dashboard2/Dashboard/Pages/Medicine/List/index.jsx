@@ -5,7 +5,6 @@ import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { useNavigate } from "react-router-dom";
-import { patientId } from "../../../../../../Components/globals";
 
 function ListMed(text="View Previous Prescriptions") {
  
@@ -13,6 +12,7 @@ function ListMed(text="View Previous Prescriptions") {
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const patientId = localStorage.getItem("universalPatientId");
 
   const request = useaxios();
   const navigate = useNavigate();
