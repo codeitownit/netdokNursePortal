@@ -21,9 +21,9 @@ function Medicine({ open = false }) {
   }, [location]);
 
   const dropdownItems = [
-    { label: "Current Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/current`)},
-    { label: "Posed Medicine", onClick: () => navigate(`/viewPatient/${patientId}/medicine/posed`) },
-    { label: "Settings", onClick: () => navigate(`/viewPatient/${patientId}/medicine/previous`) }
+    { label: "View Current Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/current`)},
+    { label: "View Posed Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/posed`) },
+    { label: "View Previous Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/previous`) }
   ];
 
   return (

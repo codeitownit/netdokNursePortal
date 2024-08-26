@@ -25,11 +25,10 @@ let dropdownItems = [];
       if (res !== "error") {
         console.log(res?.data.type);
         res?.data.map((item)=>{
-            item.wards.map((ward)=>{
-              if(ward.department === "Oncology"){
-                console.log(ward.wardName)
-                const id = ward.wardName
-                const q = {label:ward.wardName, onClick: () => navigate(`/dashboard/wards/view/${id}`)}
+            item?.wards.map((ward)=>{
+              if(ward?.department === "Oncology"){
+                const id = ward?.wardName
+                const q = {label:ward?.wardName, onClick: () => navigate(`/dashboard/wards/view/${id}`)}
                 dropdownItems.push(q)
                 setData(dropdownItems)
                 console.log(data)
@@ -45,7 +44,9 @@ let dropdownItems = [];
   };
 
 window.onload= function () {
+  if(location?.pathname?.includes("/dashboard")){
     fetchData();
+  }
 };
 
   useEffect(() => {
