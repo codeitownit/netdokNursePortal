@@ -73,11 +73,11 @@ function Rows({ key="", id="", docId="", date = "", docu="", exam = "", conditio
       <Td name="CONDITIONS">
         <Tt txt={condition} />
       </Td>
-      <Td name="STATUS">
-        <Tt txt={status} />
-      </Td>
       <Td name="PROVISIONAL DIAGNOSIS">
         <Tt txt={diagnosis} />
+      </Td>
+      <Td name="STATUS">
+        <Tt txt={status} />
       </Td>
       {/* <Td name="ACTIONS">
         <span className=" flex gap-x-2  items-center text-4xl">

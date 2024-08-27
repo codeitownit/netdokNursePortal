@@ -99,7 +99,7 @@ function LabList() {
           <Tht txt="EXAMINATIONS REQUESTED" />
           <Tht txt="DUE DATE" />
           <Tht txt="STATUS" />
-          {/* <Tht txt="ACTIONS" /> */}
+          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
           {data

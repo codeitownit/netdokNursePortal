@@ -1,5 +1,5 @@
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
-import Rows from "../sections/Rows";
+import Rows from "../sections/ConcludedRow";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
@@ -97,7 +97,6 @@ function ConcludedListRefer() {
           <Tht txt="REASONS FOR REFERRAL " />
           <Tht txt="CLINICAL NOTES" />
           <Tht txt="STATUS" />
-          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
           {data

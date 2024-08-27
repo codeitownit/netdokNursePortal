@@ -11,7 +11,7 @@ function Imaging({ open = false }) {
   const patientId = localStorage.getItem("universalPatientId")
 
   useEffect(() => {
-    if (location?.pathname?.includes("/imaging")) {
+    if (location?.pathname?.includes("/labRequests")) {
       setActive(true);
       return;
     }

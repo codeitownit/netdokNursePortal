@@ -106,6 +106,7 @@ function ImagingList() {
           <Tht txt="CONDITIONS" />
           <Tht txt="STATUS " />
           <Tht txt="PROVISIONAL DIAGNOSIS" />
+          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
           {data

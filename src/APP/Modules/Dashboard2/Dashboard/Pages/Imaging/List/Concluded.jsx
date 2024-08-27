@@ -104,8 +104,8 @@ function ConcludedImagingList() {
           <Tht txt="CLINICIAN" />
           <Tht txt="EXAMINATIONS REQUESTED" />
           <Tht txt="CONDITIONS" />
-          <Tht txt="STATUS " />
           <Tht txt="PROVISIONAL DIAGNOSIS" />
+          <Tht txt="STATUS " />
         </Thead>
         <Tbody>
           {data
