@@ -3,21 +3,22 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import grayPanel from "../../../../../../Components/Container/Container";
 import { headers, divStyle, outerDiv } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import TextInput from "../../../../../../Components/Inputs/TextInput";
-import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
-import DatePicker from 'react-datepicker';
+import { TextArea } from "../../../../../../Components/Inputs";
+import DateInput from "../../../../../../Components/Inputs/DateInput";
+import TimeInput from "../../../../../../Components/Inputs/TimeInput";
 import 'react-datepicker/dist/react-datepicker.css';
+import DropdownBtn from "../../../../../../Components/Buttons/Dropdown-btn";
 
 
 // eslint-disable-next-line react/prop-types
-function AdmissionTemplate({ text = "Edit Journal" }) {
+function AddAdmission({ text = "Add Journal" }) {
   const [admissionDate, setAdmissionDate] = useState('');
   const [time, setTime] = useState('');
   const [condition, setCondition] = useState('');
   const [history, setHistory] = useState('');
-  const [diagnosis, setDiagnosis] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [temp, setTemp] = useState('');
@@ -31,63 +32,47 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
   const [tests, setTests] = useState('');
   const [review, setReview] = useState('');
   const [carePlan, setCarePlan] = useState('');
-  const [data, setData] = useState([]);
+  const [icd10Code, setIcd10Code] = useState('');
+  const [progressDiagnosis, setProgressDiagnosis] = useState('');
+  const icd10InputRef = useRef(null);
   
-  const { id } = useParams();
   const pId = localStorage.getItem("universalPatientId")
 
   const navigate = useNavigate();
   const request = useaxios();
 
-  const fetchData = async () => {
-    
-    try {
-      const res = await request({
-        method: "GET",
-        url: `patientJournal/${id}`,
-        body: {},
-        auth: false,
-      });
+  useEffect(() => {
+    const autocompleter = new window.Def.Autocompleter.Search(
+        'icd10', 
+        'https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name', 
+        {
+            tableFormat: false,
+            valueCols: [1],
+            colHeaders: ['Name'],
+            divTag: 'div',
+            divClass: 'autocomplete-suggestions',
+            zIndex: 9999,
+            position: 'absolute'
+        }
+    );
 
-      // Check if the response is not an error
-      if (res !== "error") {
-        console.log(res?.data.date);
-        setData(res?.data || []);
-        setAdmissionDate(res?.data.date);
-        setTime(res?.data.time);
-        setCondition(res?.data.conditionAtAdmission);
-        setHistory(res?.data.complaints);
-        setDiagnosis(res?.data.progressDiagnosis);
-        setWeight(res?.data.weight);
-        setHeight(res?.data.height);
-        setTemp(res?.data.temperature);
-        setPulse(res?.data.pulseRate);
-        setBreathing(res?.data.breathingRate);
-        setBp(res?.data.bloodPressure);
-        setPreviousTreatment(res?.data.previousTreatment);
-        setPulseOximeter(res?.data.pulseOximeter);
-        setBloodSugar(res?.data.bloodSugar);
-        setProcedures(res?.data.nursingProcedures);
-        setTests(res?.data.tests);
-        setReview(res?.data.review);
-        setCarePlan(res?.data.carePlan);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    return () => {
+        autocompleter.destroy();
+    };
+  }, []);
+
+  const handleICD10Change = (e) => {
+    setIcd10Code(e.target.value);
+  };
+
+  const handleICD10Defined = (e) => {
+    if (e.key === ' ') {
+      setProgressDiagnosis((prev) => `${prev}${e.target.value}\n`);
+      setIcd10Code('');
     }
   };
 
-  useEffect(() => {
-    fetchData();
-
-  }, []);
-
-
-
-  function handleEdit(e) {
-    e.preventDefault();
+  async function handleSubmit(statusCode) {
     const formData = {
         bloodPressure: bp,
         bloodSugar: bloodSugar,
@@ -96,7 +81,7 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
         breathingRate: breathing,
         review: review,
         temperature: temp,
-        progressDiagnosis: diagnosis,
+        progressDiagnosis: progressDiagnosis,
         height: height,
         pulseOximeter: pulseOximeter,
         complaints: history,
@@ -107,56 +92,69 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
         time: time,
         date: admissionDate,
         carePlan: carePlan,
+        doctorEmail: localStorage.getItem("primeDoctorUserEmail"),
+        doctorName: localStorage.getItem("universalDoctorName"),
+        doctorPhone: localStorage.getItem("universalDoctorPhone"),
+        type: "nurseMidwives",
+        docId: localStorage.getItem("primeDoctorUserId"),
+        fromVideoCall: false,
+        // document: documentId,
+        patient: pId,
+        createdByName: localStorage.getItem("universalDoctorName"),
+        createdBy: localStorage.getItem("primeDoctorUserId"),
+        createdByEmail: localStorage.getItem("primeDoctorUserEmail"),
+        train: false,
+        status: "active",
+        statusCode: statusCode,
+        hospitalId: localStorage.getItem("universalHospitalId"),
+        timestamp: new Date(),
       };
-    async function patch() {
-      try {
-        const res = await request({
-          method: "PUT",
-          url: `patientJournal/${id}`,
-          data: formData,
-          auth: false,
-        });
-        // Check if the response is not an error
-        if (res !== "error") {
-          navigate(`/viewPatient/${pId}/progressJournals`);
-        }
-        //console.log("success");
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const res = await request({
+        method: "POST",
+        url: "patientJournal",
+        data: formData,
+        auth: false,
+      });
+  
+      console.log(res);
+  
+      if (res !== "error") {
+        console.log(formData);
+        navigate(`/viewPatient/${pId}`);
+        return;
       }
-    }
-
-    patch();
   }
+  const dropdownItems = [
+    { label: "Save Signed", onClick: () => handleSubmit(1)},
+    { label: "Save Unsigned", onClick: () => handleSubmit(0) }
+  ];
 
   return (
     <div className={grayPanel()}>
       <div className="">
-        <form className={outerDiv} type="submit" onSubmit={handleEdit}>
+        <form className={outerDiv}>
           <div className=" flex flex-row justify-between data-center">
-            <h1 className={headers}>View Journal</h1>
-            {/* <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" /> */}
+            <h1 className={headers}>Add Journal</h1>
+            <DropdownBtn txt={text} dropdownItems={dropdownItems}/>
           </div>
           <div className={divStyle}>
           <div className="p-6 bg-white rounded-md shadow-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="cal-icon">
-      <TextInput
+      <DateInput
         label="Date"
         directInput={true}
         required={false}
         stateInput={admissionDate}
         setStateInput={setAdmissionDate}
-        disabled={true}
-      />
+        />
     </div>
-        <TextInput
-          label="Time"
-          directInput={true}
-          required={false}
-          stateInput={time}
-          setStateInput={setTime}
-          disabled={true}
+      <TimeInput
+        label="Time"
+        directInput={true}
+        required={false}
+        stateInput={time}
+        setStateInput={setTime}
         />
       </div>
       <TextArea
@@ -165,7 +163,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={condition}
         setStateInput={setCondition}
-        disabled={true}
       />
       <TextArea
         label="History of the Presenting Complaints"
@@ -173,7 +170,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={history}
         setStateInput={setHistory}
-        disabled={true}
       />
       <TextArea
         label="Previous Treatment & outcomes"
@@ -181,16 +177,30 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={previousTreatment}
         setStateInput={setPreviousTreatment}
-        disabled={true}
       />
-      <TextInput
-        label="Diagnoses & Procedures Codes"
-        directInput={true}
-        required={false}
-        stateInput={diagnosis}
-        setStateInput={setDiagnosis}
-        disabled={true}
-      />
+      <div className="col-sm-12">
+                <div className="form-group">
+                  <label>Working Diagnosis</label>
+                  <input
+                    type="text"
+                    id="icd10"
+                    ref={icd10InputRef}
+                    value={icd10Code}
+                    onChange={handleICD10Change}
+                    onKeyDown={handleICD10Defined} // Trigger on Enter key press
+                    placeholder="ICD10 Code"
+                    className="border-2 rounded-lg py-2 px-4 mb-8 w-full"
+                  />
+                  <textarea
+                    className="border-2 rounded-lg py-2 px-4 mb-8 w-full"
+                    id="progressDiagnosis"
+                    name="Text1"
+                    cols="20"
+                    rows="6"
+                    value={progressDiagnosis} // Reflect the updated progress diagnosis
+                  />
+                </div>
+              </div>
 
       <h3 className="text-xl font-bold mt-6 mb-4">Vital Parameters</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -200,7 +210,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={true}
           stateInput={weight}
           setStateInput={setWeight}
-          disabled={true}
         />
         <TextInput
           label="Height (cm)"
@@ -208,7 +217,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={height}
           setStateInput={setHeight}
-          disabled={true}
         />
         <TextInput
           label="Temp (°C)"
@@ -216,7 +224,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={temp}
           setStateInput={setTemp}
-          disabled={true}
         />
         <TextInput
           label="Pulse Rate (bpm)"
@@ -224,7 +231,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={pulse}
           setStateInput={setPulse}
-          disabled={true}
         />
         <TextInput
           label="Breathing Rate (bpm)"
@@ -232,7 +238,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={breathing}
           setStateInput={setBreathing}
-          disabled={true}
         />
         <TextInput
           label="Blood Pressure (mm Hg)"
@@ -240,7 +245,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={bp}
           setStateInput={setBp}
-          disabled={true}
         />
         <TextInput
           label="Pulse Oximeter (%)"
@@ -248,7 +252,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={pulseOximeter}
           setStateInput={setPulseOximeter}
-          disabled={true}
         />
         <TextInput
           label="Blood Sugar (mmol/L)"
@@ -256,7 +259,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={bloodSugar}
           setStateInput={setBloodSugar}
-          disabled={true}
         />
       </div>
         <TextArea
@@ -265,7 +267,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={procedures}
           setStateInput={setProcedures}
-          disabled={true}
         />
         <TextArea
           label="Planned Procedures & Tests"
@@ -273,7 +274,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={tests}
           setStateInput={setTests}
-          disabled={true}
         />
         <TextArea
           label="Review & Consultations"
@@ -281,7 +281,6 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={review}
           setStateInput={setReview}
-          disabled={true}
         />
         <TextArea
           label="Care Plan"
@@ -289,9 +288,9 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={carePlan}
           setStateInput={setCarePlan}
-          disabled={true}
         />
     </div>
+  
           </div>
         </form>
       </div>
@@ -299,4 +298,4 @@ function AdmissionTemplate({ text = "Edit Journal" }) {
   );
 }
 
-export default AdmissionTemplate;
+export default AddAdmission;

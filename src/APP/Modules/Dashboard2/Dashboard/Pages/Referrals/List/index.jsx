@@ -96,6 +96,7 @@ function ListRefer() {
           <Tht txt="ADDRESS" />
           <Tht txt="REASONS FOR REFERRAL " />
           <Tht txt="CLINICAL NOTES" />
+          <Tht txt="STATUS" />
           <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
@@ -107,18 +108,21 @@ function ListRefer() {
             })
             .map((doc, index) => {
               console.log(doc);
+              if(doc?.userUid===patientId && (!doc?.referralStatus || doc?.referralStatus !== "done")){
               return (
                 <Rows
                   key={doc?.id || index}
                   date={doc?.createdDate || ""}
+                  docId={doc?.documentId || ""}
                   clinician={doc?.clinician_name || ""}
                   clinic={doc?.Clinic || ""}
                   address={doc?.Address || ""}
                   reason={doc?.reasonsForRefferal || ""}
                   notes={doc?.Clinicalnotes || ""}
+                  status="pending"
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>

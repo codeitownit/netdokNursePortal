@@ -23,12 +23,12 @@ function InnerSideBar() {
        <div className=" flex-1 flex flex-col gap-y-4 mt-4">
          <Dashboard open={open}/>
          <PatientDetails open={open} />
+         <Contact open={open}/> 
          <Imaging open={open}/>
          <LabRequests open={open}/>
          <NurseReports open={open}/>
          <JournalsBtn open={open} />
          <Medicine open={open}/>
-         <Contact open={open}/> 
          <Consult open={open}/>
         </div>
        <span style={{width:"100%",height:"0.1em" }}/>

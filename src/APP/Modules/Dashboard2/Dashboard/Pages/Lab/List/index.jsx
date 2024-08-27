@@ -110,10 +110,12 @@ function LabList() {
             })
             .map((doc, index) => {
               console.log(doc);
-              return (
+              if(doc?.userUid===patientId && (!doc?.labStatus || doc?.labStatus !== "done")){
+                return (
                 <Rows
                   key={doc?.id || index}
                   date={doc?.date || ""}
+                  docId={doc?.documentId || ""}
                   urgency={doc?.urgency || "N/A"}
                   samples={doc?.samplesTaken || ""}
                   tests={doc?.testRequested || ""}
@@ -121,7 +123,7 @@ function LabList() {
                   status={doc?.status || ""}
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>

@@ -14,9 +14,11 @@ import DashPage2 from "../Modules/Dashboard2/Dashboard/Pages/DashPage";
 
 import Lab from "../Modules/Dashboard2/Dashboard/Pages/Lab";
 import LabList from "../Modules/Dashboard2/Dashboard/Pages/Lab/List";
+import ConcludedLabList from "../Modules/Dashboard2/Dashboard/Pages/Lab/List/ConcludedLab";
 
 import ImagingReq from "../Modules/Dashboard2/Dashboard/Pages/Imaging";
 import ImagingList from "../Modules/Dashboard2/Dashboard/Pages/Imaging/List";
+import ConcludedImagingList from "../Modules/Dashboard2/Dashboard/Pages/Imaging/List/Concluded";
 
 import ContactJournals from "../Modules/Dashboard2/Dashboard/Pages/Contact";
 import ContactList from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList";
@@ -41,6 +43,7 @@ import EditNurseReport from "../Modules/Dashboard2/Dashboard/Pages/NurseReports/
 
 import Refer from "../Modules/Dashboard2/Dashboard/Pages/Referrals";
 import ListRefer from "../Modules/Dashboard2/Dashboard/Pages/Referrals/List";
+import ConcludedListRefer from "../Modules/Dashboard2/Dashboard/Pages/Referrals/List/ConcludedReferral";
 
 import Med from "../Modules/Dashboard2/Dashboard/Pages/Medicine";
 import ListMed from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List";
@@ -68,6 +71,11 @@ import ATMList from "../Modules/Dashboard2/Dashboard/Pages/ATM/List";
 import Notification from "../Modules/Dashboard/Pages/Notifications";
 import ListNotifications from "../Modules/Dashboard/Pages/Notifications/List";
 
+import AddAdmission from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals/Journals/AddAdmission";
+import AddProgress from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals/Journals/AddProgress";
+import AddTelephone from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals/Journals/AddTelephone";
+import AddOperation from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals/Journals/AddOperation";
+
 // import ChatBox from "../Modules/Dashboard/Pages/Chat";
 // import ChatCard from "../Modules/Dashboard/Pages/Chat/View";
 
@@ -94,14 +102,21 @@ function AllRoutes() {
         <Route path="/viewPatient/:id" element={<Dashboard2 />}>
           <Route index element={<DashPage2 />} />
           <Route path="labRequests" element={<Lab />}>
-            <Route index element={<LabList />} />
+            <Route path="current" index element={<LabList />} />
+            <Route path="concluded" element={<ConcludedLabList />} />
           </Route>
           <Route path="admissionTreatment" element={<AdmissionTreatment />}>
             <Route index element={<ATMList />} />
           </Route>
           <Route path="imaging" element={<ImagingReq />}>
-            <Route index element={<ImagingList />} />
+            <Route path="current" index element={<ImagingList />} />
+            <Route path="concluded" element={<ConcludedImagingList />} />
           </Route>
+          <Route path="add-admission-journal" element={<AddAdmission />}/>
+          <Route path="add-progress-journal" element={<AddProgress />}/>
+          <Route path="add-telephone-journal" element={<AddTelephone />}/>
+          <Route path="add-operation-journal" element={<AddOperation />}/>
+
           <Route path="fluidChart" element={<Fluid />}>
             <Route index element={<AddFluid />} />
           </Route>
@@ -126,7 +141,8 @@ function AllRoutes() {
 
           </Route>
           <Route path="referral" element={<Refer />}>
-            <Route index element={<ListRefer />} />
+            <Route path="current" index element={<ListRefer />} />
+            <Route path="concluded" element={<ConcludedListRefer />} />
           </Route>
           <Route path="medicine" element={<Med />}>
             <Route path="current" index element={<ListMed />} />

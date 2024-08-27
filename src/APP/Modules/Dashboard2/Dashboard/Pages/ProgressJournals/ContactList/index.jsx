@@ -18,7 +18,7 @@ function ProgressList() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   const request = useaxios();
-
+  const patientId = localStorage.getItem("universalPatientId")
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
@@ -106,7 +106,7 @@ function ProgressList() {
             })
             .map((doc, index) => {
               let s;
-              if (doc.type.includes("nurseMidwives") && doc.createdByName === "Jonathan Kilonzo"){
+              if (doc.type.includes("nurseMidwives") && doc.patient === patientId){
                 console.log(doc);
 
                 if(doc.type.includes("Operation")){

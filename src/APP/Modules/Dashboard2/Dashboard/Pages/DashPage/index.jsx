@@ -6,6 +6,7 @@ import TextInputReadonly from "../../../../../Components/Inputs/InputReadonly";
 import grayPanel from "../../../../../Components/Container/Container";
 import { outerDiv, divStyle } from "./sections/style";
 import AddEdit from "../../../../../Components/Buttons/Add-Edit";
+import DropdownBtn from "../../../../../Components/Buttons/Dropdown-btn";
 
 function DashPage2() {
   const [patientData, setPatientData] = useState([]);
@@ -62,7 +63,12 @@ function DashPage2() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  const dropdownItems = [
+    { label: "Add New Admission Journal", onClick: () => navigate(`/viewPatient/${pId}/add-admission-journal`)},
+    { label: "Add Telephone Journal", onClick: () => navigate(`/viewPatient/${pId}/add-telephone-journal`) },
+    { label: "Add Progress Journal", onClick: () => navigate(`/viewPatient/${pId}/add-progress-journal`) },
+    { label: "Add Operation Journal", onClick: () => navigate(`/viewPatient/${pId}/add-operation-journal`) }
+  ];
 
   return (
     <div className={grayPanel()}>
@@ -122,6 +128,10 @@ function DashPage2() {
     </div>
           </div>
           <div className="flex flex-row justify-center">
+          <DropdownBtn
+      txt="Nurse Journals"
+      dropdownItems={dropdownItems}
+    />
           <AddEdit text="Fluid Chart" 
           onClick={() =>navigate(`/viewPatient/${pId}/fluidChart`)}
           />

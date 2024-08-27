@@ -18,6 +18,7 @@ const TextInput = ({
   validate = 0,
   setValidation = () => {},
   disabled = false,
+  readOnly = false,
   required = true,
   pattern = null,
   errorMessage = "Min no of characters",
@@ -151,6 +152,7 @@ const TextInput = ({
         onDoubleClick={handleSpeechRecognition}
         disabled={disabled}
         rows={rows}
+        readOnly={readOnly}
       />
       <InputError
         input={directInput ? stateInput : input[field]}

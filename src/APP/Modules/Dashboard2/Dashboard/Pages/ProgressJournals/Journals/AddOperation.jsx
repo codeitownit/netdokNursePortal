@@ -3,16 +3,17 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import grayPanel from "../../../../../../Components/Container/Container";
 import { headers, divStyle, outerDiv } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import TextInput from "../../../../../../Components/Inputs/TextInput";
-import { SelectInput, TextArea } from "../../../../../../Components/Inputs";
-import DatePicker from 'react-datepicker';
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { TextArea } from "../../../../../../Components/Inputs";
 import 'react-datepicker/dist/react-datepicker.css';
+import DateInput from "../../../../../../Components/Inputs/DateInput";
+import TimeInput from "../../../../../../Components/Inputs/TimeInput";
+import DropdownBtn from "../../../../../../Components/Buttons/Dropdown-btn";
 
 
 // eslint-disable-next-line react/prop-types
-function OperationTemplate({ text = "Edit Journal" }) {
+function AddOperation({ text = "Add Journal" }) {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [anesthesia, setAnesthesia] = useState('');
@@ -23,56 +24,49 @@ function OperationTemplate({ text = "Edit Journal" }) {
   const [complications, setComplications] = useState('');
   const [managementPlan, setManagementPlan] = useState('');
   const [treatment, setTreatment] = useState('');
-  const [diagnosis, setDiagnosis] = useState('');
-  
-  const { id } = useParams();
+  const [icd10Code, setIcd10Code] = useState('');
+  const [progressDiagnosis, setProgressDiagnosis] = useState('');
+  const icd10InputRef = useRef(null);
   const pId = localStorage.getItem("universalPatientId")
 
   const navigate = useNavigate();
   const request = useaxios();
 
-  const fetchData = async () => {
-    
-    try {
-      const res = await request({
-        method: "GET",
-        url: `patientJournal/${id}`,
-        body: {},
-        auth: false,
-      });
+  useEffect(() => {
+    const autocompleter = new window.Def.Autocompleter.Search(
+        'icd10', 
+        'https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name', 
+        {
+            tableFormat: false,
+            valueCols: [1],
+            colHeaders: ['Name'],
+            divTag: 'div',
+            divClass: 'autocomplete-suggestions',
+            zIndex: 9999,
+            position: 'absolute'
+        }
+    );
 
-      // Check if the response is not an error
-      if (res !== "error") {
-        console.log(res?.data.date);
-        setDate(res?.data.date);
-        setTime(res?.data.time);
-        setAnesthesia(res?.data.anesthesia);
-        setOperation(res?.data.operation);
-        setIndication(res?.data.indication);
-        setProcedure(res?.data.procedure);
-        setFindings(res?.data.findings);
-        setComplications(res?.data.complications);
-        setManagementPlan(res?.data.postPlan);
-        setTreatment(res?.data.treatment);
-        setDiagnosis(res?.data.progressDiagnosis);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    return () => {
+        autocompleter.destroy();
+    };
+  }, []);
+
+  const handleICD10Change = (e) => {
+    setIcd10Code(e.target.value);
+  };
+
+  const handleICD10Defined = (e) => {
+    if (e.key === ' ') {
+      setProgressDiagnosis((prev) => `${prev}${e.target.value}\n`);
+      setIcd10Code('');
     }
   };
 
-  useEffect(() => {
-    fetchData();
-
-  }, []);
-
-
-
-  function handleEdit(e) {
-    e.preventDefault();
+  function handleSubmit(statusCode) {
     const formData = {
+        date: date,
+        time: time,
         anesthesia: anesthesia,
         operation: operation,
         indication: indication,
@@ -81,19 +75,36 @@ function OperationTemplate({ text = "Edit Journal" }) {
         complications: complications,
         postPlan: managementPlan,
         treatment: treatment,
-        progressDiagnosis: diagnosis,
+        progressDiagnosis: progressDiagnosis,
+        doctorEmail: localStorage.getItem("primeDoctorUserEmail"),
+        doctorName: localStorage.getItem("universalDoctorName"),
+        doctorPhone: localStorage.getItem("universalDoctorPhone"),
+        type: "nurseMidwivesOperation",
+        docId: localStorage.getItem("primeDoctorUserId"),
+        fromVideoCall: false,
+        // document: documentId,
+        patient: pId,
+        createdByName: localStorage.getItem("universalDoctorName"),
+        createdBy: localStorage.getItem("primeDoctorUserId"),
+        createdByEmail: localStorage.getItem("primeDoctorUserEmail"),
+        train: false,
+        status: "active",
+        statusCode: statusCode,
+        hospitalId: localStorage.getItem("universalHospitalId"),
+        timestamp: new Date(),
       };
-    async function patch() {
+    async function post() {
       try {
         const res = await request({
-          method: "PUT",
-          url: `patientJournal/${id}`,
+          method: "POST",
+          url: 'patientJournal',
           data: formData,
           auth: false,
         });
         // Check if the response is not an error
         if (res !== "error") {
-          navigate(`/viewPatient/${pId}/progressJournals`);
+            console.log(formData)
+          navigate(`/viewPatient/${pId}`);
         }
         //console.log("success");
       } catch (error) {
@@ -101,37 +112,39 @@ function OperationTemplate({ text = "Edit Journal" }) {
       }
     }
 
-    patch();
+    post();
   }
+  const dropdownItems = [
+    { label: "Save Signed", onClick: () => handleSubmit(1)},
+    { label: "Save Unsigned", onClick: () => handleSubmit(0) }
+  ];
 
   return (
     <div className={grayPanel()}>
       <div className="">
-        <form className={outerDiv} type="submit" onSubmit={handleEdit}>
+        <form className={outerDiv} type="submit">
           <div className=" flex flex-row justify-between data-center">
-            <h1 className={headers}>View Journal</h1>
-            {/* <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" /> */}
+            <h1 className={headers}>Add Operation Journal</h1>
+            <DropdownBtn txt={text} dropdownItems={dropdownItems}/>
           </div>
           <div className={divStyle}>
           <div className="p-6 bg-white rounded-md shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="cal-icon">
-      <TextInput
+      <DateInput
         label="Date"
         directInput={true}
         required={false}
         stateInput={date}
         setStateInput={setDate}
-        disabled={true}
-      />
+        />
     </div>
-        <TextInput
-          label="Time"
-          directInput={true}
-          required={false}
-          stateInput={time}
-          setStateInput={setTime}
-          disabled={true}
+      <TimeInput
+        label="Time"
+        directInput={true}
+        required={false}
+        stateInput={time}
+        setStateInput={setTime}
         />
       </div>
       <TextArea
@@ -140,7 +153,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={anesthesia}
         setStateInput={setAnesthesia}
-        disabled={true}
       />
       <TextArea
         label="Operation"
@@ -148,7 +160,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={operation}
         setStateInput={setOperation}
-        disabled={true}
       />
       <TextArea
         label="Indication for the operation"
@@ -156,7 +167,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={indication}
         setStateInput={setIndication}
-        disabled={true}
       />
       <TextArea
         label="Operations Procedure"
@@ -164,7 +174,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={procedure}
         setStateInput={setProcedure}
-        disabled={true}
       />
         <TextArea
           label="Operation Findings"
@@ -172,7 +181,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={findings}
           setStateInput={setFindings}
-          disabled={true}
         />
         <TextArea
           label="Complications"
@@ -180,7 +188,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={complications}
           setStateInput={setComplications}
-          disabled={true}
         />
         <TextArea
           label="Post operation Management Plan"
@@ -188,7 +195,6 @@ function OperationTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={managementPlan}
           setStateInput={setManagementPlan}
-          disabled={true}
         />
         <TextArea
           label="Treatment"
@@ -196,16 +202,30 @@ function OperationTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={treatment}
           setStateInput={setTreatment}
-          disabled={true}
         />
-        <TextArea
-          label="Diagnoses & Procedures Codes"
-          directInput={true}
-          required={false}
-          stateInput={diagnosis}
-          setStateInput={setDiagnosis}
-          disabled={true}
-        /> 
+        <div className="col-sm-12">
+            <div className="form-group">
+                <label>Working Diagnosis</label>
+                <input
+                type="text"
+                id="icd10"
+                ref={icd10InputRef}
+                value={icd10Code}
+                onChange={handleICD10Change}
+                onKeyDown={handleICD10Defined} // Trigger on Enter key press
+                placeholder="ICD10 Code"
+                className="border-2 rounded-lg py-2 px-4 mb-8 w-full"
+                />
+                <textarea
+                className="border-2 rounded-lg py-2 px-4 mb-8 w-full"
+                id="progressDiagnosis"
+                name="Text1"
+                cols="20"
+                rows="6"
+                value={progressDiagnosis} // Reflect the updated progress diagnosis
+                />
+            </div>
+        </div>
     </div>
           </div>
         </form>
@@ -214,4 +234,4 @@ function OperationTemplate({ text = "Edit Journal" }) {
   );
 }
 
-export default OperationTemplate;
+export default AddOperation;

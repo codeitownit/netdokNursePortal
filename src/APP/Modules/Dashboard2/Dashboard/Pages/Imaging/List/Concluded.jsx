@@ -1,6 +1,6 @@
 
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
-import Rows from "../sections/Rows";
+import Rows from "../sections/ConcludedRows";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-function ContactList() {
+function ConcludedImagingList() {
   const navigate = useNavigate();
 
 
@@ -16,6 +16,7 @@ function ContactList() {
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const patientId = localStorage.getItem("universalPatientId")
 
   const request = useaxios();
 
@@ -27,7 +28,7 @@ function ContactList() {
     try {
       const res = await request({
         method: "GET",
-        url: 'patientJournal',
+        url: `imaging/imagingRouteWhere/${queryString}/${doctorId}`,
         body: {},
         params: queryParams,
         auth: false,
@@ -35,7 +36,7 @@ function ContactList() {
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.type);
+        console.log(res?.data);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -76,7 +77,13 @@ function ContactList() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Previous and Recent Contacts</h1>
+      {/* <h1>Welcome, {user.email}</h1> */}
+      {/* <button onClick={handleLogout}>Logout</button> */}
+        <h1 className={headers}>Imaging Requests</h1>
+        {/* <AddEdit
+          text="+ Add Class"
+          onClick={() => navigate(`/dashboard/c/add`)}
+        /> */}
       </div>
       <Table
         mt={2}
@@ -95,7 +102,10 @@ function ContactList() {
         <Thead>
           <Tht txt="DATE ADDED" />
           <Tht txt="CLINICIAN" />
-          <Tht txt="CONDITION" />
+          <Tht txt="EXAMINATIONS REQUESTED" />
+          <Tht txt="CONDITIONS" />
+          <Tht txt="STATUS " />
+          <Tht txt="PROVISIONAL DIAGNOSIS" />
         </Thead>
         <Tbody>
           {data
@@ -106,30 +116,39 @@ function ContactList() {
             })
             .map((doc, index) => {
               console.log(doc);
-              let s;
-              if (doc.type.includes("nurseMidwives")){
-                s = "Nurse"
-            } else if(doc.type.includes("physiotherapy")){
-                 s = "Physiotherapist"
-            } else if(doc.type.includes("occupationalTherapy")){
-                 s = "Occupational Therapist"
-            } else if(doc.type.includes("psychology")) {
-                s = "Psychologist"
-            } else if(doc.type.includes("pediatric")) {
-                s = "Peditrician"
-            } else {
-                s = "Doctor"
-            } 
+              // if (doc.xray != "") exams += "Xray" + " " + ":" + doc.xray + "";
+              //       if (doc.ultrasound != "") exams += "Ultrasound" + " " + ":" + doc.ultrasound + "";
+              //       if (doc.ctscan != "") exams += "CT-Scan" + " " + ":" + doc.ctscan + "";
+              //       if (doc.mriscan != "") exams += "MRI-Scan" + " " + ":" + doc.mriscan + "";
+              //       if (doc.others != "") exams += "Others" + " " + ":" + doc.others + "";
+              let exams = "";
+
+  if (doc.xray) exams += `Xray : ${doc.xray}<br>`;
+  if (doc.ultrasound) exams += `Ultrasound : ${doc.ultrasound}<br>`;
+  if (doc.ctscan) exams += `CT-Scan : ${doc.ctscan}<br>`;
+  if (doc.mriscan) exams += `MRI-Scan : ${doc.mriscan}<br>`;
+  if (doc.others) exams += `Others : ${doc.others}<br>`;
+
+  // This will convert the string with <br> tags into JSX elements
+  const createMarkup = (html) => {
+    return { __html: html };
+  };
+  let e = <div dangerouslySetInnerHTML={createMarkup(exams)} />
+                if(doc?.userUid===patientId && (doc?.imagingStatus && doc?.imagingStatus === "done")){
               return (
                 <Rows
                   key={doc?.id || index}
-                  id={doc?.patient || ""}
-                  date={doc?.date || ""}
-                  specialist={ s || ""}
-                  condition={doc?.progressDiagnosis || ""}
+                  // id={doc?.patient || ""}
+                  date={doc?.createdDate || ""}
+                  docu={doc?.doctorName || ""}
+                  docId={doc?.documentId || ""}
+                  exam={ e || ""}
+                  condition={doc?.condition || ""}
+                  status={doc?.imagingStatus || ""}
+                  diagnosis={doc?.pDiagnosis || ""}
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>
@@ -137,4 +156,4 @@ function ContactList() {
   );
 }
 
-export default ContactList;
+export default ConcludedImagingList;

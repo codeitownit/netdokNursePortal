@@ -1,33 +1,30 @@
-
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
 import Rows from "../sections/Rows";
-import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 
-function ContactList() {
-  const navigate = useNavigate();
-
-
+function ConcludedListRefer() {
+ 
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const patientId = localStorage.getItem("universalPatientId");
 
   const request = useaxios();
+
 
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
-    const queryString = localStorage.getItem("universalPatientId")
-    const doctorId = localStorage.getItem("primeDoctorUserId")
+
+
     try {
       const res = await request({
         method: "GET",
-        url: 'patientJournal',
+        url: `referrals/referralsWhere/${patientId}`,
         body: {},
         params: queryParams,
         auth: false,
@@ -35,7 +32,7 @@ function ContactList() {
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.type);
+        console.log(res?.data);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -76,7 +73,7 @@ function ContactList() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Previous and Recent Contacts</h1>
+        <h1 className={headers}>Refferals List</h1>
       </div>
       <Table
         mt={2}
@@ -93,9 +90,14 @@ function ContactList() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="DATE ADDED" />
-          <Tht txt="CLINICIAN" />
-          <Tht txt="CONDITION" />
+          <Tht txt="DATE" />
+          <Tht txt="NAME OF CLINICIAN" />
+          <Tht txt="CLINIC" />
+          <Tht txt="ADDRESS" />
+          <Tht txt="REASONS FOR REFERRAL " />
+          <Tht txt="CLINICAL NOTES" />
+          <Tht txt="STATUS" />
+          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
           {data
@@ -106,30 +108,21 @@ function ContactList() {
             })
             .map((doc, index) => {
               console.log(doc);
-              let s;
-              if (doc.type.includes("nurseMidwives")){
-                s = "Nurse"
-            } else if(doc.type.includes("physiotherapy")){
-                 s = "Physiotherapist"
-            } else if(doc.type.includes("occupationalTherapy")){
-                 s = "Occupational Therapist"
-            } else if(doc.type.includes("psychology")) {
-                s = "Psychologist"
-            } else if(doc.type.includes("pediatric")) {
-                s = "Peditrician"
-            } else {
-                s = "Doctor"
-            } 
+              if(doc?.userUid===patientId && doc?.referralStatus === "done"){
               return (
                 <Rows
                   key={doc?.id || index}
-                  id={doc?.patient || ""}
-                  date={doc?.date || ""}
-                  specialist={ s || ""}
-                  condition={doc?.progressDiagnosis || ""}
+                  date={doc?.createdDate || ""}
+                  docId={doc?.documentId || ""}
+                  clinician={doc?.clinician_name || ""}
+                  clinic={doc?.Clinic || ""}
+                  address={doc?.Address || ""}
+                  reason={doc?.reasonsForRefferal || ""}
+                  notes={doc?.Clinicalnotes || ""}
+                  status={doc?.referralStatus || ""}
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>
@@ -137,4 +130,4 @@ function ContactList() {
   );
 }
 
-export default ContactList;
+export default ConcludedListRefer;

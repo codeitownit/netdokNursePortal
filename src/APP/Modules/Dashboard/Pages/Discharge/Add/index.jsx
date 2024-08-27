@@ -235,7 +235,6 @@ function AddDischarge({ text = "Discharge Patient" }) {
                     cols="20"
                     rows="6"
                     value={progressDiagnosis} // Reflect the updated progress diagnosis
-                    readOnly
                   />
                 </div>
               </div>

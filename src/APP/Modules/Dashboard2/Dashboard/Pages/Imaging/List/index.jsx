@@ -16,6 +16,7 @@ function ImagingList() {
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const patientId = localStorage.getItem("universalPatientId")
 
   const request = useaxios();
 
@@ -35,7 +36,7 @@ function ImagingList() {
 
       // Check if the response is not an error
       if (res !== "error") {
-        console.log(res?.data.type);
+        console.log(res?.data);
         setData(res?.data || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -100,7 +101,7 @@ function ImagingList() {
       >
         <Thead>
           <Tht txt="DATE ADDED" />
-          <Tht txt="CLINICIAN ASSIGNED" />
+          <Tht txt="CLINICIAN" />
           <Tht txt="EXAMINATIONS REQUESTED" />
           <Tht txt="CONDITIONS" />
           <Tht txt="STATUS " />
@@ -133,20 +134,21 @@ function ImagingList() {
     return { __html: html };
   };
   let e = <div dangerouslySetInnerHTML={createMarkup(exams)} />
-                
+                if(doc?.userUid===patientId && (!doc?.imagingStatus || doc?.imagingStatus !== "done")){
               return (
                 <Rows
                   key={doc?.id || index}
                   // id={doc?.patient || ""}
                   date={doc?.createdDate || ""}
-                  doc={doc?.doctorName || ""}
+                  docu={doc?.doctorName || ""}
+                  docId={doc?.documentId || ""}
                   exam={ e || ""}
                   condition={doc?.condition || ""}
                   status={doc?.status || ""}
                   diagnosis={doc?.pDiagnosis || ""}
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>

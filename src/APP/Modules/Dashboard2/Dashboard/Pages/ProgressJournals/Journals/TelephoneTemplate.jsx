@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TextArea } from "../../../../../../Components/Inputs";
 import 'react-datepicker/dist/react-datepicker.css';
+import TextInput from "../../../../../../Components/Inputs/TextInput";
 
 
 // eslint-disable-next-line react/prop-types
 function TelephoneTemplate({ text = "Edit Journal" }) {
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [condition, setCondition] = useState('');
   const [history, setHistory] = useState('');
   const [clinicalSummary, setClinicalSummary] = useState('');
@@ -36,6 +39,8 @@ function TelephoneTemplate({ text = "Edit Journal" }) {
       // Check if the response is not an error
       if (res !== "error") {
         console.log(res?.data.date);
+        setDate(res?.data.date);
+        setTime(res?.data.time);
         setCondition(res?.data.condition);
         setHistory(res?.data.progressHistory);
         setClinicalSummary(res?.data.clinicalSummary);
@@ -92,16 +97,37 @@ function TelephoneTemplate({ text = "Edit Journal" }) {
         <form className={outerDiv} type="submit" onSubmit={handleEdit}>
           <div className=" flex flex-row justify-between data-center">
             <h1 className={headers}>View Journal</h1>
-            <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
+            {/* <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" /> */}
           </div>
           <div className={divStyle}>
           <div className="p-6 bg-white rounded-md shadow-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="cal-icon">
+      <TextInput
+        label="Date"
+        directInput={true}
+        required={false}
+        stateInput={date}
+        setStateInput={setDate}
+        disabled={true}
+      />
+    </div>
+        <TextInput
+          label="Time"
+          directInput={true}
+          required={false}
+          stateInput={time}
+          setStateInput={setTime}
+          disabled={true}
+        />
+      </div>
       <TextArea
         label="Condition"
         directInput={true}
         required={false}
         stateInput={condition}
         setStateInput={setCondition}
+        disabled={true}
       />
       <TextArea
         label="History of Prevailing Condition"
@@ -109,6 +135,7 @@ function TelephoneTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={history}
         setStateInput={setHistory}
+        disabled={true}
       />
       <TextArea
         label="Clinical Summary"
@@ -116,6 +143,7 @@ function TelephoneTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={clinicalSummary}
         setStateInput={setClinicalSummary}
+        disabled={true}
       />
       <TextArea
         label="Management Plan"
@@ -123,6 +151,7 @@ function TelephoneTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={managementPlan}
         setStateInput={setManagementPlan}
+        disabled={true}
       />
         
         <TextArea
@@ -131,10 +160,9 @@ function TelephoneTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={diagnosis}
           setStateInput={setDiagnosis}
+          disabled={true}
         />
-      
     </div>
-  
           </div>
         </form>
       </div>

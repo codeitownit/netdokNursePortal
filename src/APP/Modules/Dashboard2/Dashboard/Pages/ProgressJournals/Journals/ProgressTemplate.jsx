@@ -6,10 +6,13 @@ import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TextArea } from "../../../../../../Components/Inputs";
+import TextInput from "../../../../../../Components/Inputs/TextInput";
 
 
 // eslint-disable-next-line react/prop-types
 function ProgressTemplate({ text = "Edit Journal" }) {
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [nursingStatus, setNursingStatus] = useState('');
   const [procedures, setProcedures] = useState('');
   const [carePlan, setCarePlan] = useState('');
@@ -34,6 +37,8 @@ function ProgressTemplate({ text = "Edit Journal" }) {
       // Check if the response is not an error
       if (res !== "error") {
         console.log(res?.data.date);
+        setDate(res?.data.date);
+        setTime(res?.data.time);
         setNursingStatus(res?.data.nursingStatus);
         setProcedures(res?.data.nursingProcedures);
         setCarePlan(res?.data.carePlan);
@@ -88,16 +93,37 @@ function ProgressTemplate({ text = "Edit Journal" }) {
         <form className={outerDiv} type="submit" onSubmit={handleEdit}>
           <div className=" flex flex-row justify-between data-center">
             <h1 className={headers}>View Journal</h1>
-            <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" />
+            {/* <AddEdit text={text} icon={<IoPersonAddOutline />} type="submit" /> */}
           </div>
           <div className={divStyle}>
           <div className="p-6 bg-white rounded-md shadow-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="cal-icon">
+      <TextInput
+        label="Date"
+        directInput={true}
+        required={false}
+        stateInput={date}
+        setStateInput={setDate}
+        disabled={true}
+      />
+    </div>
+        <TextInput
+          label="Time"
+          directInput={true}
+          required={false}
+          stateInput={time}
+          setStateInput={setTime}
+          disabled={true}
+        />
+      </div>
       <TextArea
         label="Nursing Status"
         directInput={true}
         required={false}
         stateInput={nursingStatus}
         setStateInput={setNursingStatus}
+        disabled={true}
       />
       <TextArea
         label="Nursing Procedures"
@@ -105,6 +131,7 @@ function ProgressTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={procedures}
         setStateInput={setProcedures}
+        disabled={true}
       />
       <TextArea
         label="Care Plan"
@@ -112,6 +139,7 @@ function ProgressTemplate({ text = "Edit Journal" }) {
         required={false}
         stateInput={carePlan}
         setStateInput={setCarePlan}
+        disabled={true}
       />
         <TextArea
           label="Diagnoses"
@@ -119,10 +147,9 @@ function ProgressTemplate({ text = "Edit Journal" }) {
           required={false}
           stateInput={diagnosis}
           setStateInput={setDiagnosis}
+          disabled={true}
         />
-      
     </div>
-  
           </div>
         </form>
       </div>

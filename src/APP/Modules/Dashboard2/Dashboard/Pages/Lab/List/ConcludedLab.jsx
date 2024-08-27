@@ -1,33 +1,28 @@
-
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
-import Rows from "../sections/Rows";
+import Rows from "../sections/ConcludedRow";
 import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-function ContactList() {
-  const navigate = useNavigate();
-
-
+function ConcludedLabList() {
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const patientId = localStorage.getItem("universalPatientId");
 
+  const navigate = useNavigate();
   const request = useaxios();
-
+  // const pId = localStorage.getItem("universalPatientId")
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
-    const queryString = localStorage.getItem("universalPatientId")
-    const doctorId = localStorage.getItem("primeDoctorUserId")
     try {
       const res = await request({
         method: "GET",
-        url: 'patientJournal',
+        url: `lab/labsWhere/${patientId}`,
         body: {},
         params: queryParams,
         auth: false,
@@ -76,7 +71,11 @@ function ContactList() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Previous and Recent Contacts</h1>
+        <h1 className={headers}>Concluded Lab List</h1>
+        {/* <AddEdit
+          text="+ Add Class"
+          onClick={() => navigate(`/dashboard/c/add`)}
+        /> */}
       </div>
       <Table
         mt={2}
@@ -93,9 +92,14 @@ function ContactList() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="DATE ADDED" />
-          <Tht txt="CLINICIAN" />
-          <Tht txt="CONDITION" />
+          {/* <Tht txt="PATIENT ID" /> */}
+          <Tht txt="DATE REQUESTED" />
+          <Tht txt="URGENCY" />
+          <Tht txt="SAMPLES TAKEN" />
+          <Tht txt="EXAMINATIONS REQUESTED" />
+          <Tht txt="DUE DATE" />
+          <Tht txt="STATUS" />
+          {/* <Tht txt="ACTIONS" /> */}
         </Thead>
         <Tbody>
           {data
@@ -106,30 +110,20 @@ function ContactList() {
             })
             .map((doc, index) => {
               console.log(doc);
-              let s;
-              if (doc.type.includes("nurseMidwives")){
-                s = "Nurse"
-            } else if(doc.type.includes("physiotherapy")){
-                 s = "Physiotherapist"
-            } else if(doc.type.includes("occupationalTherapy")){
-                 s = "Occupational Therapist"
-            } else if(doc.type.includes("psychology")) {
-                s = "Psychologist"
-            } else if(doc.type.includes("pediatric")) {
-                s = "Peditrician"
-            } else {
-                s = "Doctor"
-            } 
-              return (
+              if(doc?.userUid===patientId && doc?.labStatus === "done"){
+                return (
                 <Rows
                   key={doc?.id || index}
-                  id={doc?.patient || ""}
                   date={doc?.date || ""}
-                  specialist={ s || ""}
-                  condition={doc?.progressDiagnosis || ""}
+                  docId={doc?.documentId || ""}
+                  urgency={doc?.urgency || "N/A"}
+                  samples={doc?.samplesTaken || ""}
+                  tests={doc?.testRequested || ""}
+                  duedate={doc?.date || ""}
+                  status={doc?.labStatus || ""}
                   fetchData={fetchData}
                 />
-              );
+              );}
             })}
         </Tbody>
       </Table>
@@ -137,4 +131,4 @@ function ContactList() {
   );
 }
 
-export default ContactList;
+export default ConcludedLabList;
