@@ -11,7 +11,7 @@ function LogoutBtnTemplate({Icon=<></>,txt="",active=true,open=false,onClick=()=
      }}
      onClick={onClick}
     >
-        <span className={` text-2xl ${active?'text-white':'text-black'} p-2 ${active?'bg-primary':'bg-red-500'} rounded-full`}>{Icon}</span>
+        <span className={` text-2xl ${active?'text-white':'text-black'} p-2 ${active?'bg-secondary':'bg-white'} rounded-full`}>{Icon}</span>
         {open && <span className=" font-bold text-xl ">{txt}</span>}
     </div>
 }

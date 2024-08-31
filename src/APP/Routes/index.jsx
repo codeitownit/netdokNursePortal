@@ -22,6 +22,30 @@ import ConcludedImagingList from "../Modules/Dashboard2/Dashboard/Pages/Imaging/
 
 import ContactJournals from "../Modules/Dashboard2/Dashboard/Pages/Contact";
 import ContactList from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList";
+import ViewNurseJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewNurse";
+import ViewNurseOperation from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewNurseOp";
+import ViewNurseProgress from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewNurseProgress.jsx";
+import ViewNurseTelephone from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewNurseTel.jsx";
+import ViewPhysioJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/ViewPhysiotherapy.jsx";
+import ViewPhysioProgressJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/ViewPhysiotherapyProgress.jsx";
+import ViewPhysioTelephoneJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/ViewPhysiotherapyTel.jsx";
+import ViewPhysioConsultationJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/ViewPhysiotherapyConsultation.jsx";
+import ViewPsychJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPsyc.jsx";
+import ViewPsychTelephoneJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPsychTelephone.jsx";
+import ViewPsychProgressJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPsychProgress.jsx";
+import ViewPsychConsultationJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPsychConsultation.jsx";
+import ViewOccupationalJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewOccupational.jsx";
+import ViewOccupationalTelephoneJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewOccupationalTel.jsx";
+import ViewOccupationalProgressJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewOccupationalProgress.jsx";
+import ViewDischarge from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewDischarge.jsx";
+import ViewProgressJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewProgress.jsx";
+import ViewTelephoneJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewTelephone.jsx";
+import ViewOperationJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewOperation.jsx";
+import ViewPatientJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPatientJournal.jsx";
+import ViewAdmissionJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewAdmission.jsx";
+import ViewPediatricJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPediatric.jsx";
+import ViewPediatricTelephoneJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPedTelephone.jsx";
+import ViewPediatricProgressJournal from "../Modules/Dashboard2/Dashboard/Pages/Contact/ContactList/viewPedProgress.jsx";
 
 import ProgressJournals from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals";
 import ProgressList from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals/ContactList";
@@ -131,6 +155,30 @@ function AllRoutes() {
           </Route>
           <Route path="contact" element={<ContactJournals />}>
             <Route index element={<ContactList />} />
+            <Route path="nurse/:id" element={<ViewNurseJournal />}/>
+            <Route path="nurseOperation/:id" element={<ViewNurseOperation />}/>
+            <Route path="nurseProgress/:id" element={<ViewNurseProgress />}/>
+            <Route path="nurseTelephone/:id" element={<ViewNurseTelephone />}/>
+            <Route path="physiotherapy/:id" element={<ViewPhysioJournal />}/>
+            <Route path="physiotherapyProgress/:id" element={<ViewPhysioProgressJournal />}/>
+            <Route path="physiotherapyTelephone/:id" element={<ViewPhysioTelephoneJournal />}/>
+            <Route path="physiotherapyConsultation/:id" element={<ViewPhysioConsultationJournal />}/>
+            <Route path="psychology/:id" element={<ViewPsychJournal />}/>
+            <Route path="psychologyTelephone/:id" element={<ViewPsychTelephoneJournal />}/>
+            <Route path="psychologyProgress/:id" element={<ViewPsychProgressJournal />}/>
+            <Route path="psychologyConsultation/:id" element={<ViewPsychConsultationJournal />}/>
+            <Route path="occupational/:id" element={<ViewOccupationalJournal />}/>
+            <Route path="occupationalTelephone/:id" element={<ViewOccupationalTelephoneJournal />}/>
+            <Route path="occupationalProgress/:id" element={<ViewOccupationalProgressJournal />}/>
+            <Route path="pediatric/:id" element={<ViewPediatricJournal />}/>
+            <Route path="pediatricTelephone/:id" element={<ViewPediatricTelephoneJournal />}/>
+            <Route path="pediatricProgress/:id" element={<ViewPediatricProgressJournal />}/>
+            <Route path="discharge/:id" element={<ViewDischarge />}/>
+            <Route path="progress/:id" element={<ViewProgressJournal />}/>
+            <Route path="telephone/:id" element={<ViewTelephoneJournal />}/>
+            <Route path="operation/:id" element={<ViewOperationJournal />}/>
+            <Route path="patient/:id" element={<ViewPatientJournal />}/>
+            <Route path="admission/:id" element={<ViewAdmissionJournal />}/>
           </Route>
           <Route path="progressJournals" element={<ProgressJournals />}>
             <Route index element={<ProgressList />} />

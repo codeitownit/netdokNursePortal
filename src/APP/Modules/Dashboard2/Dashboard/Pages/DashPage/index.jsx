@@ -7,6 +7,7 @@ import grayPanel from "../../../../../Components/Container/Container";
 import { outerDiv, divStyle } from "./sections/style";
 import AddEdit from "../../../../../Components/Buttons/Add-Edit";
 import DropdownBtn from "../../../../../Components/Buttons/Dropdown-btn";
+import { TextArea } from "../../../../../Components/Inputs";
 
 function DashPage2() {
   const [patientData, setPatientData] = useState([]);
@@ -40,6 +41,7 @@ function DashPage2() {
       if (res !== "error" ) {
         console.log(res?.data);
         setPatientData(res?.data || []);  
+        localStorage.setItem("universalPatientAge", res?.data.userAge)
 
       }
       if (res2 !== "error") {
@@ -49,6 +51,7 @@ function DashPage2() {
           localStorage.setItem("universalPatientWeight", snap?.Weight)
           localStorage.setItem("universalPatientDOB", snap?.DOB)
           localStorage.setItem("universalPatientGender", snap?.gender)
+          localStorage.setItem("universalPatientAge", snap?.age)
 
         })
         
@@ -78,7 +81,7 @@ function DashPage2() {
             <h1 className={headers}>Patient Name: {patientName}</h1>
           </div>
           <div className={divStyle}>
-          <div className="p-6 bg-white rounded-md shadow-md">
+          <div className="p-6 bg-white rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="cal-icon">
       <TextInputReadonly
@@ -123,6 +126,41 @@ function DashPage2() {
         directInput={true}
         required={false}
         stateInput={admDate}
+      />
+      <TextArea
+        label="Diagnosis"
+        directInput={true}
+        required={false}
+        stateInput={patientData.condition}
+        disabled={true}
+      />
+      <TextArea
+        label="Ongoing Treatment"
+        directInput={true}
+        required={false}
+        stateInput={admDate}
+        disabled={true}
+      />
+      <TextArea
+        label="Previous Contacts"
+        directInput={true}
+        required={false}
+        stateInput={admDate}
+        disabled={true}
+      />
+      <TextArea
+        label="Medicine"
+        directInput={true}
+        required={false}
+        stateInput={patientData.medication}
+        disabled={true}
+      />
+      <TextArea
+        label="Brief Summary"
+        directInput={true}
+        required={false}
+        stateInput={patientData.description}
+        disabled={true}
       />
       </div>
     </div>

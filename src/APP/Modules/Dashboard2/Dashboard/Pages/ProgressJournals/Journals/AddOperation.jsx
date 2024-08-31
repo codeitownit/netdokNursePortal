@@ -128,7 +128,7 @@ function AddOperation({ text = "Add Journal" }) {
             <DropdownBtn txt={text} dropdownItems={dropdownItems}/>
           </div>
           <div className={divStyle}>
-          <div className="p-6 bg-white rounded-md shadow-md">
+          <div className="p-6 bg-white rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="cal-icon">
       <DateInput

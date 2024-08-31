@@ -12,7 +12,7 @@ function PatientDetails({ open = false }) {
   const id = localStorage.getItem("universalPatientId")
 
   useEffect(() => {
-    if (location?.pathname?.includes("/viewPatient")) {
+    if (location?.pathname===(`/viewPatient/${id}`)) {
       setActive(true);
       return;
     }

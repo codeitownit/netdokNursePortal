@@ -123,9 +123,10 @@ function ContactList() {
               return (
                 <Rows
                   key={doc?.id || index}
-                  id={doc?.patient || ""}
+                  id={doc?.documentId || ""}
                   date={doc?.date || ""}
                   specialist={ s || ""}
+                  type={doc?.type || ""}
                   condition={doc?.progressDiagnosis || ""}
                   fetchData={fetchData}
                 />

@@ -1,19 +1,40 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { IoMdSettings } from "react-icons/io";
 import { FaBell } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function GlobalTopBar() {
   const username = localStorage.getItem("universalDoctorName");
+  const patientAge = localStorage.getItem("universalPatientAge");
+  const patientGender = localStorage.getItem("universalPatientGender");
+  const patientName = localStorage.getItem("universalPatientName");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const[active,setActive]=useState(false)
+
+
+  useEffect(()=>{
+      if(location?.pathname==="/dashboard"){
+          setActive(true)
+          return
+      }
+      setActive(false)
+  },[location])
   
   return (
     <div
-      className="w-full h-15 mb-8 text-2xl shadow-lg bg-primary bg-opacity-90 flex items-center rounded-full mx-auto"
+      className="w-full h-15 mb-8 text-2xl shadow-lg bg-primary bg-opacity-90 flex justify-evenly items-center rounded-full mx-auto"
       style={{ backdropFilter: "blur(8px)" }}
     >
       <h1 className="mx-6 text-white font-bold">Hello, {username}</h1>
+      {!active && 
+<div className="text-white text-base font-bold">
+  <span>Patient Name:{patientName} </span>
+  <span>Age:{patientAge} </span>
+  <span>Gender:{patientGender} </span>
+</div>}
 
       <div className="flex ml-auto items-center">
         <div className="relative">

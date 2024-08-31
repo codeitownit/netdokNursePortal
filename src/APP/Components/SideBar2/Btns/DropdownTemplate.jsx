@@ -21,17 +21,17 @@ function DropdownTemplate({ Icon = <></>, txt = "", active = true, open = false,
     return (
         <div>
             <div
-                className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-slate-700 w-full gap-x-2 transition-all ease-in-out ${open ? 'rounded-2xl px-1 py-1' : ''}`}
+                className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer text-slate-700 w-full gap-x-2 transition-all ease-in-out ${open ? 'rounded-2xl px-1 py-1' : ''}`}
                 style={{
                     backgroundColor: active && open ? '#a3cc9c' : 'transparent',
                 }}
                 onClick={handleButtonClick}
             >
-                <span className={`text-2xl ${active ? 'text-black' : 'text-white'} p-2 ${active ? 'bg-secondary' : 'bg-primary'} rounded-full`}>
+                <span className={`text-2xl ${active ? 'text-green-500' : 'text-gray-500'} p-2 hover:text-green-500`}>
                     {Icon}
                 </span>
                 <div className="flex justify-between w-full items-center">
-                {open && <span className="font-bold text-xl">{txt}</span>}
+                {open && <span className="text-lg hover:text-green-500">{txt}</span>}
                 <span className="text-2xl">
                 {!isDropdownOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
                 </span>
