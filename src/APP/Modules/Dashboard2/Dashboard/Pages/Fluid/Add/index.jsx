@@ -116,7 +116,7 @@ function AddFluid() {
 
   return (
     <form id="form" className="w-100 tint mb-4 mt-4" onSubmit={handleSubmit}>
-      <div className="flex-grow-1 m-3 p-4 d-flex flex-col gap-2 bg-green-100">
+      <div className="flex-grow-1 m-3 p-4 d-flex flex-col gap-2 bg-green-100 border-2 rounded-md border-green-400">
         <h3 className="self-center font-bold flex justify-center text-3xl pb-10 text-green-900 text-pretty">
         FLUID BALANCE
         </h3>
