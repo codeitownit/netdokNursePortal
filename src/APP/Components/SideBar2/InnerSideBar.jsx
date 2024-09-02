@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Dashboard from "./Btns2/Dashboard";
 import Imaging from "./Btns2/Imaging";
 import LabRequests from "./Btns2/LabRequests";
@@ -10,16 +10,18 @@ import NurseReports from "./Btns2/NurseReports";
 import JournalsBtn from "./Btns2/NurseJournals";
 import PatientDetails from "./Btns2/PatientDetails";
 import Logout from "./Btns/Logout";
+import AppContext from "../../Provider/Context";
 
 function InnerSideBar() {
  
+  const { open } = useContext(AppContext);
 
-    const [open,setOpen]=useState(true)
+    // const [open,setOpen]=useState(true)
 
-    return (<div className=" hidden h-full md:flex flex-col gap-x-4 px-2 bg-white overflow-y-auto mb-20">
-       <div>
+    return (<div className=" hidden h-full md:flex flex-col gap-x-4 px-2 bg-white shadow-lg bg-#0E2F59 overflow-scroll">
+       {/* <div>
        <Logo open={open} setOpen={setOpen}/>
-       </div>
+       </div> */}
        <div className=" flex-1 flex flex-col gap-y-4 mt-4">
          <Dashboard open={open}/>
          <PatientDetails open={open} />

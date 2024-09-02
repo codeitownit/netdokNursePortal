@@ -30,6 +30,7 @@ function DropdownBtnProfile({ Icon = <></>, txt = "", active = true, open = fals
         //   className="text-5xl text-slate-100 mb-2 mr-2 hover:cursor-pointer"
         //   onClick={() => navigate("/dashboard/profile")}
         />
+        <p className="text-[20px] ml-2">{txt}</p>
                 <span className="text-md">
                 {!isDropdownOpen ? <IoMdArrowDropdown /> : <IoMdArrowDropup />}
                 </span>

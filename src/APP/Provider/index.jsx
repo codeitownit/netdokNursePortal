@@ -17,6 +17,11 @@ function AppProvider({ children }) {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("...Error");
   const [showErrorTimeout, setShowErrorTimeout] = useState(3000);
+  const [open, setOpen] = useState(true);
+
+    const toggleOpen = () => {
+        setOpen(prevOpen => !prevOpen);
+    };
 
   const login = (userData) => {
     setUser(userData);
@@ -47,6 +52,9 @@ function AppProvider({ children }) {
         setShowErrorTimeout,
         errorMessage,
         setErrorMessage,
+        setOpen,
+        toggleOpen,
+        open
       }}
     >
       {children}

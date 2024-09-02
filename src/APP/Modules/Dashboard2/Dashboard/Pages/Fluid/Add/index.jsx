@@ -116,13 +116,9 @@ function AddFluid() {
 
   return (
     <form id="form" className="w-100 tint mb-4 mt-4" onSubmit={handleSubmit}>
-      <div className="flex-grow-1 m-3 p-4 d-flex flex-col gap-2 bg-light-green outline rounded">
-        <div className="logo-wrapper d-flex flex-col items-center m-0">
-          <img src="images/logo.svg" width="30" alt="NetDoctorLogo" />
-          <p className="fz-md m-0">NET DOCTOR</p>
-        </div>
-        <h3 className="self-center font-bold">
-          <u>fluid_balance</u>
+      <div className="flex-grow-1 m-3 p-4 d-flex flex-col gap-2 bg-green-100">
+        <h3 className="self-center font-bold flex justify-center text-3xl pb-10 text-green-500">
+        FLUID BALANCE
         </h3>
         <div className="_row tint">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -131,7 +127,7 @@ function AddFluid() {
         label="Surname"
         directInput={true}
         required={false}
-        stateInput={pName}
+        stateInput={surname}
         setStateInput={setSurname}
       />
               <TextInput
@@ -186,17 +182,17 @@ function AddFluid() {
 
         <div className="flex flex-row">
           <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border-collapse border border-gray-300">
+          <table className="min-w-full table-auto border-collapse border border-green-500">
           <thead>
             <tr>
-              <th colSpan={5} className="border border-gray-300 px-4 py-2 bg-gray-200">FLUID INPUT</th>
+              <th colSpan={7} className="border border-green-900 px-4 py-2 bg-green-500">FLUID INPUT</th>
             </tr>
           </thead>
           <thead>
             <tr>
-              <th className="border border-gray-300 px-4 py-2 bg-gray-200">Time</th>
+              <th className="border border-green-900 px-4 py-2 bg-green-500">Time</th>
               {columns.map((col, index) => (
-                <th key={index} className="border border-gray-300 px-4 py-2 bg-gray-200">
+                <th key={index} className="border border-green-900 px-4 py-2 bg-green-500">
                   {col}
                 </th>
               ))}
@@ -205,14 +201,14 @@ function AddFluid() {
           <tbody>
             {rows.map((time, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="border border-gray-300 px-4 py-2 bg-gray-200">{time}</td>
+                <td className="border border-green-900 px-4 py-2 bg-green-500">{time}</td>
                 {columns.map((_, colIndex) => (
                   <td key={colIndex} className="border border-gray-300 px-4 py-2">
                     {colIndex < 4 ? (
                       <input
                         type="number"
                         value={inputValues[rowIndex][colIndex]}
-                        className="w-full p-1 border border-gray-300 rounded"
+                        className="w-full p-1 border border-green-900 rounded"
                         onChange={(e) =>
                           handleInputChange(rowIndex, colIndex, e.target.value)
                         }
@@ -228,17 +224,17 @@ function AddFluid() {
         </table>
           </div>
           <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border-collapse border border-gray-300">
+          <table className="min-w-full table-auto border-collapse border border-green-900">
           <thead>
             <tr>
-              <th colSpan={7} className="border border-gray-300 px-4 py-2 bg-gray-200">FLUID OUTPUT</th>
+              <th colSpan={7} className="border border-green-900 px-4 py-2 bg-green-500">FLUID OUTPUT</th>
             </tr>
           </thead>
           <thead>
             <tr>
-              <th className="border border-gray-300 px-4 py-2 bg-gray-200">Time</th>
+              <th className="border border-green-900 px-4 py-2 bg-green-500">Time</th>
               {columnsOut.map((col, index) => (
-                <th key={index} className="border border-gray-300 px-4 py-2 bg-gray-200">
+                <th key={index} className="border border-green-900 px-4 py-2 bg-green-500">
                   {col}
                 </th>
               ))}
@@ -247,14 +243,14 @@ function AddFluid() {
           <tbody>
             {rows.map((time, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="border border-gray-300 px-4 py-2 bg-gray-200">{time}</td>
+                <td className="border border-green-900 px-4 py-2 bg-green-500">{time}</td>
                 {columnsOut.map((_, colIndex) => (
                   <td key={colIndex} className="border border-gray-300 px-4 py-2">
                     {colIndex < 4 ? (
                       <input
                         type="number"
                         value={inputValuesOut[rowIndex][colIndex]}
-                        className="w-full p-1 border border-gray-300 rounded"
+                        className="w-full p-1 border border-green-900 rounded"
                         onChange={(e) =>
                           handleInputChangeOut(rowIndex, colIndex, e.target.value)
                         }
@@ -270,7 +266,9 @@ function AddFluid() {
         </table>
           </div>
         </div>
-        <AddEdit text="save" type="submit"/>
+        <div className="flex justify-center my-10">
+        <button type="submit" className="py-4 px-10 bg-secondary rounded-md text-white">Save</button>
+        </div>
       </div>
     </form>
   );

@@ -144,13 +144,13 @@ function DashPage2() {
     <div className={grayPanel()}>
       <div className="mb-20">
         <form className={outerDiv}>
-          <div className=" flex justify-center">
-            <h1 className="text-3xl text-secondary font-bold text-center">View Patient Information</h1>
+          <div className=" flex justify-center p-0 m-0">
+            <h1 className="text-xl text-secondary font-bold text-center">View Patient Information</h1>
           </div>
           <h4>{su.slice(0, 5)}</h4>
           <div className={divStyle}>
-          <div className="px-52 bg-white rounded-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="px-96 mt-0 pt-0 bg-white rounded-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
       <div className="cal-icon">
       <TextInputReadonly
           label="Gender"
@@ -166,7 +166,7 @@ function DashPage2() {
           stateInput={patientData.userAge}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
       <div className="cal-icon">
       <TextInputReadonly
           label="Weight"
@@ -182,7 +182,7 @@ function DashPage2() {
         stateInput={patientData.condition}
       />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
       <TextInputReadonly
         label="Allergies"
         directInput={true}
@@ -201,6 +201,7 @@ function DashPage2() {
         required={false}
         stateInput={patientData.diagnosis}
         disabled={true}
+        rows={1}
       />
       <TextArea
         label="Ongoing Treatment"
@@ -208,6 +209,7 @@ function DashPage2() {
         required={false}
         stateInput={currentMed}
         disabled={true}
+        rows={1}
       />
       <TextArea
         label="Previous Contacts"
@@ -215,6 +217,7 @@ function DashPage2() {
         required={false}
         stateInput={prevC}
         disabled={true}
+        rows={1}
       />
       <TextArea
         label="Medicine"
@@ -222,6 +225,7 @@ function DashPage2() {
         required={false}
         stateInput={patientData.userMedications}
         disabled={true}
+        rows={1}
       />
       <TextArea
         label="Brief Summary"
@@ -229,12 +233,13 @@ function DashPage2() {
         required={false}
         stateInput={patientData.description}
         disabled={true}
+        rows={1}
       />
       </div>
     </div>
           </div>
-          <div className="flex flex-row justify-center">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="pt-0 mt-0 flex flex-row justify-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           <DropdownBtnJournals
       txt="Nurse Journals"
       dropdownItems={dropdownItems}

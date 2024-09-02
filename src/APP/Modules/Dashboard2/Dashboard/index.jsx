@@ -9,6 +9,10 @@ import InnerSideBar from "../../../Components/SideBar2/InnerSideBar";
 
 function Dashboard2() {
   return (
+    <>
+    <div className="w-full">
+      <GlobalTopBar />
+      </div>
     <div
       className=" w-screen h-screen flex gap-x-2 overflow-hidden bg-no-repeat bg-cover bg-position-center bg-slate-50"
       style={{
@@ -26,11 +30,11 @@ function Dashboard2() {
       <div className=" flex-1 w-full h-full">
         <MobBar2 />
         <div className="  p-4 font-quicksand w-full h-full relative overflow-auto">
-          <GlobalTopBar />
           <Outlet />
         </div>
       </div>
     </div>
+    </>
   );
 }
 
