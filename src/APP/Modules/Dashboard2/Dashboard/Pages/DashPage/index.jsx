@@ -117,7 +117,7 @@ function DashPage2() {
         } else {
           s = "Doctor";
         }
-        su.push(`${s}\n`);
+        su.push(`${doc.date}-${s}-${doc.progressDiagnosis}\n`);
       });
 
       setprevC(su.slice(0, 10));
