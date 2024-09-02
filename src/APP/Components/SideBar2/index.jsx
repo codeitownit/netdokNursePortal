@@ -27,10 +27,10 @@ function SideBar() {
          <Calendar open={open}/> 
          <Notifications open={open}/> 
         </div>
-       <span style={{width:"100%",height:"0.1em" }}/>
+       {/* <span style={{width:"100%",height:"0.1em" }}/>
        <div className=" py-4 flex flex-col gap-y-2">
        <Logout open={open}/>
-       </div>
+       </div> */}
     </div>
   );
 }

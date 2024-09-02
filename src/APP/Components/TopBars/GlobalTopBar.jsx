@@ -3,6 +3,7 @@ import { IoMdSettings } from "react-icons/io";
 import { FaBell } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
+import DropdownBtnProfile from "../Buttons/DropdownProfile";
 
 function GlobalTopBar() {
   const username = localStorage.getItem("universalDoctorName");
@@ -22,7 +23,10 @@ function GlobalTopBar() {
       }
       setActive(false)
   },[location])
-  
+  const dropdownItems = [
+    { label: "Edit Profile", onClick: () => navigate("/dashboard/profile")},
+    { label: "LogOut", onClick: () => navigate("/") }
+  ];
   return (
     <div
       className="w-full h-15 mb-8 text-2xl shadow-lg bg-primary bg-opacity-90 flex justify-evenly items-center rounded-full mx-auto"
@@ -46,11 +50,15 @@ function GlobalTopBar() {
             </span>
         
         </div>
-        <IoMdSettings className="text-2xl text-slate-100 mb-2 mr-5" />
-        <FaUserCircle
+        {/* <IoMdSettings className="text-2xl text-slate-100 mb-2 mr-5" /> */}
+        {/* <FaUserCircle
           className="text-5xl text-slate-100 mb-2 mr-2 hover:cursor-pointer"
           onClick={() => navigate("/dashboard/profile")}
-        />
+        /> */}
+<DropdownBtnProfile
+          className="text-5xl text-slate-100 mb-2 mr-2 hover:cursor-pointer"
+      dropdownItems={dropdownItems}
+    />
       </div>
     </div>
   );

@@ -6,12 +6,15 @@ import TextInputReadonly from "../../../../../Components/Inputs/InputReadonly";
 import grayPanel from "../../../../../Components/Container/Container";
 import { outerDiv, divStyle } from "./sections/style";
 import AddEdit from "../../../../../Components/Buttons/Add-Edit";
-import DropdownBtn from "../../../../../Components/Buttons/Dropdown-btn";
+import DropdownBtnJournals from "../../../../../Components/Buttons/DropdownJournals";
 import { TextArea } from "../../../../../Components/Inputs";
 
 function DashPage2() {
   const [patientData, setPatientData] = useState([]);
-  
+  const [data, setData] = useState(null);
+  const [medData, setMedData] = useState(null);
+  const [currentMed, setCurrentMed] = useState(null);
+  const [prevC, setprevC] = useState(null);
   const patientName = localStorage.getItem("universalPatientName")
   const pId = localStorage.getItem("universalPatientId")
 
@@ -20,6 +23,9 @@ function DashPage2() {
   const request = useaxios();
   const documentId = localStorage.getItem('universalPatientDocumentId')
   const admDate = localStorage.getItem("universalPatientAdmissionDate")
+  let su = [];
+  let medicineList = [];
+
 
   const fetchData = async () => {
     
@@ -35,8 +41,22 @@ function DashPage2() {
         url: `userProfile/orderBy/uid/${pId}`,
         body: {},
         auth: true,
+        showLoader: false,
       });
-
+      const res3 = await request({
+        method: "GET",
+        url: `patientJournal`,
+        body: {},
+        auth: false,
+        showLoader: false,
+      });
+      const res4 = await request({
+        method: "GET",
+        url: `prescriptions/prescriptionsWhere/userUid/${pId}`,
+        body: {},
+        auth: false,
+        showLoader: false,
+      });
       // Check if the response is not an error
       if (res !== "error" ) {
         console.log(res?.data);
@@ -44,6 +64,16 @@ function DashPage2() {
         localStorage.setItem("universalPatientAge", res?.data.userAge)
 
       }
+     
+      if (res3 !== "error") {
+        console.log("res3 data:", res3?.data);
+        setData(Array.isArray(res3?.data) ? res3?.data : []);
+      }
+      if (res4 !== "error") {
+        console.log("res4 data:", res4?.data);
+        setMedData(Array.isArray(res4?.data) ? res4?.data : []);
+      }
+      
       if (res2 !== "error") {
         console.log(res2?.data);
         res2?.data.map((snap)=>{
@@ -63,9 +93,46 @@ function DashPage2() {
     }
   };
 
+  //  async function contacts(){
+  //   console.log(su)
+  //   }
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (Array.isArray(data)) {
+      data.map((doc, index) => {
+        let s;
+        if (doc.type.includes("nurseMidwives")) {
+          s = "Nurse";
+        } else if (doc.type.includes("physiotherapy")) {
+          s = "Physiotherapist";
+        } else if (doc.type.includes("occupationalTherapy")) {
+          s = "Occupational Therapist";
+        } else if (doc.type.includes("psychology")) {
+          s = "Psychologist";
+        } else if (doc.type.includes("pediatric")) {
+          s = "Pediatrician";
+        } else {
+          s = "Doctor";
+        }
+        su.push(`${s}\n`);
+      });
+
+      setprevC(su.slice(0, 10));
+    }
+  }, [data]);
+  useEffect(() => {
+    if (Array.isArray(medData)) {
+      medData.map((doc, index) => {
+        if(!doc?.medStatus || doc?.medStatus === "current"){
+        medicineList.push(`${doc?.medName}\n`);
+      }});
+
+      setCurrentMed(medicineList.slice(0, 5));
+    }
+  }, [data]);
   const dropdownItems = [
     { label: "Add New Admission Journal", onClick: () => navigate(`/viewPatient/${pId}/add-admission-journal`)},
     { label: "Add Telephone Journal", onClick: () => navigate(`/viewPatient/${pId}/add-telephone-journal`) },
@@ -75,13 +142,14 @@ function DashPage2() {
 
   return (
     <div className={grayPanel()}>
-      <div className="">
+      <div className="mb-20">
         <form className={outerDiv}>
-          <div className=" flex flex-row justify-between items-center">
-            <h1 className={headers}>Patient Name: {patientName}</h1>
+          <div className=" flex justify-center">
+            <h1 className="text-3xl text-secondary font-bold text-center">View Patient Information</h1>
           </div>
+          <h4>{su.slice(0, 5)}</h4>
           <div className={divStyle}>
-          <div className="p-6 bg-white rounded-md">
+          <div className="px-52 bg-white rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="cal-icon">
       <TextInputReadonly
@@ -131,28 +199,28 @@ function DashPage2() {
         label="Diagnosis"
         directInput={true}
         required={false}
-        stateInput={patientData.condition}
+        stateInput={patientData.diagnosis}
         disabled={true}
       />
       <TextArea
         label="Ongoing Treatment"
         directInput={true}
         required={false}
-        stateInput={admDate}
+        stateInput={currentMed}
         disabled={true}
       />
       <TextArea
         label="Previous Contacts"
         directInput={true}
         required={false}
-        stateInput={admDate}
+        stateInput={prevC}
         disabled={true}
       />
       <TextArea
         label="Medicine"
         directInput={true}
         required={false}
-        stateInput={patientData.medication}
+        stateInput={patientData.userMedications}
         disabled={true}
       />
       <TextArea
@@ -166,7 +234,8 @@ function DashPage2() {
     </div>
           </div>
           <div className="flex flex-row justify-center">
-          <DropdownBtn
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <DropdownBtnJournals
       txt="Nurse Journals"
       dropdownItems={dropdownItems}
     />
@@ -185,6 +254,7 @@ function DashPage2() {
           <AddEdit text="Correspondence" 
           onClick={() =>navigate(`/viewPatient/${pId}/correspondence`)}
           />
+          </div>
           </div>
         </form>
       </div>
