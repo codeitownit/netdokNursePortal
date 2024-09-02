@@ -117,7 +117,7 @@ function AddFluid() {
   return (
     <form id="form" className="w-100 tint mb-4 mt-4" onSubmit={handleSubmit}>
       <div className="flex-grow-1 m-3 p-4 d-flex flex-col gap-2 bg-green-100">
-        <h3 className="self-center font-bold flex justify-center text-3xl pb-10 text-green-500">
+        <h3 className="self-center font-bold flex justify-center text-3xl pb-10 text-green-900 text-pretty">
         FLUID BALANCE
         </h3>
         <div className="_row tint">
@@ -185,14 +185,14 @@ function AddFluid() {
           <table className="min-w-full table-auto border-collapse border border-green-500">
           <thead>
             <tr>
-              <th colSpan={7} className="border border-green-900 px-4 py-2 bg-green-500">FLUID INPUT</th>
+              <th colSpan={7} className="border border-green-900 px-4 py-2 bg-secondary">FLUID INPUT</th>
             </tr>
           </thead>
           <thead>
             <tr>
-              <th className="border border-green-900 px-4 py-2 bg-green-500">Time</th>
+              <th className="border border-green-900 px-4 py-2 bg-secondary">Time</th>
               {columns.map((col, index) => (
-                <th key={index} className="border border-green-900 px-4 py-2 bg-green-500">
+                <th key={index} className="border border-green-900 px-4 py-2 bg-secondary">
                   {col}
                 </th>
               ))}
@@ -201,7 +201,7 @@ function AddFluid() {
           <tbody>
             {rows.map((time, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="border border-green-900 px-4 py-2 bg-green-500">{time}</td>
+                <td className="border border-green-900 px-4 py-2 bg-secondary">{time}</td>
                 {columns.map((_, colIndex) => (
                   <td key={colIndex} className="border border-gray-300 px-4 py-2">
                     {colIndex < 4 ? (
@@ -227,14 +227,14 @@ function AddFluid() {
           <table className="min-w-full table-auto border-collapse border border-green-900">
           <thead>
             <tr>
-              <th colSpan={7} className="border border-green-900 px-4 py-2 bg-green-500">FLUID OUTPUT</th>
+              <th colSpan={7} className="border border-green-900 px-4 py-2 bg-secondary">FLUID OUTPUT</th>
             </tr>
           </thead>
           <thead>
             <tr>
-              <th className="border border-green-900 px-4 py-2 bg-green-500">Time</th>
+              <th className="border border-green-900 px-4 py-2 bg-secondary">Time</th>
               {columnsOut.map((col, index) => (
-                <th key={index} className="border border-green-900 px-4 py-2 bg-green-500">
+                <th key={index} className="border border-green-900 px-4 py-2 bg-secondary">
                   {col}
                 </th>
               ))}
@@ -243,7 +243,7 @@ function AddFluid() {
           <tbody>
             {rows.map((time, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="border border-green-900 px-4 py-2 bg-green-500">{time}</td>
+                <td className="border border-green-900 px-4 py-2 bg-secondary">{time}</td>
                 {columnsOut.map((_, colIndex) => (
                   <td key={colIndex} className="border border-gray-300 px-4 py-2">
                     {colIndex < 4 ? (
