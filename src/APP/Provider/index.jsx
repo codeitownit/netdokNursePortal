@@ -18,7 +18,11 @@ function AppProvider({ children }) {
   const [errorMessage, setErrorMessage] = useState("...Error");
   const [showErrorTimeout, setShowErrorTimeout] = useState(3000);
   const [open, setOpen] = useState(true);
+  const [departments, setDepartments] = useState(null);
 
+  const togglesetDepartment = (items) => {
+    setDepartments(items);
+};
     const toggleOpen = () => {
         setOpen(prevOpen => !prevOpen);
     };
@@ -54,7 +58,10 @@ function AppProvider({ children }) {
         setErrorMessage,
         setOpen,
         toggleOpen,
-        open
+        open,
+        departments,
+        setDepartments,
+        togglesetDepartment
       }}
     >
       {children}

@@ -10,84 +10,42 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import useaxios from "../../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../../Components/Modals/ConfirmationModal";
+import { doctorId } from "../../../../../../Components/globals";
 
-function Rows({ id = "", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ date = "", type="", docId="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
+  const patientId = localStorage.getItem("universalPatientId")
 
   const request  = useaxios();
-
-
-  async function handleDelete() {
-    try {
-      const res = await request({
-        method: "DELETE",
-        url: "",
-        data: {},
-        params:{
-          id: id
-        },
-        auth: false, 
-        showLoader: false
-      });
-
-      // Check if the response is not an error
-      if (res !== "error") {
-        navigate(`/dashboard`)
-        setShowDeleteModal(false);
-        toast.success("Deleted successfully");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  function viewJournal() {
+    if(type === "Correspondence"){
+      navigate(`/viewPatient/${patientId}/correspondence/view/correspondenceJournal/${docId}`)
+    } else if(type === "Death Certificate"){
+      navigate(`/viewPatient/${patientId}/correspondence/view/deathCertificate/${docId}`)
+    } else if(type === "Medical Certificate Life Birth"){
+      navigate(`/viewPatient/${patientId}/correspondence/view/medLiveBirth/${docId}`)
+    } else if(type === "Medical Fitness Certificate"){
+      navigate(`/viewPatient/${patientId}/correspondence/view/medFitness/${docId}`)
+    }  else if(type === "Medical Leave Certificate"){
+      navigate(`/viewPatient/${patientId}/correspondence/view/medLeave/${docId}`)
+    } 
   }
-
-
   return (
     <>
       <Tr>
-      <Td name="PATIENT ID">
-        <Tt txt={`#${id}`} />
+      <Td name="DATE">
+        <Tt txt={date} />
       </Td>
-      <Td name="PATIENT NAME">
-        <Tt txt={classLevel} />
-      </Td>
-      <Td name="ADMISSION UNIT">
-        <Tt txt={subject} />
-      </Td>
-      <Td name="ADMISSION ROOM">
-        <Tt txt={room} />
-      </Td>
-      <Td name="CONDITION INFORMATION">
-        <Tt txt={condition} />
-      </Td>
-      <Td name="RESPONSIBLE SPECIALIST">
-        <Tt txt={specialist} />
-      </Td>
-      <Td name="STATUS">
-        <Tt txt={status} />
+      <Td name="TYPE">
+        <Tt txt={type} />
       </Td>
       <Td name="ACTIONS">
         <span className=" flex gap-x-2  items-center text-4xl">
-          <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
-            <MdDelete />
-          </span>
-          <span className=" cursor-pointer active:opacity-50 text-blue-500 text-3xl" onClick={()=>navigate(`/dashboard/edit/${id}`)}>
-            <FaEdit/>
-          </span>
+        <button className="w-full py-3 px-5 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all" onClick={()=>viewJournal()}>View</button>
         </span>
       </Td>
     </Tr>
-    <ConfirmationModal
-    text="ARE YOU SURE YOU WANT TO DELETE?" 
-    showModal={showDeleteModal}
-    setShowModal={setShowDeleteModal}
-    onCancelClick={()=>setShowDeleteModal(false)}
-    onConfirmClick={()=>handleDelete(id)}
-    confirmText="Delete"
-    cancelText="Cancel"
-    />
-    <ToastContainer />
 </>
   );
 }

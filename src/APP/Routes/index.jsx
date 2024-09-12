@@ -73,6 +73,7 @@ import Med from "../Modules/Dashboard2/Dashboard/Pages/Medicine";
 import ListMed from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List";
 import PosedPrescriptions from "../Modules/Dashboard2/Dashboard/Pages/Medicine/Posed";
 import PrevPrescriptions from "../Modules/Dashboard2/Dashboard/Pages/Medicine/PreviousList";
+import OrderPrescriptions from "../Modules/Dashboard2/Dashboard/Pages/Medicine/Order/index.jsx";
 
 import Fluid from "../Modules/Dashboard2/Dashboard/Pages/Fluid";
 import AddFluid from "../Modules/Dashboard2/Dashboard/Pages/Fluid/Add";
@@ -82,12 +83,21 @@ import ListVitals from "../Modules/Dashboard2/Dashboard/Pages/Vitals/ListVitals"
 
 import AddCorrespondence from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/Add";
 import Correspondence from "../Modules/Dashboard2/Dashboard/Pages/Correspondence";
+import ListCorrespondence from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/List/index.jsx";
+import ViewCorrespondence from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewCorrespondence.jsx";
+import ViewDeathCertificate from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewDeathCertificate.jsx";
+import ViewMedLeave from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewMedLeave.jsx";
+import ViewMedFitness from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewMedicalFitness.jsx";
+import ViewLiveBirth from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewLiveBirth.jsx";
 
 import Profile from "../Modules/Dashboard/Pages/UserProfile";
 import ViewProfile from "../Modules/Dashboard/Pages/UserProfile/View";
 
 import SingleWard from "../Modules/Dashboard/Pages/SingleWard";
 import ListSingleWard from "../Modules/Dashboard/Pages/SingleWard/List";
+
+import SingleDep from "../Modules/Dashboard/Pages/SingleDepartment/index.jsx";
+import ListSingleDep from "../Modules/Dashboard/Pages/SingleDepartment/List/index.jsx";
 
 import AdmissionTreatment from "../Modules/Dashboard2/Dashboard/Pages/ATM";
 import ATMList from "../Modules/Dashboard2/Dashboard/Pages/ATM/List";
@@ -146,6 +156,12 @@ function AllRoutes() {
           </Route>
         <Route path="correspondence" element={<Correspondence />}>
             <Route index element={<AddCorrespondence />} />
+            <Route path="list" element={<ListCorrespondence />} />
+            <Route path="view/correspondenceJournal/:id" element={<ViewCorrespondence />} />
+            <Route path="view/deathCertificate/:id" element={<ViewDeathCertificate />} />
+            <Route path="view/medLeave/:id" element={<ViewMedLeave />} />
+            <Route path="view/medFitness/:id" element={<ViewMedFitness />} />
+            <Route path="view/medLiveBirth/:id" element={<ViewLiveBirth />} />
           </Route>
           <Route path="vitals" element={<Vitals />}>
             <Route index element={<ListVitals />} />
@@ -196,6 +212,7 @@ function AllRoutes() {
             <Route path="current" index element={<ListMed />} />
             <Route path="posed" element={<PosedPrescriptions />}/>
             <Route path="previous" element={<PrevPrescriptions />}/>
+            <Route path="order" element={<OrderPrescriptions />}/>
           </Route>
           <Route path="nurseReports" element={<NurseReports />}>
             <Route index element={<ListNurseReports />} />
@@ -212,6 +229,9 @@ function AllRoutes() {
           </Route>
           <Route path="wards" element={<SingleWard />}>
             <Route path="view/:id" index element={<ListSingleWard />} />
+          </Route>
+          <Route path="departments" element={<SingleDep />}>
+            <Route path="view/:id" index element={<ListSingleDep />} />
           </Route>
           <Route path="profile" element={<Profile />}>
             <Route index element={<ViewProfile />} />

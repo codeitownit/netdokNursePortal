@@ -16,6 +16,7 @@ function DashPage() {
   // if (!user) {
   //   navigate("/")
   // }
+  let dropdownItems = [];
 
   const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
@@ -28,6 +29,8 @@ function DashPage() {
   const recordsPerPage = 10;
   const docName = localStorage.getItem("primeDoctorUserId")
   const doctorId = localStorage.getItem("primeDoctorUserId");
+
+  const {departments, togglesetDepartment} = useContext(AppContext)
 
   // const fData = async () => {
   //   const docId = localStorage.getItem("primeDoctorUserId")
@@ -66,6 +69,27 @@ function DashPage() {
         body: {},
         auth: false,
       });
+      const res2 = await request({
+        method: "GET",
+        url: `hospitalOnboarding/hospital/AH-48656`,
+        body: {},
+        auth: false,
+      });
+
+      // Check if the response is not an error
+      if (res2 !== "error") {
+        console.log(res?.data.type);
+        res2?.data.map((item)=>{
+            item?.departments.map((ward)=>{
+              // if(ward?.department === "Oncology"){
+                const id = ward
+                dropdownItems.push(id)
+                togglesetDepartment(dropdownItems)
+                localStorage.setItem("hospitalDepartments", dropdownItems)
+              // }
+            })
+        })
+      }
 
       // Check if the response is not an error
       if (res !== "error") {
@@ -107,7 +131,9 @@ function DashPage() {
   useEffect(() => {
     const newAddedPatients = new Map(addedPatients);
     data.forEach((snap) => {
-      if (snap.type === 'admission' && snap.nurse === doctorId) {
+      if (snap.type === 'admission' 
+        // && snap.nurse === doctorId
+      ) {
         if (!newAddedPatients.has(snap.patient)) {
           newAddedPatients.set(snap.patient, snap);
         }

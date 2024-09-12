@@ -21,7 +21,7 @@ function DropdownBtnJournals({ Icon = <></>, txt = "", active = true, open = fal
     return (
         <div>
             <div
-                className="border-2 bg-secondary hover:bg-green-600 text-white w-auto h-6 py-4 px-2 rounded-md font-poppins font-bold flex items-center mx-4"
+                className="border-2 bg-secondary hover:bg-green-600 text-white w-auto h-2 py-6 px-8 rounded-md font-poppins font-bold flex items-center mx-4"
                 onClick={handleButtonClick}
             >
                 <div className="flex justify-between w-full items-center px-2">

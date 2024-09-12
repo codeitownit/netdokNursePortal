@@ -7,6 +7,8 @@ import Discharged from "./Btns/Discharged";
 import Transferred from "./Btns/Transferred";
 import Notifications from "./Btns/Notifications";
 import Calendar from "./Btns/Calendar";
+import Deps from "./Btns/Departments";
+import Wards from "./Btns/Wards";
 
 function MobBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,6 +31,8 @@ function MenuBtns() {
         <div className=" flex w-full flex-col gap-y-2 p-2">
             <Dashboard open={true}/>
             <Chat open={true} />
+            <Deps open={true} />
+            <Wards open={true} />
             <Discharged open={true} />
             <Transferred open={true} />
             <Calendar open={open}/> 

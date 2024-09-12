@@ -1,5 +1,5 @@
 import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
-import Rows from "../sections/Rows";
+import Rows from "./sections/Rows"
 import { headers } from "../sections/style";
 import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";

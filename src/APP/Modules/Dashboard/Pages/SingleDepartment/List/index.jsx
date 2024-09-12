@@ -1,34 +1,32 @@
-
-import { Tbody, Thead, Table, Tht } from "../../../../../../Components/Table";
+import { Tbody, Thead, Table, Tht} from "../../../../../Components/Table";
 import Rows from "../sections/Rows";
-import AddEdit from "../../../../../../Components/Buttons/Add-Edit";
+import AddEdit from "../../../../../Components/Buttons/Add-Edit";
 import { headers } from "../sections/style";
-import useaxios from "../../../../../../Hooks/useAxios";
+import useaxios from "../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DropdownBtnJournals from "../../../../../../Components/Buttons/DropdownJournals";
+import { useNavigate, useParams } from "react-router-dom";
 
-
-function ProgressList() {
-  const navigate = useNavigate();
-
-
+function ListSingleDep() {
+  const [addedPatients, setAddedPatients] = useState(new Map());
   const [data, setData] = useState([]);
   const [pageNumber, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+  const doctorId = localStorage.getItem("primeDoctorUserId");
 
+  const {id} = useParams();
+  console.log(id)
+
+  const navigate = useNavigate();
   const request = useaxios();
-  const patientId = localStorage.getItem("universalPatientId")
+
   const fetchData = async (params = {}) => {
     const { pageNumber = 1 } = params;
     const queryParams = { pageNumber, limitNumber: 10 };
-    const queryString = localStorage.getItem("universalPatientId")
-    const doctorId = localStorage.getItem("primeDoctorUserId")
     try {
       const res = await request({
         method: "GET",
-        url: 'patientJournal',
+        url: "patientJournal",
         body: {},
         params: queryParams,
         auth: false,
@@ -52,6 +50,17 @@ function ProgressList() {
     fetchData();
   }, [pageNumber]);
 
+  useEffect(() => {
+    const newAddedPatients = new Map(addedPatients);
+    data.forEach((snap) => {
+      if (snap.type === 'admission' && snap.nurse === doctorId) {
+        if (!newAddedPatients.has(snap.patient)) {
+          newAddedPatients.set(snap.patient, snap);
+        }
+      }
+    });
+    setAddedPatients(newAddedPatients);
+  }, [data]);
 
   const [t, setT] = useState("");
 
@@ -73,21 +82,15 @@ function ProgressList() {
       setPage((c) => c - 1);
     }
   }
-  const dropdownItems = [
-    { label: "Add New Admission Journal", onClick: () => navigate(`/viewPatient/${patientId}/add-admission-journal`)},
-    { label: "Add Telephone Journal", onClick: () => navigate(`/viewPatient/${patientId}/add-telephone-journal`) },
-    { label: "Add Progress Journal", onClick: () => navigate(`/viewPatient/${patientId}/add-progress-journal`) },
-    { label: "Add Operation Journal", onClick: () => navigate(`/viewPatient/${patientId}/add-operation-journal`) }
-  ];
 
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Previous Progress Journals</h1>
-        <DropdownBtnJournals
-      txt="Add Nurse Journal"
-      dropdownItems={dropdownItems}
-    />
+        <h1 className={headers}>Ward List</h1>
+        {/* <AddEdit
+          text="+ Add Class"
+          onClick={() => navigate(`/dashboard/add`)}
+        /> */}
       </div>
       <Table
         mt={2}
@@ -104,38 +107,40 @@ function ProgressList() {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="DATE ADDED" />
-          <Tht txt="JOURNAL TYPE" />
-          <Tht txt="DIAGNOSIS" />
+          <Tht txt="PATIENT ID" />
+          <Tht txt="PATIENT NAME" />
+          <Tht txt="ADMISSION UNIT" />
+          <Tht txt="ADMISSION ROOM" />
+          <Tht txt="CONDITION INFORMATION " />
+          <Tht txt="RESPONSIBLE SPECIALIST" />
+          <Tht txt="STATUS" />
+          <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
-          {data
+          {Array.from(addedPatients.values())
             .filter((item) => {
               return t.toLowerCase() === ""
                 ? item
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              let s;
-              if (doc.type.includes("nurseMidwives") && doc.patient === patientId){
-                console.log(doc);
-
-                if(doc.type.includes("Operation")){
-                    s = "operation"
-                } else if(doc.type.includes("Telephone")){
-                    s = "telephone"
-                } else if(doc.type.includes("Progress")) {
-                    s = "progress"
-                }  else {
-                    s = "admission"
-                } 
+                if(doc?.selectedDepartment === id){
+                    console.log(doc)
+                }
+              console.log(doc.selectedDepartment);
+              if((doc?.admStatus === "admitted" || doc?.admStatus === "observation") && doc?.selectedDepartment === id){
               return (
                 <Rows
-                  key={doc?.id || index}
-                  id={doc?.documentId || ""}
-                  date={doc?.date || ""}
-                  specialist={ s || ""}
-                  condition={doc?.progressDiagnosis || ""}
+                  key={doc?.patient || index}
+                  doc={doc?.document || ""}
+                  date={doc?.admissionDate || ""}
+                  id={doc?.patient || ""}
+                  pname={doc?.patientName || ""}
+                  unit={doc?.admittingUnit || ""}
+                  room={doc?.room || ""}
+                  condition={doc?.condition || ""}
+                  specialist={doc?.doctorName || ""}
+                  status={doc?.admStatus || ""}
                   fetchData={fetchData}
                 />
               );}
@@ -146,4 +151,4 @@ function ProgressList() {
   );
 }
 
-export default ProgressList;
+export default ListSingleDep;

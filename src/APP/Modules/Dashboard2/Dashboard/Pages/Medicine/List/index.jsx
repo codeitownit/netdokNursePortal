@@ -79,7 +79,8 @@ function ListMed(text="View Previous Prescriptions") {
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
         <h1 className={headers}>Current Prescription</h1>
-        {/* <AddEdit text={text} onClick={handlePrevPres}/> */}
+        <button className="p-4 bg-red-600" onClick={()=>navigate(`/viewPatient/${patientId}/medicine/order`)}></button>
+        {/* <AddEdit text={text}/> */}
       </div>
       <Table
         mt={2}
@@ -96,10 +97,11 @@ function ListMed(text="View Previous Prescriptions") {
         showFilter={false}
       >
         <Thead>
-          <Tht txt="MEDICINE NAME" />
-          <Tht txt="FORMULATION" />
+          <Tht txt="MEDICINE NAME & STRENGTH" />
+          <Tht txt="ADMRT" />
           <Tht txt="DOSE" />
           <Tht txt="QUANTITY " />
+          {/* <Tht txt="ACTIONS " /> */}
         </Thead>
         <Tbody>
           {data
@@ -115,6 +117,7 @@ function ListMed(text="View Previous Prescriptions") {
                 <Rows
                   key={doc?.id || index}
                   name={doc?.medName || ""}
+                  docId={doc?.documentId||""}
                   form={doc?.medForm || ""}
                   dose={doc?.medDose || ""}
                   quantity={doc?.medQty || ""}

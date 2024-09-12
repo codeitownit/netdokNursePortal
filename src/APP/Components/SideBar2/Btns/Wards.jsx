@@ -26,13 +26,13 @@ let dropdownItems = [];
         console.log(res?.data.type);
         res?.data.map((item)=>{
             item?.wards.map((ward)=>{
-              if(ward?.department === "Oncology"){
+              // if(ward?.department === "Oncology"){
                 const id = ward?.wardName
                 const q = {label:ward?.wardName, onClick: () => navigate(`/dashboard/wards/view/${id}`)}
                 dropdownItems.push(q)
                 setData(dropdownItems)
                 console.log(data)
-              }
+              // }
             })
         })
         return true;

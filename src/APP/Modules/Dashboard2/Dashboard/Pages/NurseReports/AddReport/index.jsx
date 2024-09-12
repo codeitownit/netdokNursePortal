@@ -10,7 +10,7 @@ import { TextArea } from "../../../../../../Components/Inputs";
 import DateInput from "../../../../../../Components/Inputs/DateInput";
 import TimeInput from "../../../../../../Components/Inputs/TimeInput";
 import 'react-datepicker/dist/react-datepicker.css';
-
+import RadioInput from "../../../../../../Components/Inputs/RadioInput";
 
 // eslint-disable-next-line react/prop-types
 function AddNurseReport({ text = "Add Nurse Report" }) {
@@ -37,6 +37,12 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
   const [currentState, setCurrentState] = useState('');
   const [feaces, setFeaces] = useState('');
   const [diet, setDiet] = useState('');
+  const [air, setAir] = useState('');
+  const [wheezing, setWheezing] = useState('');
+  const [oxy, setOxy] = useState('');
+  const [irregular, setIrregular] = useState('');
+  const [stridor, setStridor] = useState('');
+
 
   // const handleDateChange = (event) => {
   //   setAdmissionDate(event.target.value);
@@ -76,6 +82,11 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
       drinks: drinks,
       urine: urine,
       iv: iv,
+      airway: air,
+      wheezing: wheezing,
+      stridor: stridor,
+      irregular: irregular,
+      oxy: oxy,
       stoma: stoma,
       vomiting: vomiting,
       drainage: drainage,
@@ -118,6 +129,42 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
       return;
     }
   }
+  const airoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+    { label: 'Threatened', value: 'threatened' },
+  ];
+  const wheezingoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+  ];const Stridoroptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+  ];const oxygenoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+  ];const irregularoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+    { label: 'Threatened', value: 'threatened' },
+  ];
+  const handleairChange = (value) => {
+    console.log('Selected value:', value);
+    setAir(value)
+  };
+  const handlestridorChange = (value) => {
+    console.log('Selected value:', value);
+    setStridor(value)
+  };const handleOxyChange = (value) => {
+    console.log('Selected value:', value);
+    setOxy(value)
+  };const handleirregularChange = (value) => {
+    console.log('Selected value:', value);
+    setIrregular(value)
+  };const handlewheezingChange = (value) => {
+    console.log('Selected value:', value);
+    setWheezing(value)
+  };
   return (
     <div className={grayPanel()}>
       <div className="">
@@ -145,39 +192,6 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
           stateInput={time}
           setStateInput={setTime}
         />
-      </div>
-      <h3 className="text-xl font-bold mt-6 mb-4">Bedside Test</h3>
-      <div className="">
-      <TextArea
-        label="CRP Rapid Test"
-        directInput={true}
-        required={false}
-        stateInput={crp}
-        setStateInput={setCrp}
-      />
-      <TextArea
-        label="Urinalysis Test"
-        directInput={true}
-        required={false}
-        stateInput={fluid}
-        setStateInput={setFluid}
-      />
-</div>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInput
-        label="p-glucose"
-        directInput={true}
-        required={false}
-        stateInput={pGlucose}
-        setStateInput={setPGlucose}
-      />
-      <TextInput
-        label="Oxygen Saturation"
-        directInput={true}
-        required={false}
-        stateInput={oxygen}
-        setStateInput={setOxygen}
-      />
       </div>
       <h3 className="text-xl font-bold mt-6 mb-4">Vital Parameters</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -230,6 +244,52 @@ function AddNurseReport({ text = "Add Nurse Report" }) {
           stateInput={bloodSugar}
           setStateInput={setBloodSugar}
         />
+        <TextInput
+          label="GCS (15 to 1):"
+          directInput={true}
+          required={false}
+          stateInput={bloodSugar}
+          setStateInput={setBloodSugar}
+        />
+      <RadioInput label="Airway Clear:" options={airoptions} name="example" onChange={handleairChange} />
+      <RadioInput label="Stridor:" options={Stridoroptions} name="example" onChange={handlestridorChange} />
+      <RadioInput label="Wheezing:" options={wheezingoptions} name="example" onChange={handlewheezingChange} />
+      <RadioInput label="Oxygen:" options={oxygenoptions} name="example" onChange={handleOxyChange} />
+      <RadioInput label="Irregular Heart Rythm:" options={irregularoptions} name="example" onChange={handleirregularChange} />
+
+      </div>
+      <h3 className="text-xl font-bold mt-6 mb-4">Bedside Test</h3>
+      <div className="">
+      <TextArea
+        label="CRP Rapid Test"
+        directInput={true}
+        required={false}
+        stateInput={crp}
+        setStateInput={setCrp}
+      />
+      <TextArea
+        label="Urinalysis Test"
+        directInput={true}
+        required={false}
+        stateInput={fluid}
+        setStateInput={setFluid}
+      />
+</div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <TextInput
+        label="p-glucose"
+        directInput={true}
+        required={false}
+        stateInput={pGlucose}
+        setStateInput={setPGlucose}
+      />
+      <TextInput
+        label="Oxygen Saturation"
+        directInput={true}
+        required={false}
+        stateInput={oxygen}
+        setStateInput={setOxygen}
+      />
       </div>
       <h3 className="text-xl font-bold mt-6 mb-4">Fluids And Losses</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">

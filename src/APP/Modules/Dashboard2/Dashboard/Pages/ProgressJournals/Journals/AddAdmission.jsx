@@ -11,7 +11,7 @@ import DateInput from "../../../../../../Components/Inputs/DateInput";
 import TimeInput from "../../../../../../Components/Inputs/TimeInput";
 import 'react-datepicker/dist/react-datepicker.css';
 import DropdownBtn from "../../../../../../Components/Buttons/Dropdown-btn";
-
+import RadioInput from "../../../../../../Components/Inputs/RadioInput";
 
 // eslint-disable-next-line react/prop-types
 function AddAdmission({ text = "Add Journal" }) {
@@ -34,6 +34,11 @@ function AddAdmission({ text = "Add Journal" }) {
   const [carePlan, setCarePlan] = useState('');
   const [icd10Code, setIcd10Code] = useState('');
   const [progressDiagnosis, setProgressDiagnosis] = useState('');
+  const [air, setAir] = useState('');
+  const [wheezing, setWheezing] = useState('');
+  const [oxy, setOxy] = useState('');
+  const [irregular, setIrregular] = useState('');
+  const [stridor, setStridor] = useState('');
   const icd10InputRef = useRef(null);
   
   const pId = localStorage.getItem("universalPatientId")
@@ -76,6 +81,11 @@ function AddAdmission({ text = "Add Journal" }) {
     const formData = {
         bloodPressure: bp,
         bloodSugar: bloodSugar,
+        airway: air,
+        wheezing: wheezing,
+        stridor: stridor,
+        irregular: irregular,
+        oxy: oxy,
         previousTreatment: previousTreatment,
         nursingProcedures: procedures,
         breathingRate: breathing,
@@ -128,6 +138,42 @@ function AddAdmission({ text = "Add Journal" }) {
     { label: "Save Signed", onClick: () => handleSubmit(1)},
     { label: "Save Unsigned", onClick: () => handleSubmit(0) }
   ];
+  const airoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+    { label: 'Threatened', value: 'threatened' },
+  ];
+  const wheezingoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+  ];const Stridoroptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+  ];const oxygenoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+  ];const irregularoptions = [
+    { label: 'yes', value: 'yes' },
+    { label: 'no', value: 'no' },
+    { label: 'Threatened', value: 'threatened' },
+  ];
+  const handleairChange = (value) => {
+    console.log('Selected value:', value);
+    setAir(value)
+  };
+  const handlestridorChange = (value) => {
+    console.log('Selected value:', value);
+    setStridor(value)
+  };const handleOxyChange = (value) => {
+    console.log('Selected value:', value);
+    setOxy(value)
+  };const handleirregularChange = (value) => {
+    console.log('Selected value:', value);
+    setIrregular(value)
+  };const handlewheezingChange = (value) => {
+    console.log('Selected value:', value);
+    setWheezing(value)
+  };
 
   return (
     <div className={grayPanel()}>
@@ -203,7 +249,7 @@ function AddAdmission({ text = "Add Journal" }) {
               </div>
 
       <h3 className="text-xl font-bold mt-6 mb-4">Vital Parameters</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <TextInput
           label="Weight (Kg)"
           directInput={true}
@@ -260,6 +306,19 @@ function AddAdmission({ text = "Add Journal" }) {
           stateInput={bloodSugar}
           setStateInput={setBloodSugar}
         />
+        <TextInput
+          label="GCS (15 to 1):"
+          directInput={true}
+          required={false}
+          stateInput={bloodSugar}
+          setStateInput={setBloodSugar}
+        />
+      <RadioInput label="Airway Clear:" options={airoptions} name="example" onChange={handleairChange} />
+      <RadioInput label="Stridor:" options={Stridoroptions} name="example" onChange={handlestridorChange} />
+      <RadioInput label="Wheezing:" options={wheezingoptions} name="example" onChange={handlewheezingChange} />
+      <RadioInput label="Oxygen:" options={oxygenoptions} name="example" onChange={handleOxyChange} />
+      <RadioInput label="Irregular Heart Rythm:" options={irregularoptions} name="example" onChange={handleirregularChange} />
+
       </div>
         <TextArea
           label="Nursing Procedures"

@@ -6,7 +6,7 @@ import useaxios from "../../../../../../Hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ListVitals() {
+function ListCorrespondence() {
   
   const navigate = useNavigate();
 
@@ -27,25 +27,52 @@ function ListVitals() {
     try {
       const res = await request({
         method: "GET",
-        url: `patientVitalChart/userinfo/${pId}`,
+        url: `medicalLeaveCertificate`,
         body: {},
-        params: queryParams,
         auth: false,
       });
       const res2 = await request({
         method: "GET",
-        url: "patientJournal",
+        url: "medicalFitnessCertificate",
         body: {},
         params: queryParams,
         auth: false,
+        showLoader: false,
+      });
+      const res3 = await request({
+        method: "GET",
+        url: "medicalCertificateLifeBirth",
+        body: {},
+        params: queryParams,
+        auth: false,
+        showLoader: false,
+      });
+      const res4 = await request({
+        method: "GET",
+        url: "deathCertificate",
+        body: {},
+        params: queryParams,
+        auth: false,
+        showLoader: false,
+      });
+      const res5 = await request({
+        method: "GET",
+        url: "correspondence",
+        body: {},
+        params: queryParams,
+        auth: false,
+        showLoader: false,
       });
 
       // Check if the response is not an error
-      if (res !== "error" && res2 !== "error") {
+      if (res !== "error" && res2 !== "error" && res3 !== "error" && res4 !== "error" && res5 !== "error") {
         const r1 = res?.data;
         const r2 = res2?.data;
-        const result = r1.concat(r2)
-        console.log(result);
+        const r3 = res3?.data;
+        const r4 = res4?.data;
+        const r5 = res5?.data;
+        const result = r1.concat(r2).concat(r3).concat(r4).concat(r5)
+        // console.log(result);
         setData(result || []);
         setHasNextPage(res?.pagination?.hasNextPage || false);
         setHasPrevPage(res?.pagination?.hasPrevPage || false);
@@ -88,8 +115,8 @@ function ListVitals() {
       <div className="flex justify-between items-center">
       {/* <h1>Welcome, {user.email}</h1> */}
       {/* <button onClick={handleLogout}>Logout</button> */}
-        <h1 className={headers}>Vital Parameters</h1>
-        <p>View Patient Vitals</p>
+        {/* <h1 className={headers}>View Correspondence</h1> */}
+        <p>View Correspondence</p>
       </div>
       <Table
         mt={2}
@@ -107,14 +134,14 @@ function ListVitals() {
       >
         <Thead>
           <Tht txt="DATE" />
-          <Tht txt="WT" />
-          <Tht txt="HT" />
-          <Tht txt="BP" />
-          <Tht txt="PR" />
-          <Tht txt="TEMP" />
-          <Tht txt="PSUGAR" />
-          <Tht txt="BR" />
-          <Tht txt="PAO(%)" />
+          <Tht txt="TYPE" />
+          {/* <Tht txt="HEIGHT(cm)" />
+          <Tht txt="BLOOD PRESSURE(mm Hg)" />
+          <Tht txt="PULSE RATE(bpm)" />
+          <Tht txt="TEMPERATURE" />
+          <Tht txt="BLOOD SUGAR(mmol/L)" />
+          <Tht txt="BREATHING RATE(bpm)" />
+          <Tht txt="PULSE OXIMETER(%)" /> */}
           <Tht txt="ACTIONS" />
         </Thead>
         <Tbody>
@@ -125,20 +152,33 @@ function ListVitals() {
                 : item.name.toLowerCase().includes(t);
             })
             .map((doc, index) => {
-              console.log(doc?.weight);
-              if((!doc?.type &&doc?.patient===pId) || (doc?.type === "nurseMidwives" &&doc?.patient===pId) || (doc?.type === "patient" &&doc?.patient===pId) || (doc?.type === "progress" &&doc?.patient===pId)){
+              let type;
+              if(doc?.details ||doc?.details===""){
+                type = "Correspondence"
+              } else if(doc?.['date-of-death'] ||doc?.['date-of-death']===""){
+                type= "Death Certificate"
+              } else if(doc?.['gestational-age'] || doc?.['gestational-age']===""){
+                type = "Medical Certificate Life Birth"
+              } else if(doc?.['days-of-medical-attention'] ||doc?.['days-of-medical-attention']===""){
+                type = "Medical Leave Certificate"
+              } else if(doc?.suffering || doc?.suffering===""){
+                type = "Medical Fitness Certificate"
+              }
+              if((doc?.patient || doc?.patientId) && (doc?.patient===pId || doc?.patientId === pId)){
+                console.log(doc);
                 return (
                 <Rows
                   key={doc?.id || index}
                   date={doc?.date || ""}
-                  weight={doc.weight || ""}
-                  height={doc?.height || ""}
-                  bp={doc?.bloodPressure || ""}
-                  pr={doc?.pulseRate || ""}
-                  temp={doc?.temperature || ""}
-                  bs={doc?.bloodSugar || ""}
-                  br={doc?.breathingRate || ""}
-                  po={doc?.pulseOximeter || ""}
+                  type={type || ""}
+                  docId={doc?.documentId || ""}
+                //   height={doc?.height || ""}
+                //   bp={doc?.bloodPressure || ""}
+                //   pr={doc?.pulseRate || ""}
+                //   temp={doc?.temperature || ""}
+                //   bs={doc?.bloodSugar || ""}
+                //   br={doc?.breathingRate || ""}
+                //   po={doc?.pulseOximeter || ""}
                   fetchData={fetchData}
                 />
               );}
@@ -149,4 +189,4 @@ function ListVitals() {
   );
 }
 
-export default ListVitals;
+export default ListCorrespondence;

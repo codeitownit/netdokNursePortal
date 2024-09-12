@@ -59,6 +59,13 @@ function Rows({ id = "", name="", form = "", dose = "", quantity="", fetchData})
       <Td name="QUANTITY">
         <Tt txt={quantity} />
       </Td>
+      {/* <Td name="ACTIONS">
+        <span className=" flex gap-x-2  items-center text-4xl">
+          <span className=" cursor-pointer active:opacity-50 text-red-500" onClick={()=>setShowDeleteModal(true)}>
+           <button className="w-full py-3 px-5 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">Order Drug</button>
+          </span>
+        </span>
+      </Td> */}
     </Tr>
     <ConfirmationModal
     text="ARE YOU SURE YOU WANT TO DELETE?" 

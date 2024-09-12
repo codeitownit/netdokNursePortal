@@ -23,7 +23,8 @@ function Medicine({ open = false }) {
   const dropdownItems = [
     { label: "View Current Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/current`)},
     { label: "View Posed Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/posed`) },
-    { label: "View Previous Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/previous`) }
+    { label: "View Previous Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/previous`) },
+    { label: "Order Patient Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/order`) }
   ];
 
   return (
