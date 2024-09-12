@@ -86,7 +86,7 @@ function ListSingleDep() {
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
-        <h1 className={headers}>Ward List</h1>
+        <h1 className={headers}>Patient List: {id}</h1>
         {/* <AddEdit
           text="+ Add Class"
           onClick={() => navigate(`/dashboard/add`)}
