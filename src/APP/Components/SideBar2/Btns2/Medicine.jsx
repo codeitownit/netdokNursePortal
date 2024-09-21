@@ -22,7 +22,7 @@ function Medicine({ open = false }) {
 
   const dropdownItems = [
     { label: "View Current Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/current`)},
-    { label: "View Posed Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/posed`) },
+    { label: "View Paused Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/paused`) },
     { label: "View Previous Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/previous`) },
     { label: "Order Patient Prescription", onClick: () => navigate(`/viewPatient/${patientId}/medicine/order`) }
   ];
@@ -31,7 +31,7 @@ function Medicine({ open = false }) {
     <DropdownTemplate
       active={active}
       Icon={<GiMedicines />}
-      txt="Medicine"
+      txt="Medicine & Treatment"
       open={open}
       dropdownItems={dropdownItems}
     />
