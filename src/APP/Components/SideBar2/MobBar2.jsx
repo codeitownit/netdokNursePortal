@@ -9,6 +9,7 @@ import Consult from "./Btns2/Const";
 import NurseReports from "./Btns2/NurseReports";
 import JournalsBtn from "./Btns2/NurseJournals";
 import PatientDetails from "./Btns2/PatientDetails";
+import Vaccine from "./Btns2/Vaccine";
 
 function MobBar2() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,6 +36,7 @@ function MenuBtns() {
             <LabRequests open={true} />
             <JournalsBtn open={true} />
             <Medicine open={true} />
+            <Vaccine open={true} />
             <Consult open={true} />
             <NurseReports open={true} />
         </div>

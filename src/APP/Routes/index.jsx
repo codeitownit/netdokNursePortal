@@ -120,6 +120,9 @@ import AddOperation from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals
 import PrivateRoute from "./PrivateRoute";
 import ViewMedicineJournal from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List/viewMed.jsx";
 
+import Vaccination from "../Modules/Dashboard2/Dashboard/Pages/Vaccination/index.jsx";
+import ListVaccination from "../Modules/Dashboard2/Dashboard/Pages/Vaccination/List/index.jsx";
+import AddVaccination from "../Modules/Dashboard2/Dashboard/Pages/Vaccination/Add/index.jsx";
 
 function AllRoutes() {
   const [status, setStatus] = useState(false);
@@ -226,6 +229,10 @@ function AllRoutes() {
             <Route path="paused" element={<PosedPrescriptions />}/>
             <Route path="previous" element={<PrevPrescriptions />}/>
             <Route path="order" element={<OrderPrescriptions />}/>
+          </Route>
+          <Route path="vaccination" element={<Vaccination />}>
+            <Route path="view" index element={< ListVaccination/>} />
+            <Route path="add" element={<AddVaccination />}/>
           </Route>
           <Route path="nurseReports" element={<NurseReports />}>
             <Route index element={<ListNurseReports />} />

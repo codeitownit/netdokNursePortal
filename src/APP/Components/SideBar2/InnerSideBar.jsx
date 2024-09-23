@@ -9,6 +9,7 @@ import Contact from "./Btns2/Contact";
 import NurseReports from "./Btns2/NurseReports";
 import JournalsBtn from "./Btns2/NurseJournals";
 import PatientDetails from "./Btns2/PatientDetails";
+import Vaccine from "./Btns2/Vaccine";
 import Logout from "./Btns/Logout";
 import AppContext from "../../Provider/Context";
 
@@ -31,6 +32,7 @@ function InnerSideBar() {
          <NurseReports open={open}/>
          <JournalsBtn open={open} />
          <Medicine open={open}/>
+         <Vaccine open={open}/>
          <Consult open={open}/>
         </div>
        {/* <span style={{width:"100%",height:"0.1em" }}/>

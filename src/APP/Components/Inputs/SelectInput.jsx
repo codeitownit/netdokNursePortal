@@ -16,7 +16,7 @@ const SelectInput = ({
   stateInput = "",
   setStateInput = () => {},
   field = "textInput",
-  label = "Select Input",
+  label = "",
   showLabel = true,
   validate = 0,
   setValidation = () => {},
