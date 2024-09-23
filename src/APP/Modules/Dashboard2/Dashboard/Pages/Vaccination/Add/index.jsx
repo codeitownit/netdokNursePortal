@@ -82,7 +82,6 @@ function AddVaccination({ text = "Add Vaccination" }) {
         stateInput={child}
         setStateInput={setChild}
       />
-      <TextInput />
       <SelectInput 
         directInput={true}
         required={false}
