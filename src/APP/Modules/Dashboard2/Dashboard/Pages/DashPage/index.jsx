@@ -36,8 +36,6 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 function TablePaginationActions2(props) {
   const theme2 = useTheme();
   const { count2, page2, rowsPerPage2, onPageChange2 } = props;
-  
-
 
   const handleFirstPageButtonClick2 = (event) => {
     onPageChange2(event, 0);
@@ -156,17 +154,13 @@ function DashPage2() {
   const [data, setData] = useState([]);
   const [medData, setMedData] = useState([]);
   const [currentMed, setCurrentMed] = useState([]);
-  const [d, setD] = useState([]);
   const [prevC, setprevC] = useState([]);
-  const [diagnosisData, setDiagnosisData] = useState([]);
   const patientName = localStorage.getItem("universalPatientName")
   const pId = localStorage.getItem("universalPatientId")
   const [pageOngoing, setPageOngoing] = useState(0);
   const [rowsPerPageOngoing, setRowsPerPageOngoing] = useState(5);
   const [pageContact, setPageContact] = useState(0);
-  const [pageDiagnosis, setPageDiagnosis] = useState(0);
   const [rowsPerPageContact, setRowsPerPageContact] = useState(5);
-  const [rowsPerPageDiagnosis, setRowsPerPageDiagnosis] = useState(5);
 
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -175,8 +169,6 @@ function DashPage2() {
     pageOngoing > 0 ? Math.max(0, (1 + pageOngoing) * rowsPerPageOngoing - currentMed.length) : 0;
   const emptyRowsContact =
     pageContact > 0 ? Math.max(0, (1 + pageContact) * rowsPerPageContact - prevC.length) : 0;
-  const emptyRowsDiagnosis =
-    pageDiagnosis > 0 ? Math.max(0, (1 + pageDiagnosis) * rowsPerPageDiagnosis - prevC.length) : 0;
 
   // Separate change handlers for Ongoing Treatment table
   const handleChangePageOngoing = (event, newPage) => {
@@ -191,84 +183,18 @@ function DashPage2() {
   const handleChangePageContact = (event, newPage) => {
     setPageContact(newPage);
   };
-  const handleChangePageDiagnosis = (event, newPage) => {
-    setPageDiagnosis(newPage);
-  };
   const handleChangeRowsPerPageContact = (event) => {
     setRowsPerPageContact(parseInt(event.target.value, 10));
     setPageContact(0);
   };
 
-  const handleChangeRowsPerPageDiagnosis = (event) => {
-    setRowsPerPageDiagnosis(parseInt(event.target.value, 10));
-    setPageDiagnosis(0);
-  };
 
   const navigate = useNavigate();
-  const patientId = localStorage.getItem("universalPatientId")
-
-
-  function viewJournal(type, id) {
-    console.log('clicked')
-    if(type === "Doctor"){
-      navigate(`/viewPatient/${patientId}/contact/patient`)
-    } else if(type === "nurseMidwives"){
-      navigate(`/viewPatient/${patientId}/contact/nurse/${id}`)
-    } else if(type === "nurseMidwivesOperation"){
-      navigate(`/viewPatient/${patientId}/contact/nurseOperation/${id}`)
-    } else if(type === "nurseMidwivesProgress"){
-      navigate(`/viewPatient/${patientId}/contact/nurseProgress/${id}`)
-    } else if(type === "nurseMidwivesTelephone"){
-      navigate(`/viewPatient/${patientId}/contact/nurseTelephone/${id}`)
-    }  else if(type === "physiotherapy"){
-      navigate(`/viewPatient/${patientId}/contact/physiotherapy/${id}`)
-    } else if(type === "physiotherapyConsultation"){
-      navigate(`/viewPatient/${patientId}/contact/physiotherapyConsultation/${id}`)
-    }else if(type === "physiotherapyTelephone"){
-      navigate(`/viewPatient/${patientId}/contact/physiotherapyTelephone/${id}`)
-    } else if(type === "physiotherapyProgress"){
-      navigate(`/viewPatient/${patientId}/contact/physiotherapyProgress/${id}`)
-    } else if(type === "occupationalTherapy"){
-      navigate(`/viewPatient/${patientId}/contact/occupational/${id}`)
-    } else if(type === "occupationalTherapyProgress"){
-      navigate(`/viewPatient/${patientId}/contact/occupationalProgress/${id}`)
-    } else if(type === "occupationalTherapyTelephone"){
-      navigate(`/viewPatient/${patientId}/contact/occupationalTelephone/${id}`)
-    } else if(type === "psychology"){
-      navigate(`/viewPatient/${patientId}/contact/psychology/${id}`)
-    } else if(type === "psychologyTelephone"){
-      navigate(`/viewPatient/${patientId}/contact/psychologyTelephone/${id}`)
-    } else if(type === "psychologyProgress"){
-      navigate(`/viewPatient/${patientId}/contact/psychologyProgress/${id}`)
-    }else if(type === "psychologyConsultation"){
-      navigate(`/viewPatient/${patientId}/contact/psychologyConsultation/${id}`)
-    } else if(type === "pediatric-growth"){
-      navigate(`/viewPatient/${patientId}/contact/pediatric/${id}`)
-    } else if(type === "pediatric-growthTelephone"){
-      navigate(`/viewPatient/${patientId}/contact/pediatricTelephone/${id}`)
-    } else if(type === "pediatric-growthProgress"){
-      navigate(`/viewPatient/${patientId}/contact/pediatricProgress/${id}`)
-    }  else if(type === "discharge"){
-      navigate(`/viewPatient/${patientId}/contact/discharge/${id}`)
-    } else if(type === "progress"){
-      navigate(`/viewPatient/${patientId}/contact/progress/${id}`)
-    } else if(type === "telephone"){
-      navigate(`/viewPatient/${patientId}/contact/telephone/${id}`)
-    } else if(type === "operation"){
-      navigate(`/viewPatient/${patientId}/contact/operation/${id}`)
-    } else if(type === "patient"){
-      navigate(`/viewPatient/${patientId}/contact/patient/${id}`)
-    } else if(type === "admission"){
-      navigate(`/viewPatient/${patientId}/contact/admission/${id}`)
-    }
-  }
-
   const request = useaxios();
   const documentId = localStorage.getItem('universalPatientDocumentId')
   const admDate = localStorage.getItem("universalPatientAdmissionDate")
   let su = [];
   let medicineList = [];
-  let diag = [];
 
 
   const fetchData = async () => {
@@ -301,13 +227,6 @@ function DashPage2() {
         auth: false,
         showLoader: false,
       });
-      const res5 = await request({
-        method: "GET",
-        url: `diagnosis/diagnosisWhere/patient/${pId}`,
-        body: {},
-        auth: false,
-        showLoader: false,
-      });
       // Check if the response is not an error
       if (res !== "error" ) {
         console.log(res?.data);
@@ -323,10 +242,6 @@ function DashPage2() {
       if (res4 !== "error") {
         console.log("res4 data:", res4?.data);
         setMedData(Array.isArray(res4?.data) ? res4?.data : []);
-      }
-      if (res5 !== "error") {
-        console.log("res5 data:", res5?.data);
-        setDiagnosisData(Array.isArray(res5?.data) ? res5?.data : []);
       }
       
       if (res2 !== "error") {
@@ -372,7 +287,7 @@ function DashPage2() {
         } else {
           s = "Doctor";
         }
-        su.push({ date: doc?.date, specialist: s, progressDiagnosis: doc?.progressDiagnosis, documentId: doc?.documentId, type: doc?.type });
+        su.push({ date: doc?.date, specialist: s, progressDiagnosis: doc?.progressDiagnosis });
       });
 
       setprevC(su);
@@ -384,22 +299,11 @@ function DashPage2() {
     if (Array.isArray(medData) && medData.length > 0) {
       medData.map((doc, index) => {
         if (!doc?.medStatus || doc?.medStatus === "current") {
-          medicineList.push({ date: doc?.date, medicineName: doc?.medName, dose: doc?.medDose, docId: doc?.documentId });
+          medicineList.push({ date: doc?.date, medicineName: doc?.medName });
         }
       });
   
       setCurrentMed(medicineList);
-    } else {
-      setCurrentMed([]); // Handle empty medData
-    }
-  }, [medData]);
-  useEffect(() => {
-    if (Array.isArray(diagnosisData) && diagnosisData.length > 0) {
-      diagnosisData.map((doc, index) => {
-          diag.push({ date: doc?.date, diagnosis: doc?.lastDiagnosis });
-      });
-  
-      setD(diag);
     } else {
       setCurrentMed([]); // Handle empty medData
     }
@@ -413,10 +317,6 @@ function DashPage2() {
   ];
   const correspondenceItems = [
     { label: "Add Correspondence", onClick: () => navigate(`/viewPatient/${pId}/correspondence`) },
-    { label: "Add Medical Leave Certificate", onClick: () => navigate(`/viewPatient/${pId}/medLeave`) },
-    // { label: "Add Medical Fitness Certificate", onClick: () => navigate(`/viewPatient/${pId}/fitness`) },
-    { label: "Add Medical Certificate Life Birth", onClick: () => navigate(`/viewPatient/${pId}/liveBirth`) },
-    // { label: "Add Death Certificate", onClick: () => navigate(`/viewPatient/${pId}/deathCertificate`) },
     { label: "View Correspondence", onClick: () => navigate(`/viewPatient/${pId}/correspondence/list`) }
   ];
   return (
@@ -452,8 +352,6 @@ function DashPage2() {
     />
           </div>
           </div>
-          <div className="flex">
-    <div className="flex-initial w-1/2 px-1">
           <Card sx={{ maxWidth: 9115 }} className="flex justify-center items-center my-10">
       <CardContent>
         {/* <Typography gutterBottom variant="h5" component="div" className="text-center">
@@ -496,11 +394,16 @@ function DashPage2() {
         required={false}
         stateInput={admDate}
       />
+      <TextInputReadonly
+        label="Medicine"
+        directInput={true}
+        required={false}
+        stateInput={patientData.userMedications}
+        rows={1}
+      />
       </div>
       </CardContent>
     </Card>
-    </div>
-    <div className="flex-initial w-1/2 px-1">
     <Card sx={{ maxWidth: 9115 }} className="flex justify-center items-center my-10">
       <CardContent>
         {/* <Typography gutterBottom variant="h5" component="div" className="text-center">
@@ -515,65 +418,35 @@ function DashPage2() {
             <h3 className="font-bold text-center text-lg my-4">Diagnosis</h3>
           <p>{patientData.diagnosis}</p>
           </div>
+      {/* <TextArea
+        label="Brief Summary"
+        directInput={true}
+        required={false}
+        stateInput={patientData.description}
+        disabled={true}
+        rows={1}
+      /> */}
+      {/* <TextArea
+        label="Diagnosis"
+        directInput={true}
+        required={false}
+        stateInput={patientData.diagnosis}
+        disabled={true}
+        rows={1}
+      /> */}
             </div>
       </CardContent>
     </Card>
-    </div>
-    </div>
-    <div className="flex justify-center"><h5>Diagnosis</h5></div>
-        <Card sx={{ maxWidth: 905 }} className="">
+    <Card sx={{ maxWidth: 9115 }} className="flex justify-center items-center my-10">
           <CardContent>
-            <Table sx={{ minWidth: 60 }} size="small" aria-label="a dense table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Diagnosis</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPageDiagnosis > 0
-                  ? d.slice(pageDiagnosis * rowsPerPageDiagnosis, pageDiagnosis * rowsPerPageDiagnosis + rowsPerPageDiagnosis)
-                  : d
-                ).map((row) => (
-                  <TableRow key={row.date}>
-                    <TableCell>{row.date}</TableCell>
-                    <TableCell>{row.diagnosis}</TableCell>
-                  </TableRow>
-                ))}
-                {emptyRowsDiagnosis > 0 && (
-                  <TableRow style={{ height: 53 * emptyRowsDiagnosis }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                    count={d.length}
-                    rowsPerPage={rowsPerPageDiagnosis}
-                    page={pageDiagnosis}
-                    onPageChange={handleChangePageDiagnosis}
-                    onRowsPerPageChange={handleChangeRowsPerPageDiagnosis}
-                    ActionsComponent={TablePaginationActions}
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </CardContent>
-        </Card>
-    <div className="flex">
-    <div className="flex-initial w-1/2 px-1">
-    <div className="flex justify-center">
-    <h5>Ongoing Treatment</h5></div>
-    <Card sx={{ maxWidth: 905 }} className="">
-          <CardContent>
-            <Table sx={{ minWidth: 60 }} size="small" aria-label="a dense table">
+            <Typography gutterBottom variant="h5" component="div" className="text-center">
+              Ongoing Treatment
+            </Typography>
+            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
               <TableHead>
                 <TableRow>
                   <TableCell>Date</TableCell>
                   <TableCell>Medicine Name</TableCell>
-                  <TableCell>Dose</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -581,12 +454,9 @@ function DashPage2() {
                   ? currentMed.slice(pageOngoing * rowsPerPageOngoing, pageOngoing * rowsPerPageOngoing + rowsPerPageOngoing)
                   : currentMed
                 ).map((row) => (
-                  <TableRow key={row.medicineName} 
-                  // onClick={()=>navigate(`/viewPatient/${patientId}/viewMed/${row.docId}`)}
-                  >
+                  <TableRow key={row.medicineName}>
                     <TableCell>{row.date}</TableCell>
                     <TableCell>{row.medicineName}</TableCell>
-                    <TableCell>{row.dose}</TableCell>
                   </TableRow>
                 ))}
                 {emptyRowsOngoing > 0 && (
@@ -611,14 +481,14 @@ function DashPage2() {
             </Table>
           </CardContent>
         </Card>
-        </div>
+
         {/* Previous Contact Table */}
-        <div className="flex-initial w-1/2 px-1">
-        <div className="flex justify-center">
-        <h5>Previous Contact</h5></div>
-        <Card sx={{ maxWidth: 905 }} className="">
+        <Card sx={{ maxWidth: 9115 }} className="flex justify-center items-center my-10">
           <CardContent>
-            <Table sx={{ minWidth: 60 }} size="small" aria-label="a dense table">
+            <Typography gutterBottom variant="h5" component="div" className="text-center">
+              Previous Contact
+            </Typography>
+            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
               <TableHead>
                 <TableRow>
                   <TableCell>Date</TableCell>
@@ -631,7 +501,7 @@ function DashPage2() {
                   ? prevC.slice(pageContact * rowsPerPageContact, pageContact * rowsPerPageContact + rowsPerPageContact)
                   : prevC
                 ).map((row) => (
-                  <TableRow key={row.date} onClick={()=>viewJournal(row.type, row.documentId)}>
+                  <TableRow key={row.date}>
                     <TableCell>{row.date}</TableCell>
                     <TableCell>{row.specialist}</TableCell>
                     <TableCell>{row.progressDiagnosis}</TableCell>
@@ -659,8 +529,6 @@ function DashPage2() {
             </Table>
           </CardContent>
         </Card>
-        </div>
-        </div>
       </div>
     </div>
         </form>

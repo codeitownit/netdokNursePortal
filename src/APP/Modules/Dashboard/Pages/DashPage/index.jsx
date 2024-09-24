@@ -184,7 +184,6 @@ function DashPage() {
           <Tht txt="PATIENT ID" />
           <Tht txt="PATIENT NAME" />
           <Tht txt="ADMISSION UNIT" />
-          <Tht txt="ADMISSION WARD" />
           <Tht txt="ADMISSION ROOM" />
           <Tht txt="CONDITION INFORMATION " />
           <Tht txt="RESPONSIBLE SPECIALIST" />
@@ -208,9 +207,8 @@ function DashPage() {
                   document={doc?.documentId || ""}
                   date={doc?.admissionDate || ""}
                   id={doc?.patient || ""}
-                  pName={doc?.patientName || ""}
-                  dep={doc?.selectedDepartment || ""}
-                  ward={doc?.admittingUnit || ""}
+                  classLevel={doc?.patientName || ""}
+                  subject={doc?.admittingUnit || ""}
                   room={doc?.room || ""}
                   condition={doc?.condition || ""}
                   specialist={doc?.doctorName || ""}

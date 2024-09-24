@@ -89,10 +89,6 @@ import ViewDeathCertificate from "../Modules/Dashboard2/Dashboard/Pages/Correspo
 import ViewMedLeave from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewMedLeave.jsx";
 import ViewMedFitness from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewMedicalFitness.jsx";
 import ViewLiveBirth from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/viewLiveBirth.jsx";
-import AddMedLeave from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/AddMedLeave.jsx";
-import AddMedFitness from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/AddMedicalFitness.jsx";
-import AddLiveBirth from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/AddLiveBirth.jsx";
-import AddDeathCertificate from "../Modules/Dashboard2/Dashboard/Pages/Correspondence/View/AddDeathCert.jsx";
 
 import Profile from "../Modules/Dashboard/Pages/UserProfile";
 import ViewProfile from "../Modules/Dashboard/Pages/UserProfile/View";
@@ -118,11 +114,6 @@ import AddOperation from "../Modules/Dashboard2/Dashboard/Pages/ProgressJournals
 // import ChatCard from "../Modules/Dashboard/Pages/Chat/View";
 
 import PrivateRoute from "./PrivateRoute";
-import ViewMedicineJournal from "../Modules/Dashboard2/Dashboard/Pages/Medicine/List/viewMed.jsx";
-
-import Vaccination from "../Modules/Dashboard2/Dashboard/Pages/Vaccination/index.jsx";
-import ListVaccination from "../Modules/Dashboard2/Dashboard/Pages/Vaccination/List/index.jsx";
-import AddVaccination from "../Modules/Dashboard2/Dashboard/Pages/Vaccination/Add/index.jsx";
 
 function AllRoutes() {
   const [status, setStatus] = useState(false);
@@ -159,13 +150,6 @@ function AllRoutes() {
           <Route path="add-progress-journal" element={<AddProgress />}/>
           <Route path="add-telephone-journal" element={<AddTelephone />}/>
           <Route path="add-operation-journal" element={<AddOperation />}/>
-
-          <Route path="medLeave" element={<AddMedLeave />}/>
-          <Route path="fitness" element={<AddMedFitness />}/>
-          <Route path="liveBirth" element={<AddLiveBirth />}/>
-          <Route path="deathCertificate" element={<AddDeathCertificate />}/>
-
-          <Route path="viewMed/:id" element={<ViewMedicineJournal />}/>
 
           <Route path="fluidChart" element={<Fluid />}>
             <Route index element={<AddFluid />} />
@@ -226,7 +210,7 @@ function AllRoutes() {
           </Route>
           <Route path="medicine" element={<Med />}>
             <Route path="current" index element={<ListMed />} />
-            <Route path="paused" element={<PosedPrescriptions />}/>
+            <Route path="posed" element={<PosedPrescriptions />}/>
             <Route path="previous" element={<PrevPrescriptions />}/>
             <Route path="order" element={<OrderPrescriptions />}/>
           </Route>
