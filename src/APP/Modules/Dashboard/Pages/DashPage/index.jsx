@@ -207,8 +207,8 @@ function DashPage() {
                   document={doc?.documentId || ""}
                   date={doc?.admissionDate || ""}
                   id={doc?.patient || ""}
-                  classLevel={doc?.patientName || ""}
-                  subject={doc?.admittingUnit || ""}
+                  name={doc?.patientName || ""}
+                  unit={doc?.admittingUnit || ""}
                   room={doc?.room || ""}
                   condition={doc?.condition || ""}
                   specialist={doc?.doctorName || ""}

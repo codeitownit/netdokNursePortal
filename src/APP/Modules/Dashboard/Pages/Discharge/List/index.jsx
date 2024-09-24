@@ -129,8 +129,8 @@ function ListDischarge() {
                 <Rows
                   key={doc?.id || index}
                   id={doc?.patient || ""}
-                  classLevel={doc?.patientName || ""}
-                  subject={doc?.admittingUnit || ""}
+                  pname={doc?.patientName || ""}
+                  unit={doc?.admittingUnit || ""}
                   room={doc?.room || ""}
                   condition={doc?.condition || ""}
                   specialist={doc?.doctorName || ""}

@@ -12,7 +12,7 @@ import useaxios from "../../../../../Hooks/useAxios";
 import ConfirmationModal from "../../../../../Components/Modals/ConfirmationModal";
 
 
-function Rows({ id = "", doc="", document="", date="", classLevel="", subject = "", room = "", condition="", specialist="", status="", fetchData}) {
+function Rows({ id = "", doc="", document="", date="", pname="", unit = "", room = "", condition="", specialist="", status="", fetchData}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate()
 
@@ -51,10 +51,10 @@ function Rows({ id = "", doc="", document="", date="", classLevel="", subject = 
         <Tt txt={`#${id}`} />
       </Td>
       <Td name="PATIENT NAME">
-        <Tt txt={classLevel} />
+        <Tt txt={pname} />
       </Td>
       <Td name="ADMISSION UNIT">
-        <Tt txt={subject} />
+        <Tt txt={unit} />
       </Td>
       <Td name="ADMISSION ROOM">
         <Tt txt={room} />
@@ -77,7 +77,7 @@ function Rows({ id = "", doc="", document="", date="", classLevel="", subject = 
             navigate(`/viewPatient/${id}`)
             console.log("doc",doc)
             localStorage.setItem("universalPatientId", id)
-            localStorage.setItem("universalPatientName", classLevel)
+            localStorage.setItem("universalPatientName", pname)
             localStorage.setItem("universalPatientDocumentId", doc)
             localStorage.setItem("universalPatientAdmissionDate", date)
             localStorage.setItem("selectedPatientAdmDocId", document )
